@@ -16,7 +16,7 @@
     />
     <ViewPokemon
       @ok="savePokemon"
-      v-model="view"
+      v-model="viewPokemon"
     />
 
   </div>
@@ -40,39 +40,15 @@ import Student from '@/models/Student'; // @ is an alias to /src
   },
 })
 export default class HomeView extends Vue {
+  viewPokemon = false;
+
   // eslint-disable-next-line class-methods-use-this
   showMessage(msg:string):void {
     alert(msg);
   }
 
   showPokeModal():void {
-    // <ViewPokemon />
-  }
-
-  savePokemon() {
-    const icon:BIcon = this.$refs.iconSave; // get the icon to animate from the vue refs https://vuejs.org/v2/api/#ref
-    this.setBusy(true);// tell parent that this component is waiting for the api to respond
-    this.animate(icon, true);// animate the icon in the clicked button to give the user an indication that some thing is happening
-    this.violation = {};// empty out violation messages - to hide violation message from user and wait for new violations from the api
-
-    // use the method declared in the student mixin to call the student api
-    // if the student is new POST , if the student already exists then PUT
-    const url = this.STUDENT_API + (this.isNew ? '' : `/${this.tempStudent.id}`);
-    const method = this.isNew ? 'post' : 'put';
-
-    this.callAPI(url, method, this.tempStudent) // returns a promise object
-      .then((data) => {
-        // determine if the student was added or updated
-        this.$emit(this.tempStudent.id === data.id ? 'updated' : 'added', data);
-      })
-      .catch((err) => {
-        // get the violation messages from the api - if the web server responded
-        this.violation = err.data || {};
-      })
-      .finally(() => {
-        this.setBusy(false);// tell parent that this component is no longer waiting for the api
-        this.animate(icon, false);// stop the icon animation
-      });
+    this.viewPokemon = true;
   }
 }
 </script>

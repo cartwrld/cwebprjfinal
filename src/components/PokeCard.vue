@@ -23,10 +23,15 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import {
+  Component, Prop, Mixins,
+} from 'vue-property-decorator';
+import GlobalMixin from '@/mixins/global-mixin';
+import { BIcon } from 'bootstrap-vue';
+import Pokemon from '@/models/Pokemon';
 
 @Component({})
-export default class PokeCard extends Vue {
+export default class PokeCard extends Mixins(GlobalMixin) {
   @Prop() private pokeID! : number;
 
   @Prop() private pokeName! : string;
@@ -38,6 +43,14 @@ export default class PokeCard extends Vue {
   @Prop() private sprite! : string;
 
   @Prop() private variant! : string;
+
+  // ======================================
+
+  tempPokemon: Pokemon = new Pokemon()
+
+  violation: any = {};
+
+  // ======================================
 }
 </script>
 
