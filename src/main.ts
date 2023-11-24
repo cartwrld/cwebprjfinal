@@ -4,7 +4,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import 'bootswatch/dist/yeti/bootstrap.css';
+// import 'bootswatch/dist/yeti/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.config.productionTip = false;

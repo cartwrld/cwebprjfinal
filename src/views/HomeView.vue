@@ -6,11 +6,14 @@
                 animation-style="spin" :animate="true">
       Anther Fun Button</IconButton>
     <PokeCard
+      variant="light"
       poke-i-d="1"
       poke-name="Cartavious"
       type1="Dragon"
       type2="Flying"
-      sprite="https://imgur.com/CtkIAQO"/>
+      sprite="https://imgur.com/CtkIAQO"
+      @viewpoke="showPokeModal()"
+    />
 
   </div>
 </template>
@@ -32,6 +35,10 @@ export default class HomeView extends Vue {
   // eslint-disable-next-line class-methods-use-this
   showMessage(msg:string):void {
     alert(msg);
+  }
+
+  showPokeModal():void {
+    alert('pokemon');
   }
 }
 </script>
