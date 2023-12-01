@@ -12,7 +12,7 @@ import { BvTableCtxObject } from 'bootstrap-vue/src/components/table';
 @Component
 export default class Product extends Vue {
   provider(ctx:BvTableCtxObject):Promise<any> {
-    return fetch('http://localhost:3006/products').then((res) => res.json());
+    return fetch('http://localhost:3004/products').then((res) => res.json());
   }
 }
 </script>

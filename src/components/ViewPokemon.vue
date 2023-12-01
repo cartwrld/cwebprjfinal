@@ -1,27 +1,49 @@
+<template>
+  <div>
+
+    <PokeCard
+      variant="light"
+      poke-i-d="1"
+      poke-name="Cartavious"
+      type1="Dragon"
+      type2="Flying"
+      sprite="https://imgur.com/CtkIAQO"
+      @viewpoke="showPokeModal()"
+    />
+    <ViewPokemon
+      @ok="savePokemon"
+      v-model="viewPokemon"
+    />
+    <b-modal title="View Pokemon" ok-variant="success" cancel-variant="danger"
+             v-model="viewPokemon">
+      <template #modal-cancel>
+        <b-icon-x-square-fill /> Cancel
+      </template>
+      <template #modal-ok>
+        <b-icon-cloud-arrow-up-fill/> Add Pokemon
+      </template>
+    </b-modal>
+  </div>
+</template>
+
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import PokeCard from '@/components/PokeCard.vue';
 
-@Component({})
+@Component({
+  components: { PokeCard },
+})
 export default class ViewPokemon extends Vue {
-  showPokeDetails = false;
+  viewPokemon = false;
+
+  showPokeModal():void {
+    this.viewPokemon = true;
+  }
 }
 </script>
-
-<template>
-  <b-modal title="View Pokemon" ok-variant="success" cancel-variant="danger"
-           v-model="showPokeDetails">
-    <!--    using slots -- https://vuejs.org/v2/guide/components-slots.html
-      slot defined in b-modal -- https://bootstrap-vue.org/docs/components/modal#comp-ref-b-modal-slots
-      modify the buttons that appear in the footer of the modal using pre-defined slots-->
-    <template #modal-cancel>
-      <b-icon-x-square-fill /> Cancel
-    </template>
-    <template #modal-ok>
-      <b-icon-cloud-arrow-up-fill/> Add Pokemon
-    </template>
-  </b-modal>
-</template>
 
 <style scoped>
 
 </style>
+<script setup lang="ts">
+</script>

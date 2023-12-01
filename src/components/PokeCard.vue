@@ -1,24 +1,29 @@
 <template>
-  <div class="d-flex justify-content-center col-3 p-0">
+  <div class="d-flex justify-content-center col-6 p-0">
+    <div class="d-flex justify-content-center col-6 p-0">
 
-    <b-button :variant="variant" @click="$emit('viewpoke')">
-
-      <div class="d-flex justify-content-around bg-danger rounded-4 py-1 px-3 m-0 shadow">
-        <div class="d-flex justify-content-center align-items-center">
-          <span class="bg-light p-2 px-3 rounded-5 border fw-semibold h4 pe-3 text-dark shadow-sm">
-            {{pokeID}}</span>
+      <b-button :variant="variant" @click="$emit('viewpoke')">
+        <div class="d-flex justify-content-around bg-danger rounded-4 py-1 px-3 m-0 shadow
+        poke-card px-0">
+          <div class="d-flex justify-content-center align-items-center">
+            <span class="bg-light p-2 px-3 rounded-5 border fw-semibold h5 pe-3 text-dark
+            shadow-sm">
+              {{ pokeID }}</span>
+          </div>
+          <div class="d-flex justify-content-center align-items-center text-light">
+            <h5 class=" rounded fw-semibold mx-4 text-shadow py-4">
+              {{ capFirstLetter(pokeName) }}</h5>
+          </div>
+          <div class="d-flex flex-column justify-content-around">
+            <span class="bg-light p-2 py-1 my-1 rounded fw-semibold text-dark shadow-sm">
+              {{ capFirstLetter(pokeType1) }}</span>
+            <span class="bg-light p-2 py-1 my-1 rounded fw-semibold text-dark shadow-sm"
+                  v-if="pokeType2">
+              {{ capFirstLetter(pokeType2) }}</span>
+          </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center text-light">
-          <h2 class="p-2 rounded fw-semibold mx-4 text-shadow">{{pokeName}}</h2>
-        </div>
-        <div class="d-flex flex-column justify-content-around">
-          <span class="bg-light p-2 py-1 my-2 rounded fw-semibold text-dark shadow-sm">
-            {{ type1 }}</span>
-          <span class="bg-light p-2 py-1 my-2 rounded fw-semibold text-dark shadow-sm">
-            {{ type2 }}</span>
-        </div>
-      </div>
-    </b-button>
+      </b-button>
+    </div>
   </div>
 </template>
 
@@ -36,13 +41,17 @@ export default class PokeCard extends Mixins(GlobalMixin) {
 
   @Prop() private pokeName! : string;
 
-  @Prop() private type1! : string;
+  @Prop() private pokeType1! : string;
 
-  @Prop() private type2! : string;
+  @Prop() private pokeType2! : string;
 
   @Prop() private sprite! : string;
 
   @Prop() private variant! : string;
+
+  capFirstLetter(val: string) {
+    return val.charAt(0).toUpperCase() + val.slice(1);
+  }
 
   // ======================================
 
@@ -55,5 +64,8 @@ export default class PokeCard extends Mixins(GlobalMixin) {
 </script>
 
 <style scoped>
-
+.poke-card {
+  width: 320px; /* Fixed width */
+  height: 100px; /* Fixed height */
+}
 </style>

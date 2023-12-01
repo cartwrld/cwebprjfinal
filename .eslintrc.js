@@ -31,5 +31,8 @@ module.exports = {
     'vue/component-definition-name-casing': 'error',
     'function-paren-newline': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'no-return-await': 'off',
+    'no-plusplus': 'off',
   },
 };

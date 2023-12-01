@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint --fix",
-    "json": "json-server --watch db.json --delay 1000  --port 3006"
+    "json": "json-server --watch db.json  --port 3006"
   },
   "dependencies": {
     "bootstrap-vue": "^2.23.1",

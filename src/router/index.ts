@@ -11,23 +11,23 @@ const routes: Array<RouteConfig> = [
     component: HomeView,
   },
   {
-    path: '/about',
-    name: 'about',
+    path: '/pokemon',
+    name: 'Pokemon',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
+    component: () => import(/* webpackChunkName: "pokemmon" */ '../views/PokemonView.vue'),
   },
   /** *******   Add route item for Student View  ********* */
   {
-    path: '/student',
-    name: 'Student',
-    component: () => import('../views/StudentView.vue'),
+    path: '/poketeam',
+    name: 'PokeTeam',
+    component: () => import('../views/PokeTeamView.vue'),
   },
   /** *******   Add route item for Product View  ********* */
   {
-    path: '/product',
-    name: 'Product',
+    path: '/users',
+    name: 'Users',
     component: () => import('../views/ProductView.vue'),
   },
 ];

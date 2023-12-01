@@ -4,20 +4,8 @@
     <HelloWorld msg="Welcome Buddies"/>
     <IconButton icon="discord" @party="showMessage('THIS IS FUN')"
                 animation-style="spin" :animate="true">
-      Anther Fun Button</IconButton>
-    <PokeCard
-      variant="light"
-      poke-i-d="1"
-      poke-name="Cartavious"
-      type1="Dragon"
-      type2="Flying"
-      sprite="https://imgur.com/CtkIAQO"
-      @viewpoke="showPokeModal()"
-    />
-    <ViewPokemon
-      @ok="savePokemon"
-      v-model="viewPokemon"
-    />
+      Anther Fun Button
+    </IconButton>
 
   </div>
 </template>
@@ -33,8 +21,6 @@ import Student from '@/models/Student'; // @ is an alias to /src
 
 @Component({
   components: {
-    ViewPokemon,
-    PokeCard,
     IconButton,
     HelloWorld,
   },
@@ -43,11 +29,11 @@ export default class HomeView extends Vue {
   viewPokemon = false;
 
   // eslint-disable-next-line class-methods-use-this
-  showMessage(msg:string):void {
-    alert(msg);
+  showMessage(msg: string): void {
+    // alert(msg);
   }
 
-  showPokeModal():void {
+  showPokeModal(): void {
     this.viewPokemon = true;
   }
 }
