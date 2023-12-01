@@ -1,38 +1,43 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { BvTableCtxObject } from 'bootstrap-vue/src/components/table';
+import TeamCard from '@/components/TeamCard.vue';
 import fetchData from '../services/apiService';
 
-@Component({})
+@Component({
+  components: { TeamCard },
+})
 export default class PokemonTeamView extends Vue {
-  data: any = null;
+  fetchedTeams: any = null;
 
   token = 'iHaveReadAccess';
 
-  fields = [
-    { key: 'Team ID', sortable: true },
-    { key: 'Team Name', sortable: false },
-    { key: 'Slot 1', sortable: false },
-    { key: 'Slot 2', sortable: false },
-    { key: 'Slot 3', sortable: false },
-    { key: 'Slot 4', sortable: false },
-    { key: 'Slot 5', sortable: false },
-    { key: 'Slot 6', sortable: false },
-
-  ]
+  // fields = [
+  //   { key: 'Team ID', sortable: true },
+  //   { key: 'Team Name', sortable: false },
+  //   { key: 'Slot 1', sortable: false },
+  //   { key: 'Slot 2', sortable: false },
+  //   { key: 'Slot 3', sortable: false },
+  //   { key: 'Slot 4', sortable: false },
+  //   { key: 'Slot 5', sortable: false },
+  //   { key: 'Slot 6', sortable: false },
+  //
+  // ]
 
   async provider(ctx: BvTableCtxObject) {
-    if (!this.data) {
-      await this.fetchData();
+    if (!this.fetchedTeams) {
+      this.fetchedTeams = await this.fetchData();
     }
-    return this.data;
+    console.log(await this.fetchedTeams);
+
+    return this.fetchedTeams;
   }
 
   // Method to fetch data
   async fetchData() {
     try {
       const endpoint = 'poketeam';
-      this.data = await fetchData(endpoint, this.token);
+      this.fetchedTeams = await fetchData(endpoint, this.token);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -46,10 +51,28 @@ export default class PokemonTeamView extends Vue {
 </script>
 
 <template>
-  <div>
-    <h1>PokeTeams</h1>
 
-    <b-table :provider="provider" :fields="fields"></b-table>
+  <div class="border">
+    <h1>PokeTeams</h1>
+    <!-- Iterate over each pokemon and create a PokeCard for each one -->
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="d-flex flex-wrap col-12 justify-content-center">
+        <div v-for="team in fetchedTeams" :key="team.id" class="p-2 d-flex col-12
+        justify-content-center">
+          <TeamCard
+            :team-i-d="team.teamID"
+            :team-name="team.teamName"
+            :poke1="team.poke1"
+            :poke2="team.poke2"
+            :poke3="team.poke3"
+            :poke4="team.poke4"
+            :poke5="team.poke5"
+            :poke6="team.poke6"
+            variant="light"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

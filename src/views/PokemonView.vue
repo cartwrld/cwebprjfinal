@@ -5,9 +5,7 @@ import PokeCard from '@/components/PokeCard.vue';
 import fetchData from '../services/apiService';
 
 @Component({
-  components: {
-    PokeCard,
-  },
+  components: { PokeCard },
 })
 export default class PokemonView extends Vue {
   fetchedPokes: any = null;

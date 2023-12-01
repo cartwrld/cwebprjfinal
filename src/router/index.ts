@@ -16,7 +16,7 @@ const routes: Array<RouteConfig> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "pokemmon" */ '../views/PokemonView.vue'),
+    component: () => import(/* webpackChunkName: "pokemon" */ '../views/PokemonView.vue'),
   },
   /** *******   Add route item for Student View  ********* */
   {
@@ -28,7 +28,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/users',
     name: 'Users',
-    component: () => import('../views/ProductView.vue'),
+    component: () => import('../views/UserView.vue'),
   },
 ];
 
