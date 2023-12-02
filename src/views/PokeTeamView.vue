@@ -57,7 +57,10 @@ export default class PokemonTeamView extends Vue {
     <!-- Iterate over each pokemon and create a PokeCard for each one -->
     <div class="d-flex justify-content-center align-items-center">
       <div class="d-flex flex-wrap col-12 justify-content-center">
-        <div v-for="team in fetchedTeams" :key="team.id" class="p-2 d-flex col-12
+        <div
+          v-for="team in fetchedTeams"
+          :key="team.id"
+          class="p-2 d-flex col-12
         justify-content-center">
           <TeamCard
             :team-i-d="team.teamID"

@@ -27,26 +27,26 @@ export default class PokeTeam {
   // }
 
   @IsOptional()
-    teamID: number | undefined
+    teamID: number | undefined;
 
   @Length(1, 50, { message: 'Team Name must be from $constraint1 to $constraint2 characters' })
-    teamName = ''
+    teamName = '';
 
   @IsPositive({ message: 'Team ID is must be a positive number!' })
     poke1 = 0;
 
   @IsPositive({ message: 'Pokemon ID must be a positive number!' })
-    poke2: number | undefined
+    poke2: number | undefined;
 
   @IsPositive({ message: 'Pokemon ID must be a positive number!' })
-    poke3: number | undefined
+    poke3: number | undefined;
 
   @IsPositive({ message: 'Pokemon ID must be a positive number!' })
-    poke4: number | undefined
+    poke4: number | undefined;
 
   @IsPositive({ message: 'Pokemon ID must be a positive number!' })
-    poke5: number | undefined
+    poke5: number | undefined;
 
   @IsPositive({ message: 'Pokemon ID must be a positive number!' })
-    poke6: number | undefined
+    poke6: number | undefined;
 }

@@ -11,11 +11,13 @@
       @viewpoke="showPokeModal()"
     />
     <ViewPokemon
-      @ok="savePokemon"
       v-model="viewPokemon"
     />
-    <b-modal title="View Pokemon" ok-variant="success" cancel-variant="danger"
-             v-model="viewPokemon">
+    <b-modal
+      title="View Pokemon"
+      ok-variant="success"
+      cancel-variant="danger"
+      v-model="viewPokemon">
       <template #modal-cancel>
         <b-icon-x-square-fill /> Cancel
       </template>

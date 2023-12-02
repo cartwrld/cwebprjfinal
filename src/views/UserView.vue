@@ -15,7 +15,7 @@ export default class PokemonTeamView extends Vue {
     { key: 'Access Level', sortable: false },
     { key: 'Token', sortable: false },
 
-  ]
+  ];
 
   async provider(ctx: BvTableCtxObject) {
     if (!this.data) {
@@ -44,7 +44,7 @@ export default class PokemonTeamView extends Vue {
 <template>
   <div>
     <h1>Users</h1>
-    <b-table :provider="provider" :fields="fields"></b-table>
+    <b-table :provider="provider" :fields="fields"/>
   </div>
 </template>
 

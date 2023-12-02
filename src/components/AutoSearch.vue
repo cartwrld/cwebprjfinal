@@ -34,8 +34,14 @@ b-button -- https://bootstrap-vue.org/docs/components/button
       <!--  use @blur and @focus to help track when the search input box has focus
             set the debounce to 500 milliseconds or half a second
             debounce stalls the call to the api until the user stops typing for half a second -->
-      <b-input type="search" debounce="500" placeholder="Search" class="bg-light text-info"
-               v-model="query" @focus="hasFocus=true;" @blur="hasFocus=false" />
+      <b-input
+        type="search"
+        debounce="500"
+        placeholder="Search"
+        class="bg-light text-info"
+        v-model="query"
+        @focus="hasFocus = true;"
+        @blur="hasFocus = false" />
     </b-input-group>
 
     <!--    *@mousedown.prevent* prevents the search input box from losing focus when clicking on a list item
@@ -88,14 +94,14 @@ export default class AutoSearch extends Mixins(GlobalMixin) {
    * https://vuejs.org/v2/guide/components.html#Passing-Data-to-Child-Components-with-Props
    * Decorator: https://github.com/kaorun343/vue-property-decorator#Prop
    */
-  @Prop({ default: 2 }) readonly minSearchLength!:number
+  @Prop({ default: 2 }) readonly minSearchLength!:number;
 
   // data variables are constantly monitored for changes and when their values change Vue 'refreshes' the display
-  query= '' // search string to send to api
+  query = ''; // search string to send to api
 
-  results= [] // array of student object returned by the api
+  results = []; // array of student object returned by the api
 
-  hasFocus= false // used to determine whether to show list of students or hide them
+  hasFocus = false; // used to determine whether to show list of students or hide them
 
   /** EMITS are one-way communication from this child component to the parent ( child -> parent )
    * https://vuejs.org/v2/guide/components.html#Emitting-a-Value-With-an-Event
