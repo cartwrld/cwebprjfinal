@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <div class="border border-1 my-3 w-100"></div>
+      <div class="border border-light border-1 my-3 w-100"></div>
 
       <div> <!-- img + types -->
         <div
@@ -42,7 +42,7 @@
             <!-- type1 container -->
             <span><!-- type1 -->Fighting</span>
           </div>
-          <div
+          <div v-if="{{type2}}"
             class="bg-light d-flex justify-content-center align-items-center border bg-light col-5 fs-5 fw-semibold pb-1 rounded-3 shadow-sm">
             <!-- type2 container -->
             <span><!-- type2 -->Fighting</span>

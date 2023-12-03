@@ -31,8 +31,8 @@ export default class PokemonView  extends Mixins(GlobalMixin){
      { key: 'def', sortable: false },
      { key: 'spatk', sortable: false },
      { key: 'spdef', sortable: false },
-     { key: 'spd', sortable: false },
    ]
+     { key: 'spd', sortable: false },
 */
   // async provider(ctx: BvTableCtxObject) {
   //   if (!this.fetchedPokes) {
@@ -145,6 +145,14 @@ export default class PokemonView  extends Mixins(GlobalMixin){
             :poke-name="pokemon.pokeName"
             :poke-type1="pokemon.pokeType1"
             :poke-type2="pokemon.pokeType2"
+            :gen="pokemon.gen"
+            :hp="pokemon.hp"
+            :atk="pokemon.atk"
+            :def="pokemon.def"
+            :spatk="pokemon.spatk"
+            :spdef="pokemon.spdef"
+            :spd="pokemon.spd"
+            :sprite="pokemon.sprite"
             variant="light"
 
 
