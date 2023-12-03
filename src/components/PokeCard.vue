@@ -33,6 +33,34 @@ export default class PokeCard extends Mixins(GlobalMixin) {
     this.viewPokemon = true;
   }
 
+
+
+
+  // Define a method to get the color based on Pokémon type
+  getCardColor(t1:string) {
+    switch (t1.toLowerCase()) {
+      case 'normal': return '#cccccc'
+      case 'fire': return '#DC143C'
+      case 'water': return '#235fee'
+      case 'grass': return '#27CB4F'
+      case 'electric': return '#FFFF00'
+      case 'ice': return '#98e4ff'
+      case 'fighting': return '#800000'
+      case 'poison': return '#800080'
+      case 'ground': return '#F4A460'
+      case 'flying': return '#aac5e8'
+      case 'psychic': return '#FFC0CB'
+      case 'bug': return '#808000'
+      case 'rock': return '#8B4513'
+      case 'ghost': return '#483D8B'
+      case 'dark': return '#424242'
+      case 'dragon': return '#7B68EE'
+      case 'steel': return '#bebebe'
+      case 'fairy': return '#FFB6C1'
+      default: return '#FFFFFF'
+    }
+  }
+
   // ================== VARIABLES ====================
 
   selectedPokemon = new Pokemon();
@@ -189,14 +217,14 @@ export default class PokeCard extends Mixins(GlobalMixin) {
 
       </div> <!-- close BASE -->
 
-        <template #modal-cancel>
-          <b-icon-x-square-fill/>
-          <span class="ps-3">Delete Pokemon</span>
-        </template>
-        <template #modal-ok>
-          <b-icon-cloud-arrow-up-fill/>
-          <span class="ps-3">Edit Pokemon</span>
-        </template>
+      <template #modal-cancel>
+        <b-icon-x-square-fill/>
+        <span class="ps-3">Delete Pokemon</span>
+      </template>
+      <template #modal-ok>
+        <b-icon-cloud-arrow-up-fill/>
+        <span class="ps-3">Edit Pokemon</span>
+      </template>
     </b-modal>
   </div>
 </template>
