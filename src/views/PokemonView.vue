@@ -138,8 +138,7 @@ export default class PokemonView  extends Mixins(GlobalMixin){
         <div
           v-for="pokemon in fetchedPokes"
           :key="pokemon.id"
-          class="p-2 d-flex
-        justify-content-center">
+          class="d-flex justify-content-center">
           <PokeCard
             :poke-i-d="pokemon.pokeID"
             :poke-name="pokemon.pokeName"
