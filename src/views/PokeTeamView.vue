@@ -1,16 +1,20 @@
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import { BvTableCtxObject } from 'bootstrap-vue/src/components/table';
+import {Vue, Component} from 'vue-property-decorator';
+import {BvTableCtxObject} from 'bootstrap-vue/src/components/table';
 import TeamCard from '@/components/TeamCard.vue';
 import fetchData from '../services/apiService';
 
 @Component({
-  components: { TeamCard },
+  components: {TeamCard},
 })
 export default class PokemonTeamView extends Vue {
   fetchedTeams: any = null;
 
-  token = 'iHaveReadAccess';
+  RookieToken = 'iHaveReadAccess'
+  TrainerToken = 'iHaveWriteAccess'
+  GymLeaderToken = 'iHaveAdminAccess'
+
+  viewPokemon = false;
 
   // fields = [
   //   { key: 'Team ID', sortable: true },
@@ -37,7 +41,35 @@ export default class PokemonTeamView extends Vue {
   async fetchData() {
     try {
       const endpoint = 'poketeam';
-      this.fetchedTeams = await fetchData(endpoint, this.token);
+      this.fetchedTeams = await fetchData(endpoint, this.GymLeaderToken);
+      await this.fetchImageData()
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  async fetchImageData() {
+    try {
+
+      for (let i = 0; i < this.fetchedTeams.length; i++) {
+
+        this.fetchedTeams[i].spriteURLs = [];
+
+        const ft = this.fetchedTeams;
+        const pokes = [ft.poke1, ft.poke2, ft.poke3, ft.poke4, ft.poke5, ft.poke6]
+
+        for (let i = 0; i < pokes.length; i++) {
+          if (pokes[i] != undefined && pokes[i] != null) {
+            const endpoint = `pokemon/${pokes[i]}`;
+            console.log(endpoint)
+            const pokeData = await fetchData(endpoint , this.GymLeaderToken);
+            // console.log(await pokeData.json().name)
+          }
+        }
+
+      }
+
+
     } catch (error) {
       console.error('Error fetching data:', error);
     }
