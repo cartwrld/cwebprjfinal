@@ -3,7 +3,9 @@
     <h1>{{ msg }}</h1>
     <IconButton
       variant="danger"
-      icon="suit-spade-fill" animation-style="cylon" :animate="true">Fun Button</IconButton>
+      icon="suit-spade-fill"
+      animation-style="cylon"
+      :animate="true">Fun Button</IconButton>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -14,7 +16,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import IconButton from '@/components/IconButton.vue';
+import IconButton from './IconButton.vue';
 
 @Component({
   components: { IconButton },

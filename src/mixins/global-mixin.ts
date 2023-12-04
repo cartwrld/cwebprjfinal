@@ -2,8 +2,10 @@
 /**
  * Mixins are a flexible way to distribute reusable functionalities for Vue components.
  * https://vuejs.org/v2/guide/mixins.html
- * The following mixin will only be imported to ALL components in this project (even the 3rd party components)
- * all the following methods and variables will be available to ALL components as this mixin will be imported in main.js
+ * The following mixin will only be imported to ALL components in this project (even the 3rd party
+ * components)
+ * all the following methods and variables will be available to ALL components as this mixin will
+ * be imported in main.js
  */
 
 // mixins.js
@@ -22,23 +24,23 @@ const FETCH_HEADERS:any = {
 
 @Component
 export default class GlobalMixin extends Vue {
-  @Prop(Boolean) readonly debug!:boolean
+  @Prop(Boolean) readonly debug!:boolean;
 
-  @Prop(Boolean) readonly disabled!:boolean
+  @Prop(Boolean) readonly disabled!:boolean;
 
   // immutable constant data variables
-  BASE_API = BASE_API
+  BASE_API = BASE_API;
 
-  STUDENT_API = STUDENT_API
+  STUDENT_API = STUDENT_API;
 
-  POKEMON_API = POKEMON_API
+  POKEMON_API = POKEMON_API;
 
-  POKETEAM_API = POKETEAM_API
+  POKETEAM_API = POKETEAM_API;
 
-  PRODUCT_API = PRODUCT_API
+  PRODUCT_API = PRODUCT_API;
 
   // regular data variable
-  isBusy = false
+  isBusy = false;
 
   // Declared as computed property getter
   get isDisabled():boolean {

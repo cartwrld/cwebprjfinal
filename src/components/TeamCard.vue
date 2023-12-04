@@ -2,8 +2,8 @@
 import {
   Component, Prop, Mixins,
 } from 'vue-property-decorator';
-import GlobalMixin from '@/mixins/global-mixin';
 import { BIcon } from 'bootstrap-vue';
+import GlobalMixin from '@/mixins/global-mixin';
 import PokeTeam from '@/models/PokeTeam';
 
 @Component({})
@@ -38,7 +38,7 @@ export default class TeamCard extends Mixins(GlobalMixin) {
 
   // ======================================
 
-  tempPokemon: PokeTeam = new PokeTeam()
+  tempPokemon: PokeTeam = new PokeTeam();
 
   violation: any = {};
 
@@ -48,11 +48,16 @@ export default class TeamCard extends Mixins(GlobalMixin) {
 <template>
   <div class="d-flex justify-content-center col-12 p-0">
 
-    <b-button :variant="variant" @click="$emit('viewteam')" class="col-12">
-      <div class="d-flex justify-content-around bg-danger rounded-4 py-1 px-3 m-0 shadow
+    <b-button
+      :variant="variant"
+      @click="$emit('viewteam')"
+      class="col-12">
+      <div
+        class="d-flex justify-content-around bg-danger rounded-4 py-1 px-3 m-0 shadow
         px-0 team-card">
         <div class="d-flex justify-content-center align-items-center">
-          <span class="bg-light p-2 px-3 rounded-5 border fw-semibold h5 pe-3 text-dark
+          <span
+            class="bg-light p-2 px-3 rounded-5 border fw-semibold h5 pe-3 text-dark
             shadow-sm">
             {{ teamID }}</span>
         </div>
@@ -61,35 +66,59 @@ export default class TeamCard extends Mixins(GlobalMixin) {
             {{ teamName }}</h5>
         </div>
         <div class="d-flex no-wrap justify-content-around py-2">
-          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
+          <div
+            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
-            <img :src="getPokemonImage(poke1)" alt="poke" width="100px"
-                 class="rounded-1 shadow"/>
+            <img
+              :src="getPokemonImage(poke1)"
+              alt="poke"
+              width="100px"
+              class="rounded-1 shadow"/>
           </div>
-          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
+          <div
+            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
-            <img :src="getPokemonImage(poke2)" alt="poke" width="100px"
-                 class="rounded-1 shadow"/>
+            <img
+              :src="getPokemonImage(poke2)"
+              alt="poke"
+              width="100px"
+              class="rounded-1 shadow"/>
           </div>
-          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
+          <div
+            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
-            <img :src="getPokemonImage(poke3)" alt="poke" width="100px"
-                 class="rounded-1 shadow"/>
+            <img
+              :src="getPokemonImage(poke3)"
+              alt="poke"
+              width="100px"
+              class="rounded-1 shadow"/>
           </div>
-          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
+          <div
+            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
-            <img :src="getPokemonImage(poke4)" alt="poke" width="100px"
-                 class="rounded-1 shadow"/>
+            <img
+              :src="getPokemonImage(poke4)"
+              alt="poke"
+              width="100px"
+              class="rounded-1 shadow"/>
           </div>
-          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
+          <div
+            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
-            <img :src="getPokemonImage(poke5)" alt="poke" width="100px"
-                 class="rounded-1 shadow"/>
+            <img
+              :src="getPokemonImage(poke5)"
+              alt="poke"
+              width="100px"
+              class="rounded-1 shadow"/>
           </div>
-          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
+          <div
+            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
-            <img :src="getPokemonImage(poke6)" alt="poke" width="100px"
-                 class="rounded-1 shadow"/>
+            <img
+              :src="getPokemonImage(poke6)"
+              alt="poke"
+              width="100px"
+              class="rounded-1 shadow"/>
           </div>
         </div>
         <div>

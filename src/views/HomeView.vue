@@ -2,21 +2,36 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome Buddies"/>
-    <IconButton icon="discord" @party="showMessage('THIS IS FUN')"
-                animation-style="spin" :animate="true">
-      Anther Fun Button
+    <IconButton
+      icon="discord"
+      @party="showPokeModal()"
+      animation-style="spin"
+      :animate="true">
+      Another Fun Button
     </IconButton>
+    <b-modal
+      title="View Pokemon"
+      ok-variant="success"
+      cancel-variant="danger"
+      v-model="viewPokemon">
+      <template #modal-cancel>
+        <b-icon-x-square-fill /> Cancel
+      </template>
+      <template #modal-ok>
+        <b-icon-cloud-arrow-up-fill/> Add Pokemon
+      </template>
+    </b-modal>
 
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { BIcon } from 'bootstrap-vue';
 import HelloWorld from '@/components/HelloWorld.vue';
 import IconButton from '@/components/IconButton.vue';
 import PokeCard from '@/components/PokeCard.vue';
 import ViewPokemon from '@/components/ViewPokemon.vue';
-import { BIcon } from 'bootstrap-vue';
 import Student from '@/models/Student'; // @ is an alias to /src
 
 @Component({

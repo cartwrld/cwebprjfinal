@@ -58,50 +58,50 @@ export default class Pokemon {
   }
 
   @IsOptional()
-    pokeID: number | undefined
+    pokeID: number | undefined;
 
   @Length(1, 50, { message: 'Given Name must be from $constraint1 to $constraint2 characters ' })
-    pokeName: string | undefined
+    pokeName: string | undefined;
 
   @IsIn(POKE_TYPES, { message: 'You gotta choose a valid PokeType!' })
   @IsNotEmpty({ message: 'Cmon... you need a valid PokeType!' })
-    pokeType1: string | undefined
+    pokeType1: string | undefined;
 
   @IsIn(POKE_TYPES, { message: 'You gotta choose a valid PokeType!' })
   @IsNotEmpty({ message: 'Cmon... you need a valid PokeType!' })
-    pokeType2: string | undefined
+    pokeType2: string | undefined;
 
   @Max(10, { message: 'Gen 10 is the latest generation!' })
   @Min(1, { message: 'Gen 1 was the first generation!' })
-    gen: number
+    gen: number;
 
   @IsPositive({ message: 'You can\'t be fainted all the time!' })
   @Min(1, { message: 'Gotta have at least 1 HP!' })
   @Max(999, { message: 'Get real buddy!' })
-    hp: number | undefined
+    hp: number | undefined;
 
   @IsPositive({ message: 'You can\'t be THAT bad at fighting!' })
   @Max(999, { message: 'Get real buddy!' })
-    atk: number | undefined
+    atk: number | undefined;
 
   @IsPositive({ message: 'You can\'t be THAT bad at protecting!' })
   @Max(999, { message: 'Get real buddy!' })
-    def: number | undefined
+    def: number | undefined;
 
   @IsPositive({ message: 'Not THAT kind of special!' })
   @Max(999, { message: 'Get real buddy!' })
-    spatk: number | undefined
+    spatk: number | undefined;
 
   @IsPositive({ message: 'Not THAT kind of special!' })
   @Max(999, { message: 'Get real buddy!' })
-    spdef: number | undefined
+    spdef: number | undefined;
 
   @IsPositive({ message: 'You can\'t be THAT slow!' })
   @Max(999, { message: 'Get real buddy!' })
-    spd: number | undefined
+    spd: number | undefined;
 
   @IsUrl()
-    sprite: string | undefined
+    sprite: string | undefined;
 
   /**
    * Function for setting the Generation of the Pokemon based on the ID
