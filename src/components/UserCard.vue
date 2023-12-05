@@ -5,6 +5,7 @@ import {
 import {BIcon} from 'bootstrap-vue';
 import GlobalMixin from '@/mixins/global-mixin';
 import Pokemon from '@/models/Pokemon';
+import {BIconPatchCheckFill, BIconPatchExclamationFill} from 'bootstrap-vue'
 // import r from '../models/Pokemon';
 
 @Component({})
@@ -16,6 +17,7 @@ export default class PokeCard extends Mixins(GlobalMixin) {
 
 
   @Prop() private variant!: string;
+
 
   // ================== FUNCTIONS ====================
   capFirstLetter(val: string) {
@@ -55,7 +57,7 @@ export default class PokeCard extends Mixins(GlobalMixin) {
       @click="showUserModal">
 
       <div
-        class="rounded-4 p-1">
+        class="rounded-4 p-1 bg-light">
 
         <div
           class="d-flex justify-content-around rounded-4 py-1 px-3 m-0 shadow
@@ -67,15 +69,16 @@ export default class PokeCard extends Mixins(GlobalMixin) {
               {{ id }}</span>
           </div>
           <div
-            class="d-flex justify-content-center align-items-center">
-            <h5 class="rounded fw-semibold mx-4 text-shadow py-4">
-              {{ username }}</h5>
+            class="d-flex flex-column justify-content-center align-items-center w-100 ps-2">
 
+            <div class="ps-1 w-100 text-start">
+              <span class="rounded fw-semibold m-0 h3 text-shadow p-0 "> {{ username }}</span>
+            </div>
 
+            <div class="border border-1 w-75 my-1 me-5"></div>
 
-            <div class="d-flex flex-column justify-content-around">
-            <span class="bg-light p-2 py-1 my-1 rounded fw-semibold text-dark shadow-sm">
-              {{ accessLevel }}</span>
+            <div class="ps-1 w-100 text-start h6">
+              <span class="">{{ accessLevel }}</span>
             </div>
           </div>
         </div>
@@ -84,24 +87,86 @@ export default class PokeCard extends Mixins(GlobalMixin) {
     <!--    </div>-->
 
     <b-modal
-      title="View Pokemon"
+      title="View User"
       ok-variant="success"
       cancel-variant="danger"
       v-model="viewUser">
 
       <div class="d-flex flex-column align-items-center"> <!-- BASE -->
 
+        <div class="d-flex justify-content-around align-items-center w-100">
+
+          <div class="d-flex justify-content-center align-items-center  col-3 pt-1" >
+                <span class="bg-light p-2 px-3 rounded-5 border fw-semibold h4 text-dark
+                      shadow-sm "> {{ id }}</span>
+          </div>
+
+          <div class="d-flex justify-content-start  col-9">
+            <div class="fs-3 fw-semibold">{{ username }}</div>
+          </div>
+
+        </div>
+
+        <div class="border border-1 my-2 mb-3 w-100"></div>
+
+        <div class="d-flex justify-content-between h4 align-items-center w-75 pb-2">
+          <span class="d-flex fw-semibold fs-5">Access Level:</span>
+          <span class="d-flex fw-semibold fs-5">{{ accessLevel }}</span>
+        </div>
+
+
+        <div class="d-flex justify-content-around w-75"> <!-- stats outer container -->
+
+          <div
+            class="mx-1 col-3 d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 ms-1 shadow-sm">
+            <span class="fw-bold fs-6 py-2 px-1">READ</span>
+            <span class="mt-2 mb-3"
+                  v-if="accessLevel === 'ADMIN' || accessLevel === 'WRITE' || accessLevel === 'READ'">
+                  <b-icon-patch-check-fill variant="success" width="45" height="45"/></span>
+            <span class="mt-2 mb-3" v-else>
+                  <b-icon-patch-exclamation-fill variant="danger" width="45" height="45"/></span>
+          </div>
+          <div
+            class="mx-1 col-3 d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 ms-1 shadow-sm">
+            <span class="fw-bold fs-6 py-2 px-1">WRITE</span>
+            <span class="mt-2 mb-3" v-if="accessLevel === 'ADMIN' || accessLevel == 'WRITE'">
+                  <b-icon-patch-check-fill variant="success" width="45" height="45"/></span>
+            <span class="mt-2 mb-3" v-else>
+                  <b-icon-patch-exclamation-fill variant="danger" width="45" height="45"/></span>
+          </div>
+          <div
+            class="mx-1 col-3 d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 ms-1 shadow-sm">
+            <span class="fw-bold fs-6 py-2 px-1">DELETE</span>
+            <span class="mt-2 mb-3" v-if="accessLevel === 'ADMIN'">
+                  <b-icon-patch-check-fill variant="success" width="45" height="45"/></span>
+            <span class="mt-2 mb-3" v-else>
+                  <b-icon-patch-exclamation-fill variant="danger" width="45" height="45"/></span>
+          </div>
+          <div
+            class="mx-1 col-3 d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 ms-1 shadow-sm">
+            <span class="fw-bold fs-6 py-2 px-1">DELETE</span>
+            <span class="mt-2 mb-3" v-if="accessLevel === 'ADMIN'">
+                  <b-icon-patch-check-fill variant="success" width="45" height="45"/></span>
+            <span class="mt-2 mb-3" v-else>
+                  <b-icon-patch-exclamation-fill variant="danger" width="45" height="45"/></span>
+          </div>
+
+
+        </div>
+
 
       </div> <!-- close BASE -->
 
-      <template #modal-cancel>
-        <b-icon-x-square-fill/>
-        <span class="ps-3">Delete Pokemon</span>
-      </template>
+      <!--      <div class="d-flex justify-content-center align-items-center">-->
+
       <template #modal-ok>
-        <b-icon-cloud-arrow-up-fill/>
-        <span class="ps-3">Edit Pokemon</span>
+        <div class="">
+          <b-icon-x-diamond-fill/>
+          <span class="ps-3">DONE</span>
+        </div>
       </template>
+
+      <!--      </div>-->
     </b-modal>
   </div>
 </template>
