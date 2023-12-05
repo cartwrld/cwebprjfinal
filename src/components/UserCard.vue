@@ -136,7 +136,7 @@ export default class PokeCard extends Mixins(GlobalMixin) {
           </div>
           <div
             class="mx-1 col-3 d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 ms-1 shadow-sm">
-            <span class="fw-bold fs-6 py-2 px-1">DELETE</span>
+            <span class="fw-bold fs-6 py-2 px-1">UPDATE</span>
             <span class="mt-2 mb-3" v-if="accessLevel === 'ADMIN'">
                   <b-icon-patch-check-fill variant="success" width="45" height="45"/></span>
             <span class="mt-2 mb-3" v-else>

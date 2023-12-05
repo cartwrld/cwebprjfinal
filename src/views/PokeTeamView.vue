@@ -3,12 +3,14 @@ import {Vue, Component} from 'vue-property-decorator';
 import {BvTableCtxObject} from 'bootstrap-vue/src/components/table';
 import TeamCard from '@/components/TeamCard.vue';
 import fetchData from '../services/apiService';
+import fetchSpriteData from '../services/apiService_v2';
 
 @Component({
   components: {TeamCard},
 })
 export default class PokemonTeamView extends Vue {
   fetchedTeams: any = null;
+  spriteURLs: any = [];
 
   RookieToken = 'iHaveReadAccess'
   TrainerToken = 'iHaveWriteAccess'
@@ -42,38 +44,25 @@ export default class PokemonTeamView extends Vue {
     try {
       const endpoint = 'poketeam';
       this.fetchedTeams = await fetchData(endpoint, this.GymLeaderToken);
-      await this.fetchImageData()
+      await this.fetchTeamSprites()
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   }
 
-  async fetchImageData() {
-    try {
-
-      for (let i = 0; i < this.fetchedTeams.length; i++) {
-
-        this.fetchedTeams[i].spriteURLs = [];
-
-        const ft = this.fetchedTeams;
-        const pokes = [ft.poke1, ft.poke2, ft.poke3, ft.poke4, ft.poke5, ft.poke6]
-
-        for (let i = 0; i < pokes.length; i++) {
-          if (pokes[i] != undefined && pokes[i] != null) {
-            const endpoint = `pokemon/${pokes[i]}`;
-            console.log(endpoint)
-            const pokeData = await fetchData(endpoint , this.GymLeaderToken);
-            // console.log(await pokeData.json().name)
-          }
-        }
-
-      }
-
-
-    } catch (error) {
-      console.error('Error fetching data:', error);
+  async fetchTeamSprites() {
+    for (const team of this.fetchedTeams) {
+      team.spriteURLs = [
+        await fetchSpriteData(this.fetchedTeams[0].poke1, this.GymLeaderToken),
+        await fetchSpriteData(this.fetchedTeams[0].poke2, this.GymLeaderToken),
+        await fetchSpriteData(this.fetchedTeams[0].poke3, this.GymLeaderToken),
+        await fetchSpriteData(this.fetchedTeams[0].poke4, this.GymLeaderToken),
+        await fetchSpriteData(this.fetchedTeams[0].poke5, this.GymLeaderToken),
+        await fetchSpriteData(this.fetchedTeams[0].poke6, this.GymLeaderToken)
+      ]
     }
   }
+
 
   // Fetch data when component is mounted
   async mounted() {
@@ -103,6 +92,12 @@ export default class PokemonTeamView extends Vue {
             :poke4="team.poke4"
             :poke5="team.poke5"
             :poke6="team.poke6"
+            :sprite1="team.spriteURLs[0]"
+            :sprite2="team.spriteURLs[1]"
+            :sprite3="team.spriteURLs[2]"
+            :sprite4="team.spriteURLs[3]"
+            :sprite5="team.spriteURLs[4]"
+            :sprite6="team.spriteURLs[5]"
             variant="light"
           />
         </div>

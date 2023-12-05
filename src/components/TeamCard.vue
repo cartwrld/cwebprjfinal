@@ -26,6 +26,13 @@ export default class TeamCard extends Mixins(GlobalMixin) {
 
   @Prop() private variant!: string;
 
+  @Prop() private sprite1!: string;
+  @Prop() private sprite2!: string;
+  @Prop() private sprite3!: string;
+  @Prop() private sprite4!: string;
+  @Prop() private sprite5!: string;
+  @Prop() private sprite6!: string;
+
   // capFirstLetter(val: string) {
   //   return val.charAt(0).toUpperCase() + val.slice(1);
   // }
@@ -79,7 +86,7 @@ export default class TeamCard extends Mixins(GlobalMixin) {
           mx-1 shadow">
             <img
               src="https://i.imgur.com/JXTPIbg.png"
-              :src="{ poke1 }"
+              :src="{ sprite1 }"
               alt="poke"
               width="100px"
               class="rounded-1 shadow"/>
