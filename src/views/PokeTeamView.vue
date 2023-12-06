@@ -1,9 +1,74 @@
+<template>
+  <div class="border">
+
+    <h1>PokeTeams</h1>
+    <div class="d-flex justify-content-center align-items-center p-5 mb-4 rounded-4 bg-dark-subtle shadow-sm">
+      <div class="d-flex justify-content-between align-items-center  w-100">
+        <div class="d-flex justify-content-center align-items-center ">
+          <h4 class="">Search for a Pokemon:</h4>
+        </div>
+        <div class="d-flex justify-content-center align-items-center rounded w-50 shadow">
+
+          <PokeTeamSearch
+            class="col-12"
+            min-search-length="3"
+            @busy="setBusy"
+            :poketeams="fetchedTeams"
+            @pokemonSelected="handleTeamCardSelected"
+            @search-query-changed="handleSearchQueryChange"
+          />
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <b-button variant="success" class="fw-semibold shadow" @click="showAddTeamModal">
+            <b-icon-cloud-arrow-up-fill class="me-2"/>
+            <span class="ms-1">Add PokeTeam</span>
+          </b-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Iterate over each pokemon and create a PokeCard for each one -->
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="d-flex flex-wrap col-12 justify-content-center">
+        <div
+          v-for="team in this.fetchedTeams"
+          :key="team.teamID"
+          class="p-2 d-flex col-12
+        justify-content-center">
+          <TeamCard
+            :team-i-d="team.teamID"
+            :team-name="team.teamName"
+            :poke1="team.poke1"
+            :poke2="team.poke2"
+            :poke3="team.poke3"
+            :poke4="team.poke4"
+            :poke5="team.poke5"
+            :poke6="team.poke6"
+            :sprite1="team.sprite1"
+            :sprite2="team.sprite2"
+            :sprite3="team.sprite3"
+            :sprite4="team.sprite4"
+            :sprite5="team.sprite5"
+            :sprite6="team.sprite6"
+
+            variant="light"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
-import {BvTableCtxObject} from 'bootstrap-vue/src/components/table';
+import { BTable, BvTableCtxObject } from 'bootstrap-vue/src/components/table';
 import TeamCard from '@/components/TeamCard.vue';
 import fetchData from '../services/apiService';
 import fetchSpriteData from '../services/apiService_v2';
+import PokemonSearch from '@/components/PokemonSearch.vue';
+import Pokemon from '@/models/Pokemon';
+import PokeTeam from '@/models/PokeTeam';
+import GlobalMixin from '@/mixins/global-mixin';
+import PokeTeamSearch from '@/components/PokeTeamSearch.vue';
 
 interface Team {
   teamID: number;
@@ -23,21 +88,29 @@ interface Team {
 }
 
 @Component({
-  components: {TeamCard},
+  components: {
+    PokeTeamSearch,
+    PokemonSearch,
+    TeamCard},
 })
-export default class PokemonTeamView extends Vue {
+export default class PokemonTeamView extends GlobalMixin {
   fetchedTeams: Team[] = [] || null;
   fetchedPokemon: any = [];
-  spriteURLs: any = [];
 
-  // pokeballPath = '../assets/pokeball.png';
+  filteredPokeTeamList: Team[] = [] ;
+
+  // data variable
+  selectedPokeTeam: PokeTeam = new PokeTeam();
+
   pokeballPath = 'https://imgur.com/CtkIAQO';
 
   RookieToken = 'iHaveReadAccess'
   TrainerToken = 'iHaveWriteAccess'
   GymLeaderToken = 'iHaveAdminAccess'
 
-  viewPokemon = false;
+  viewPokeTeam = false;
+  addPokeTeam = false;
+
 
   // async provider(ctx: BvTableCtxObject): Promise<Team[]> {
   //   if (!this.fetchedTeams) {
@@ -117,43 +190,94 @@ export default class PokemonTeamView extends Vue {
   async mounted() {
     await this.fetchData();
   }
+
+  showViewTeamModal(): void {
+    this.viewPokeTeam = true;
+  }
+
+  showAddTeamModal(): void {
+    this.addPokeTeam = true;
+  }
+
+  $refs!: {
+    pokeTeamTable: BTable
+  };
+
+
+
+  // computed from b-table localItems
+  get pokeTeamList() {
+    return this.$refs.pokeTeamTable.localItems;
+  }
+
+  // region METHODS
+
+  // handleSearchQueryChange(query: string) {
+  //   // Filter the local Pokemon list based on the search query
+  //   if (query === '') {
+  //     // If the search query is empty, reset the filtered list
+  //     this.filteredPokeTeamList = this.fetchedTeams;
+  //   } else {
+  //     this.filteredPokeTeamList = this.fetchedTeams.filter((pokeTeam: { teamName: string; }) =>
+  //       (pokeTeam.teamName ?? '').toLowerCase().includes(query.toLowerCase())
+  //     );
+  //   }
+  // }
+
+  // selectRow(item: any) {
+  //   if (!item.id) return;
+  //   this.$refs.pokeTeamTable.selectRow(this.pokeTeamList.findIndex((i: any) => i.teamID === item.id));
+  // }
+  //
+  // refreshTable() {
+  //   this.$refs.pokeTeamTable.refresh();
+  // }
+  //
+  // handleSelect(poketeam: PokeTeam) {
+  //   this.selectRow(poketeam);
+  //   this.selectedPokeTeam = poketeam;
+  // }
+  //
+  // handleTeamCardSelected(poketeam: PokeTeam): void {
+  //   // Set the selected Pokemon and show the modal
+  //   this.selectedPokeTeam = poketeam;
+  //   this.showViewTeamModal();
+  // }
+  //
+  // handleAdd(poketeam: PokeTeam) {
+  //   // PokemonForm emits a pokemon when a new pokemon returns from the api
+  //   this.pokeTeamList.unshift(poketeam);
+  //   this.handleSelect(poketeam);
+  // }
+  //
+  // handleUpdate(poketeam: PokeTeam) {
+  //   // PokemonForm emits a pokemon when an existing pokemon is updated in the api
+  //
+  //   // update the values in the selectedPokemon to the updated values
+  //   Object.assign(this.selectedPokeTeam, poketeam);
+  // }
+  //
+  // handleDelete(poketeam: PokeTeam) { // PokemonForm emits a pokemon when an existing pokemon is deleted in the api
+  //   this.selectedPokeTeam = new PokeTeam();
+  //   // find the pokemon in the pokemon array
+  //   const index = this.pokeTeamList.findIndex((s: any) => s.id === poketeam.teamID);
+  //   if (index >= 0) this.pokeTeamList.splice(index, 1);
+  //
+  //   // this.refreshTable()
+  // }
+  //
+  // handleReset(poketeam: PokeTeam) { // PokemonForm emits a pokemon when an existing pokemon fails to delete in the api
+  //   // issue happened with delete - so reload pokeList
+  //   this.refreshTable();
+  // }
+  //
+  // handleCancel() { // PokemonForm emits that the cancel button was clicked
+  //   // do nothing at this point
+  // }
 }
 </script>
 
-<template>
-  <div class="border">
-    <h1>PokeTeams</h1>
-    <!-- Iterate over each pokemon and create a PokeCard for each one -->
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="d-flex flex-wrap col-12 justify-content-center">
-        <div
-          v-for="team in fetchedTeams"
-          :key="team.teamID"
-          class="p-2 d-flex col-12
-        justify-content-center">
-          <TeamCard
-            :team-i-d="team.teamID"
-            :team-name="team.teamName"
-            :poke1="team.poke1"
-            :poke2="team.poke2"
-            :poke3="team.poke3"
-            :poke4="team.poke4"
-            :poke5="team.poke5"
-            :poke6="team.poke6"
-            :sprite1="team.sprite1"
-            :sprite2="team.sprite2"
-            :sprite3="team.sprite3"
-            :sprite4="team.sprite4"
-            :sprite5="team.sprite5"
-            :sprite6="team.sprite6"
 
-            variant="light"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 
