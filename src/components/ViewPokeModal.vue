@@ -13,6 +13,8 @@ export default class ViewPokeModal extends Vue {
   viewPokemon = false
 
   typePalette = TypePalette(this.displayPoke.pokeType1,this.displayPoke.pokeType2)
+
+
 }
 </script>
 
