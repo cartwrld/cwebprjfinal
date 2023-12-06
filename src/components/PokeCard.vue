@@ -72,7 +72,6 @@
             <div class="fs-1"> <!-- name -->{{ capFirstLetter(pokeName) }}</div>
           </div>
 
-
           <div class="d-flex justify-content-center align-items-center">
             <!-- gen outer container -->
             <div
@@ -93,7 +92,6 @@
             class="d-flex justify-content-around align-items-center p-2 mb-2 rounded-3 shadow-sm border">
             <!-- img container -->
             <img v-bind:src="sprite" alt="pokemon" width="350px" class="rounded shadow-sm bg-light">
-
           </div>
           <div class="d-flex justify-content-around align-items-center py-2">
             <!-- types container -->
@@ -113,42 +111,36 @@
           </div>
         </div>
 
-        <div class="border border-1 my-3 w-100"></div>
+        <div class="border border-1 my-3 w-100"></div> <!-- divider -->
 
-        <div class="d-flex justify-content-around w-75"> <!-- stats outer container -->
-
-          <div
-            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 py-1 shadow-sm">
+        <!-- stats outer container -->
+        <div class="d-flex justify-content-around w-75">
+          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 py-1 shadow-sm">
             <!-- hp container -->
             <span class="fw-bold">HP</span>
             <span class="fw-semibold fs-5"><!-- hp num -->{{ hp }}</span>
           </div>
-          <div
-            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 mx-2 shadow-sm">
+          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 mx-2 shadow-sm">
             <!-- atk container -->
             <span class="fw-bold">ATK</span>
             <span class="fw-semibold fs-5"><!-- atk num -->{{ atk }}</span>
           </div>
-          <div
-            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 me-1 shadow-sm">
+          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 me-1 shadow-sm">
             <!-- def container -->
             <span class="fw-bold">DEF</span>
             <span class="fw-semibold fs-5"><!-- def num -->{{ def }}</span>
           </div>
-          <div
-            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 ms-1 shadow-sm">
+          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 ms-1 shadow-sm">
             <!-- spatk container -->
             <span class="fw-bold">SPATK</span>
             <span class="fw-semibold fs-5"><!-- spatk num -->{{ spatk }}</span>
           </div>
-          <div
-            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 mx-2 shadow-sm">
+          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 mx-2 shadow-sm">
             <!-- spdef container -->
             <span class="fw-bold">SPDEF</span>
             <span class="fw-semibold fs-5"><!-- spdef num -->{{ spdef }}</span>
           </div>
-          <div
-            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 shadow-sm">
+          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 shadow-sm">
             <!-- spd container -->
             <span class="fw-bold">SPD</span>
             <span class="fw-semibold fs-5"><!-- spd num -->{{ spd }}</span>

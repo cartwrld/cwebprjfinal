@@ -22,10 +22,10 @@ export default class UserView  extends Mixins(GlobalMixin){
   viewUsers = false;
   // token = '';
 
-  provider(ctx:BvTableCtxObject):Promise<any> {
-    // return fetch('' + ctx.apiUrl).then(res => res.json())
-    return this.callAPI(`${ctx.apiUrl}`);
-  }
+  // provider(ctx:BvTableCtxObject):Promise<any> {
+  //   // return fetch('' + ctx.apiUrl).then(res => res.json())
+  //   return this.callAPI(`${ctx.apiUrl}`);
+  // }
 
   // Method to fetch data
   async fetchData() {

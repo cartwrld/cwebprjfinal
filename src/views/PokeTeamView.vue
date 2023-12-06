@@ -39,30 +39,18 @@ export default class PokemonTeamView extends Vue {
 
   viewPokemon = false;
 
-  // fields = [
-  //   { key: 'Team ID', sortable: true },
-  //   { key: 'Team Name', sortable: false },
-  //   { key: 'Slot 1', sortable: false },
-  //   { key: 'Slot 2', sortable: false },
-  //   { key: 'Slot 3', sortable: false },
-  //   { key: 'Slot 4', sortable: false },
-  //   { key: 'Slot 5', sortable: false },
-  //   { key: 'Slot 6', sortable: false },
+  // async provider(ctx: BvTableCtxObject): Promise<Team[]> {
+  //   if (!this.fetchedTeams) {
+  //     try {
+  //       await this.fetchData();
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error)
+  //     }
+  //   }
   //
-  // ]
-
-  async provider(ctx: BvTableCtxObject): Promise<Team[]> {
-    if (!this.fetchedTeams) {
-      try {
-        await this.fetchData();
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    return this.fetchedTeams;
-
-  }
+  //   return this.fetchedTeams;
+  //
+  // }
 
   // Method to fetch data
   async fetchData() {
@@ -110,8 +98,6 @@ export default class PokemonTeamView extends Vue {
         console.error('Error fetching data:', error);
       }
     }
-
-
   }
 
   getTeamSprites(p1: number, p2: number, p3: number, p4: number, p5: number, p6: number) {

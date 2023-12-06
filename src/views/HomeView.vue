@@ -32,7 +32,7 @@ import HelloWorld from '@/components/HelloWorld.vue';
 import IconButton from '@/components/IconButton.vue';
 import PokeCard from '@/components/PokeCard.vue';
 import ViewPokemon from '@/components/ViewPokemon.vue';
-import Student from '@/models/Student'; // @ is an alias to /src
+
 
 @Component({
   components: {

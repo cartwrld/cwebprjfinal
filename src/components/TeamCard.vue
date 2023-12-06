@@ -2,86 +2,44 @@
   <div class="d-flex justify-content-center col-12 p-0">
 
     <b-button
-      class="p-2 rounded-2"
+      class="p-2 rounded-2 col-12"
       :variant="variant"
       @click="showTeamModal">
       <div
-        class="d-flex justify-content-around bg-danger rounded-4 py-1 px-3 m-0 shadow
+        class="d-flex justify-content-between align-items-center bg-danger rounded-4 px-3 m-0 shadow
         px-0 team-card">
-        <div class="d-flex justify-content-center align-items-center">
+
+        <div class="d-flex justify-content-center col-1">
           <span
-            class="bg-light p-2 px-3 rounded-5 border fw-semibold h5 pe-3 text-dark
+            class="bg-light p-2 px-3 rounded-5 border fw-semibold h5 pe-3 text-dark mt-2
             shadow-sm">
             {{ teamID }}</span>
         </div>
-        <div class="d-flex justify-content-center align-items-center text-light">
-          <h5 class="rounded fw-semibold mx-4 text-shadow py-4">
+
+        <div class="d-flex justify-content-center align-items-center text-light col-3">
+          <h5 class="rounded fw-semibold mx-4 mt-2 text-shadow col-12">
             {{ teamName }}</h5>
         </div>
-        <div class="d-flex no-wrap justify-content-around py-2">
-          <div
-            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
-          mx-1 shadow">
-            <img :src="sprite1" alt="poke" width="100px" class="rounded-1 shadow"/>
 
+        <div class="d-flex no-wrap justify-content-around align-items-center col-8 my-3">
+          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light mx-1 shadow">
+            <img :src="sprite1" alt="poke1" width="100px" class="rounded-1 shadow"/>
           </div>
-          <div
-            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
-          mx-1 shadow">
-            <img
-
-              :src="sprite2"
-              alt="poke"
-              width="100px"
-              class="rounded-1 shadow"/>
+          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light mx-1 shadow">
+            <img :src="sprite2" alt="poke2" width="100px" class="rounded-1 shadow"/>
           </div>
-          <div
-            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
-          mx-1 shadow">
-            <img
-
-              :src="sprite3"
-              alt="poke"
-              width="100px"
-              class="rounded-1 shadow"/>
+          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light mx-1 shadow">
+            <img :src="sprite3" alt="poke3" width="100px" class="rounded-1 shadow"/>
           </div>
-          <div
-            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
-          mx-1 shadow">
-            <img
-
-              :src="sprite4"
-              alt="poke"
-              width="100px"
-              class="rounded-1 shadow"/>
+          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light mx-1 shadow">
+            <img :src="sprite4" alt="poke4" width="100px" class="rounded-1 shadow"/>
           </div>
-          <div
-            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
-          mx-1 shadow">
-            <img
-
-              :src="sprite5"
-              alt="poke"
-              width="100px"
-              class="rounded-1 shadow"/>
+          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light mx-1 shadow">
+            <img :src="sprite5" alt="poke5" width="100px" class="rounded-1 shadow"/>
           </div>
-          <div
-            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
-          mx-1 shadow">
-            <img
-              :src="sprite6"
-              alt="poke"
-              width="100px"
-              class="rounded-1 shadow"/>
+          <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light mx-1 shadow">
+            <img :src="sprite6" alt="poke6" width="100px" class="rounded-1 shadow"/>
           </div>
-        </div>
-        <div>
-          <!--          <span>{{ sprite1 }}</span>-->
-          <!--          <span>{{ sprite2 }}</span>-->
-          <!--          <span>{{ sprite3 }}</span>-->
-          <!--          <span>{{ sprite4 }}</span>-->
-          <!--          <span>{{ sprite5 }}</span>-->
-          <!--          <span>{{ sprite6 }}</span>-->
         </div>
       </div>
     </b-button>
@@ -227,8 +185,8 @@ export default class TeamCard extends Mixins(GlobalMixin) {
   @Prop() private poke4!: number;
   @Prop() private poke5!: number;
   @Prop() private poke6!: number;
-  @Prop() private spriteURLs!: string[];
 
+  // @Prop() private sprites!: string[];
   @Prop() private sprite1!: string;
   @Prop() private sprite2!: string;
   @Prop() private sprite3!: string;

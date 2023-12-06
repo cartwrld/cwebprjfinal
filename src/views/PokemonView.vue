@@ -2,12 +2,12 @@
   <div class="">
     <h1 class="pb-5">Pokemon</h1>
 
-    <div class="d-flex justify-content-center align-items-center  p-5 rounded-4">
+    <div class="d-flex justify-content-center align-items-center p-5 mb-4 rounded-4 bg-dark-subtle shadow-sm">
       <div class="d-flex justify-content-between align-items-center  w-100">
         <div class="d-flex justify-content-center align-items-center ">
-          <h4>Search for a Pokemon:</h4>
+          <h4 class="">Search for a Pokemon:</h4>
         </div>
-        <div class="d-flex justify-content-center align-items-center rounded w-50 shadow-sm">
+        <div class="d-flex justify-content-center align-items-center rounded w-50 shadow">
 
           <PokemonSearch
             class="col-12"
@@ -19,15 +19,16 @@
           />
         </div>
         <div class="d-flex justify-content-center align-items-center">
-          <b-button variant="success" class="fw-semibold shadow-sm" @click="showAddPokeModal">
+          <b-button variant="success" class="fw-semibold shadow" @click="showAddPokeModal">
             <b-icon-cloud-arrow-up-fill class="me-2"/>
             <span class="ms-1">Add Pokemon</span>
           </b-button>
         </div>
       </div>
     </div>
+
     <div class="d-flex justify-content-center w-100">
-      <div class="border border-1 my-3 mb-5 w-75 px-5"></div>
+      <div class="border border-1 my-4 mb-5 w-75 px-5"></div>
     </div>
 
 
@@ -35,6 +36,8 @@
     <div class="d-flex justify-content-center align-items-center mb-5">
 
 <!--      PREVIOUS PAGE BUTTON    -->
+      <div class="shadow-sm bg-dark-subtle rounded-3 p-2">
+
       <b-button
         v-if="currentPage > 1"
         @click="prevPage"
@@ -47,6 +50,7 @@
         class="bg-white border shadow-sm">
         <b-icon-chevron-double-left variant="dark"></b-icon-chevron-double-left>
       </b-button>
+      </div>
 
       <div class="d-flex flex-wrap col-11 justify-content-center">
         <div v-for="pokemon in paginatedPokemonList()" :key="pokemon.pokeID"
@@ -71,6 +75,7 @@
       </div>
 
       <!--      NEXT PAGE BUTTON    -->
+      <div class="shadow-sm bg-dark-subtle rounded-3 p-2">
       <b-button
         v-if="currentPage < Math.ceil(filteredPokemonList.length / this.itemsPerPage)"
         @click="nextPage"
@@ -83,6 +88,7 @@
         class="bg-light border shadow-sm">
         <b-icon-chevron-double-right variant="dark" class=""></b-icon-chevron-double-right>
       </b-button>
+    </div>
     </div>
 
     <!--========= ADD POKEMON MODAL =========-->
