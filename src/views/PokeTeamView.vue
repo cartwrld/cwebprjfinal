@@ -3,8 +3,8 @@
 
     <h1>PokeTeams</h1>
     <div class="d-flex justify-content-center align-items-center p-5 mb-4 rounded-4 bg-dark-subtle shadow-sm">
-      <div class="d-flex justify-content-between align-items-center  w-100">
-        <div class="d-flex justify-content-center align-items-center ">
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <div class="d-flex justify-content-center align-items-center shadow">
           <h4 class="">Search for a Pokemon:</h4>
         </div>
         <div class="d-flex justify-content-center align-items-center rounded w-50 shadow">
