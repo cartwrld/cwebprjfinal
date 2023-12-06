@@ -1,51 +1,3 @@
-<script lang="ts">
-import {
-  Component, Prop, Mixins,
-} from 'vue-property-decorator';
-import {BIcon} from 'bootstrap-vue';
-import GlobalMixin from '@/mixins/global-mixin';
-import Pokemon from '@/models/Pokemon';
-import {BIconPatchCheckFill, BIconPatchExclamationFill} from 'bootstrap-vue'
-// import r from '../models/Pokemon';
-
-@Component({})
-export default class PokeCard extends Mixins(GlobalMixin) {
-  @Prop() private id!: number;
-  @Prop() private username!: string;
-  @Prop() private accessLevel!: string;
-  @Prop() private token!: string;
-
-
-  @Prop() private variant!: string;
-
-
-  // ================== FUNCTIONS ====================
-  capFirstLetter(val: string) {
-    return val.charAt(0).toUpperCase() + val.slice(1);
-  }
-
-  showUserModal(): void {
-    this.viewUser = true;
-  }
-
-
-  // ================== VARIABLES ====================
-
-  // selectedPokemon = new User();
-  // tempPokemon: User = new User();
-
-  // violation: any = {};
-
-  viewUser = false;
-
-  // ================== UI FUNCTIONS ====================
-
-
-}
-// ================== TEMPLATE ====================
-// TODO divider and then line up the name and access level in a box, make level caps and smaller
-
-</script>
 <template>
   <!--  <div class="d-flex justify-content-center p-0">-->
   <div class="d-flex justify-content-center p-0">
@@ -170,6 +122,55 @@ export default class PokeCard extends Mixins(GlobalMixin) {
     </b-modal>
   </div>
 </template>
+<script lang="ts">
+import {
+  Component, Prop, Mixins,
+} from 'vue-property-decorator';
+import {BIcon} from 'bootstrap-vue';
+import GlobalMixin from '@/mixins/global-mixin';
+import Pokemon from '@/models/Pokemon';
+import {BIconPatchCheckFill, BIconPatchExclamationFill} from 'bootstrap-vue'
+// import r from '../models/Pokemon';
+
+@Component({})
+export default class PokeCard extends Mixins(GlobalMixin) {
+  @Prop() private id!: number;
+  @Prop() private username!: string;
+  @Prop() private accessLevel!: string;
+  @Prop() private token!: string;
+
+
+  @Prop() private variant!: string;
+
+
+  // ================== FUNCTIONS ====================
+  capFirstLetter(val: string) {
+    return val.charAt(0).toUpperCase() + val.slice(1);
+  }
+
+  showUserModal(): void {
+    this.viewUser = true;
+  }
+
+
+  // ================== VARIABLES ====================
+
+  // selectedPokemon = new User();
+  // tempPokemon: User = new User();
+
+  // violation: any = {};
+
+  viewUser = false;
+
+  // ================== UI FUNCTIONS ====================
+
+
+}
+// ================== TEMPLATE ====================
+// TODO divider and then line up the name and access level in a box, make level caps and smaller
+
+</script>
+
 <style scoped>
 .poke-card {
   width: 320px; /* Fixed width */

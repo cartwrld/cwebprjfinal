@@ -1,3 +1,60 @@
+<template>
+  <div class="border">
+    <h1 class="pb-5">Pokemon</h1>
+
+    <div class="d-flex justify-content-center align-items-center  p-5 rounded-4">
+    <div class="d-flex justify-content-between align-items-center  w-100">
+      <div class="d-flex justify-content-center align-items-center ">
+        <h4>Search for a Pokemon:</h4>
+      </div>
+      <div class="d-flex justify-content-center align-items-center rounded w-50 shadow-sm">
+
+        <PokemonSearch
+          class="col-12"
+          min-search-length="3"
+          @busy="setBusy"
+          :pokemon="fetchedPokes"
+          @pokemonSelected="handlePokeCardSelected"
+          @search-query-changed="handleSearchQueryChange"
+        />
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <b-button variant="success" class="fw-semibold shadow-sm" >
+          <b-icon-cloud-arrow-up-fill class="me-2"/><span class="ms-1">Add Pokemon</span>
+        </b-button>
+      </div>
+    </div>
+    </div>
+    <div class="d-flex justify-content-center w-100">
+      <div class="border border-1 my-3 mb-5 w-75 px-5"></div>
+    </div>
+
+
+    <!-- Iterate over each pokemon and create a PokeCard for each one -->
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="d-flex flex-wrap col-11 justify-content-center">
+
+        <div v-for="pokemon in filteredPokemonList" :key="pokemon.pokeID" class="d-flex justify-content-center">
+          <PokeCard
+            :poke-i-d="pokemon.pokeID"
+            :poke-name="pokemon.pokeName"
+            :poke-type1="pokemon.pokeType1"
+            :poke-type2="pokemon.pokeType2"
+            :gen="pokemon.gen"
+            :hp="pokemon.hp"
+            :atk="pokemon.atk"
+            :def="pokemon.def"
+            :spatk="pokemon.spatk"
+            :spdef="pokemon.spdef"
+            :spd="pokemon.spd"
+            :sprite="pokemon.sprite"
+            variant="light"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 <script lang="ts">
 import { Vue, Component, Mixins  } from 'vue-property-decorator';
 import { BTable, BvTableCtxObject } from 'bootstrap-vue/src/components/table';
@@ -8,40 +65,20 @@ import GlobalMixin from '@/mixins/global-mixin';
 import AutoSearch from '@/components/AutoSearch.vue';
 import PokemonForm from '@/components/PokemonForm.vue';
 import Pokemon from '@/models/Pokemon';
+import PokemonSearch from "@/components/PokemonSearch.vue";
 
 @Component({
-  components: { PokeCard },
+  components: {PokemonSearch, PokeCard },
 })
 export default class PokemonView  extends Mixins(GlobalMixin){
   fetchedPokes: any = null;
+
+  filteredPokemonList: Pokemon[] = [];
 
   token = 'iHaveReadAccess';
   viewPokemon = false;
   // token = '';
 
-  /*
-   fields = [
-     { key: 'pokeID', sortable: false },
-     { key: 'name', sortable: false },
-     { key: 'type 1', sortable: false },
-     { key: 'type 2', sortable: false },
-     { key: 'gen', sortable: false },
-     { key: 'hp', sortable: false },
-     { key: 'atk', sortable: false },
-     { key: 'def', sortable: false },
-     { key: 'spatk', sortable: false },
-     { key: 'spdef', sortable: false },
-   ]
-     { key: 'spd', sortable: false },
-*/
-  // async provider(ctx: BvTableCtxObject) {
-  //   if (!this.fetchedPokes) {
-  //     this.fetchedPokes = await this.fetchData();
-  //   }
-  //   console.log(await this.fetchedPokes);
-  //
-  //   return this.fetchedPokes;
-  // }qq
   provider(ctx:BvTableCtxObject):Promise<any> {
     // return fetch('' + ctx.apiUrl).then(res => res.json())
     return this.callAPI(`${ctx.apiUrl}`);
@@ -52,6 +89,7 @@ export default class PokemonView  extends Mixins(GlobalMixin){
     try {
       const endpoint = 'pokemon';
       this.fetchedPokes = await fetchData(endpoint, this.token);
+      this.filteredPokemonList = this.fetchedPokes;
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -82,6 +120,17 @@ export default class PokemonView  extends Mixins(GlobalMixin){
 
   // region METHODS
 
+  handleSearchQueryChange(query: string) {
+    // Filter the local Pokemon list based on the search query
+    if (query === '') {
+      // If the search query is empty, reset the filtered list
+      this.filteredPokemonList = this.fetchedPokes;
+    } else {
+    this.filteredPokemonList = this.fetchedPokes.filter((pokemon: { pokeName: any; }) =>
+      (pokemon.pokeName ?? '').toLowerCase().includes(query.toLowerCase())
+    );}
+  }
+
   selectRow(item:any) {
     if (!item.id) return;
     this.$refs.pokemonTable.selectRow(this.pokeList.findIndex((i:any) => i.id === item.id));
@@ -94,6 +143,12 @@ export default class PokemonView  extends Mixins(GlobalMixin){
   handleSelect(pokemon:Pokemon) {
     this.selectRow(pokemon);
     this.selectedPokemon = pokemon;
+  }
+
+  handlePokeCardSelected(pokemon: Pokemon): void {
+    // Set the selected Pokemon and show the modal
+    this.selectedPokemon = pokemon;
+    this.showPokeModal();
   }
 
   handleAdd(pokemon:Pokemon) {
@@ -129,38 +184,7 @@ export default class PokemonView  extends Mixins(GlobalMixin){
 }
 </script>
 
-<template>
-  <div class="border ">
-    <h1>Pokemon</h1>
-    <!-- Iterate over each pokemon and create a PokeCard for each one -->
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="d-flex flex-wrap col-11 justify-content-center">
-        <div
-          v-for="pokemon in fetchedPokes"
-          :key="pokemon.id"
-          class="d-flex justify-content-center">
-          <PokeCard
-            :poke-i-d="pokemon.pokeID"
-            :poke-name="pokemon.pokeName"
-            :poke-type1="pokemon.pokeType1"
-            :poke-type2="pokemon.pokeType2"
-            :gen="pokemon.gen"
-            :hp="pokemon.hp"
-            :atk="pokemon.atk"
-            :def="pokemon.def"
-            :spatk="pokemon.spatk"
-            :spdef="pokemon.spdef"
-            :spd="pokemon.spd"
-            :sprite="pokemon.sprite"
-            variant="light"
 
-
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 
