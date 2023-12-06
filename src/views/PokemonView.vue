@@ -60,7 +60,7 @@ import { Vue, Component, Mixins  } from 'vue-property-decorator';
 import { BTable, BvTableCtxObject } from 'bootstrap-vue/src/components/table';
 import PokeCard from '@/components/PokeCard.vue';
 import fetchData from '../services/apiService';
-
+import {capFirstLetter} from "@/services/utils";
 import GlobalMixin from '@/mixins/global-mixin';
 import AutoSearch from '@/components/AutoSearch.vue';
 import PokemonForm from '@/components/PokemonForm.vue';
