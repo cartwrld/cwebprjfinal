@@ -5,12 +5,28 @@ import TeamCard from '@/components/TeamCard.vue';
 import fetchData from '../services/apiService';
 import fetchSpriteData from '../services/apiService_v2';
 
+interface Team {
+  teamID: number;
+  teamName: string;
+  poke1: number;
+  poke2: number;
+  poke3: number;
+  poke4: number;
+  poke5: number;
+  poke6: number;
+  spriteURLs?: string[]; // Optional, if you're adding this property later
+}
+
 @Component({
   components: {TeamCard},
 })
 export default class PokemonTeamView extends Vue {
-  fetchedTeams: any = null;
+  fetchedTeams: Team[]  = [] || null;
+  fetchedPokemon: any = [];
   spriteURLs: any = [];
+
+  // pokeballPath = '../assets/pokeball.png';
+  pokeballPath = 'https://imgur.com/CtkIAQO';
 
   RookieToken = 'iHaveReadAccess'
   TrainerToken = 'iHaveWriteAccess'
@@ -30,37 +46,67 @@ export default class PokemonTeamView extends Vue {
   //
   // ]
 
-  async provider(ctx: BvTableCtxObject) {
+  async provider(ctx: BvTableCtxObject) : Promise<Team[]>{
     if (!this.fetchedTeams) {
-      this.fetchedTeams = await this.fetchData();
+      await this.fetchData();
     }
-    console.log(await this.fetchedTeams);
-
+    if (!this.fetchedPokemon) {
+      await this.fetchPokeData()
+    }
     return this.fetchedTeams;
+
   }
 
   // Method to fetch data
   async fetchData() {
     try {
-      const endpoint = 'poketeam';
+      let endpoint = 'poketeam';
       this.fetchedTeams = await fetchData(endpoint, this.GymLeaderToken);
-      await this.fetchTeamSprites()
+      console.log(this.fetchedTeams)
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+    try {
+      let endpoint = 'pokemon';
+      this.fetchedPokemon = await fetchData(endpoint, this.GymLeaderToken);
+      console.log(this.fetchedPokemon)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+    try {
+      await this.setTeamSprites()
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   }
 
-  async fetchTeamSprites() {
-    for (const team of this.fetchedTeams) {
-      team.spriteURLs = [
-        await fetchSpriteData(this.fetchedTeams[0].poke1, this.GymLeaderToken),
-        await fetchSpriteData(this.fetchedTeams[0].poke2, this.GymLeaderToken),
-        await fetchSpriteData(this.fetchedTeams[0].poke3, this.GymLeaderToken),
-        await fetchSpriteData(this.fetchedTeams[0].poke4, this.GymLeaderToken),
-        await fetchSpriteData(this.fetchedTeams[0].poke5, this.GymLeaderToken),
-        await fetchSpriteData(this.fetchedTeams[0].poke6, this.GymLeaderToken)
-      ]
+  async fetchPokeData() {
+
+  }
+
+
+  async setTeamSprites() {
+    console.log('sts')
+    console.log(this.fetchedTeams)
+    const ft = Array.from(this.fetchedTeams);
+    for (const team of ft) {
+      team.spriteURLs = this.getTeamSprites(team.poke1, team.poke2, team.poke3, team.poke4, team.poke5, team.poke6);
+      console.log(team.spriteURLs)
     }
+    console.log('sprite fetch done')
+  }
+
+  getTeamSprites(p1: number, p2: number, p3: number, p4: number, p5: number, p6: number) {
+    const ids = [p1, p2, p3, p4, p5, p6]
+    const sprites = [];
+    console.log('get team')
+    for (let i = 0; i < ids.length; i++) {
+      const id = ids[i];
+      const pokemon = this.fetchedPokemon.find((poke: any) => poke.pokeID === id);
+      pokemon ? sprites.push(pokemon.sprite) : sprites.push('../assets/pokeball.png');
+    }
+    return sprites;
   }
 
 
@@ -72,7 +118,6 @@ export default class PokemonTeamView extends Vue {
 </script>
 
 <template>
-
   <div class="border">
     <h1>PokeTeams</h1>
     <!-- Iterate over each pokemon and create a PokeCard for each one -->
@@ -80,10 +125,11 @@ export default class PokemonTeamView extends Vue {
       <div class="d-flex flex-wrap col-12 justify-content-center">
         <div
           v-for="team in fetchedTeams"
-          :key="team.id"
+          :key="team.teamID"
           class="p-2 d-flex col-12
         justify-content-center">
           <TeamCard
+            @party=""
             :team-i-d="team.teamID"
             :team-name="team.teamName"
             :poke1="team.poke1"
@@ -92,12 +138,9 @@ export default class PokemonTeamView extends Vue {
             :poke4="team.poke4"
             :poke5="team.poke5"
             :poke6="team.poke6"
-            :sprite1="team.spriteURLs[0]"
-            :sprite2="team.spriteURLs[1]"
-            :sprite3="team.spriteURLs[2]"
-            :sprite4="team.spriteURLs[3]"
-            :sprite5="team.spriteURLs[4]"
-            :sprite6="team.spriteURLs[5]"
+            sprite1=""
+
+
             variant="light"
           />
         </div>
@@ -109,3 +152,9 @@ export default class PokemonTeamView extends Vue {
 <style scoped>
 
 </style>
+<!--            :sprite1="team.spriteURLs ? team.spriteURLs[0] : pokeballPath"-->
+<!--            :sprite2="team.spriteURLs ? team.spriteURLs[1] : pokeballPath"-->
+<!--            :sprite3="team.spriteURLs ? team.spriteURLs[2] : pokeballPath"-->
+<!--            :sprite4="team.spriteURLs ? team.spriteURLs[3] : pokeballPath"-->
+<!--            :sprite5="team.spriteURLs ? team.spriteURLs[4] : pokeballPath"-->
+<!--            :sprite6="team.spriteURLs ? team.spriteURLs[5] : pokeballPath"-->

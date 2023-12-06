@@ -9,7 +9,7 @@ export default async function fetchSpriteData(pokeNumber: string, token: string)
 //   ?  `${API_URL}/${destPage}`
 //   : `${API_URL}/${destPage}/${id}`
   const fetchURL =`${API_URL}/pokemon/${pokeNumber}`;
-  console.log(fetchURL)
+  // console.log(fetchURL)
   const response = await fetch(`${fetchURL}`, {
     method: 'GET',
     headers,

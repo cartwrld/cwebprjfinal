@@ -9,29 +9,20 @@ import PokeTeam from '@/models/PokeTeam';
 @Component({})
 export default class TeamCard extends Mixins(GlobalMixin) {
   @Prop() private teamID!: number;
-
   @Prop() private teamName!: string;
-
-  @Prop() private poke1!: string;
-
-  @Prop() private poke2!: string;
-
-  @Prop() private poke3!: string;
-
-  @Prop() private poke4!: string;
-
-  @Prop() private poke5!: string;
-
-  @Prop() private poke6!: string;
-
-  @Prop() private variant!: string;
-
+  @Prop() private poke1!: number;
+  @Prop() private poke2!: number;
+  @Prop() private poke3!: number;
+  @Prop() private poke4!: number;
+  @Prop() private poke5!: number;
+  @Prop() private poke6!: number;
   @Prop() private sprite1!: string;
   @Prop() private sprite2!: string;
   @Prop() private sprite3!: string;
   @Prop() private sprite4!: string;
   @Prop() private sprite5!: string;
   @Prop() private sprite6!: string;
+  @Prop() private variant!: string;
 
   // capFirstLetter(val: string) {
   //   return val.charAt(0).toUpperCase() + val.slice(1);
@@ -54,6 +45,8 @@ export default class TeamCard extends Mixins(GlobalMixin) {
   tempPokeTeam: PokeTeam = new PokeTeam();
 
   violation: any = {};
+
+  isBusy = false;
 
   viewPokeTeam = false;
 
@@ -84,9 +77,15 @@ export default class TeamCard extends Mixins(GlobalMixin) {
           <div
             class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
+            <img :src="sprite1" alt="poke" width="100px" class="rounded-1 shadow"/>
+
+          </div>
+          <div
+            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
+          mx-1 shadow">
             <img
-              src="https://i.imgur.com/JXTPIbg.png"
-              :src="{ sprite1 }"
+
+              :src="sprite2"
               alt="poke"
               width="100px"
               class="rounded-1 shadow"/>
@@ -95,7 +94,8 @@ export default class TeamCard extends Mixins(GlobalMixin) {
             class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
             <img
-              src="https://i.imgur.com/JXTPIbg.png"
+
+              :src="sprite3"
               alt="poke"
               width="100px"
               class="rounded-1 shadow"/>
@@ -104,7 +104,8 @@ export default class TeamCard extends Mixins(GlobalMixin) {
             class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
             <img
-              src="https://i.imgur.com/JXTPIbg.png"
+
+              :src="sprite4"
               alt="poke"
               width="100px"
               class="rounded-1 shadow"/>
@@ -113,7 +114,8 @@ export default class TeamCard extends Mixins(GlobalMixin) {
             class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
             <img
-              src="https://i.imgur.com/JXTPIbg.png"
+
+              :src="sprite5"
               alt="poke"
               width="100px"
               class="rounded-1 shadow"/>
@@ -122,28 +124,19 @@ export default class TeamCard extends Mixins(GlobalMixin) {
             class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
           mx-1 shadow">
             <img
-              src="https://i.imgur.com/JXTPIbg.png"
-              alt="poke"
-              width="100px"
-              class="rounded-1 shadow"/>
-          </div>
-          <div
-            class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light
-          mx-1 shadow">
-            <img
-              src="https://i.imgur.com/JXTPIbg.png"
+              :src="sprite6"
               alt="poke"
               width="100px"
               class="rounded-1 shadow"/>
           </div>
         </div>
         <div>
-          <span>{{ poke1 }}</span>
-          <span>{{ poke2 }}</span>
-          <span>{{ poke3 }}</span>
-          <span>{{ poke4 }}</span>
-          <span>{{ poke5 }}</span>
-          <span>{{ poke6 }}</span>
+<!--          <span>{{ sprite1 }}</span>-->
+<!--          <span>{{ sprite2 }}</span>-->
+<!--          <span>{{ sprite3 }}</span>-->
+<!--          <span>{{ sprite4 }}</span>-->
+<!--          <span>{{ sprite5 }}</span>-->
+<!--          <span>{{ sprite6 }}</span>-->
         </div>
       </div>
     </b-button>
