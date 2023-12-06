@@ -14,14 +14,19 @@ interface Team {
   poke4: number;
   poke5: number;
   poke6: number;
-  spriteURLs?: string[]; // Optional, if you're adding this property later
+  sprite1: string;
+  sprite2: string;
+  sprite3: string;
+  sprite4: string;
+  sprite5: string;
+  sprite6: string;
 }
 
 @Component({
   components: {TeamCard},
 })
 export default class PokemonTeamView extends Vue {
-  fetchedTeams: Team[]  = [] || null;
+  fetchedTeams: Team[] = [] || null;
   fetchedPokemon: any = [];
   spriteURLs: any = [];
 
@@ -46,13 +51,15 @@ export default class PokemonTeamView extends Vue {
   //
   // ]
 
-  async provider(ctx: BvTableCtxObject) : Promise<Team[]>{
+  async provider(ctx: BvTableCtxObject): Promise<Team[]> {
     if (!this.fetchedTeams) {
-      await this.fetchData();
+      try {
+        await this.fetchData();
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
     }
-    if (!this.fetchedPokemon) {
-      await this.fetchPokeData()
-    }
+
     return this.fetchedTeams;
 
   }
@@ -63,7 +70,6 @@ export default class PokemonTeamView extends Vue {
       let endpoint = 'poketeam';
       this.fetchedTeams = await fetchData(endpoint, this.GymLeaderToken);
       console.log(this.fetchedTeams)
-
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -79,22 +85,33 @@ export default class PokemonTeamView extends Vue {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+
+    console.log('==============')
+    console.log(this.fetchedTeams)
   }
-
-  async fetchPokeData() {
-
-  }
-
 
   async setTeamSprites() {
-    console.log('sts')
-    console.log(this.fetchedTeams)
+
     const ft = Array.from(this.fetchedTeams);
-    for (const team of ft) {
-      team.spriteURLs = this.getTeamSprites(team.poke1, team.poke2, team.poke3, team.poke4, team.poke5, team.poke6);
-      console.log(team.spriteURLs)
+
+    for (let i = 0; i < ft.length; i++) {
+      const team = ft[i]
+      try {
+        const sprites = this.getTeamSprites(team.poke1, team.poke2, team.poke3, team.poke4, team.poke5, team.poke6);
+        team.sprite1 = sprites[0]
+        team.sprite2 = sprites[1]
+        team.sprite3 = sprites[2]
+        team.sprite4 = sprites[3]
+        team.sprite5 = sprites[4]
+        team.sprite6 = sprites[5]
+        // console.log(sprites[0])
+        console.log(`teamSprite set ${i + 1} complete`)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     }
-    console.log('sprite fetch done')
+
+
   }
 
   getTeamSprites(p1: number, p2: number, p3: number, p4: number, p5: number, p6: number) {
@@ -104,7 +121,7 @@ export default class PokemonTeamView extends Vue {
     for (let i = 0; i < ids.length; i++) {
       const id = ids[i];
       const pokemon = this.fetchedPokemon.find((poke: any) => poke.pokeID === id);
-      pokemon ? sprites.push(pokemon.sprite) : sprites.push('../assets/pokeball.png');
+      pokemon ? sprites.push(pokemon.sprite) : sprites.push('https://imgur.com/CtkIAQO');
     }
     return sprites;
   }
@@ -129,7 +146,6 @@ export default class PokemonTeamView extends Vue {
           class="p-2 d-flex col-12
         justify-content-center">
           <TeamCard
-            @party=""
             :team-i-d="team.teamID"
             :team-name="team.teamName"
             :poke1="team.poke1"
@@ -138,8 +154,12 @@ export default class PokemonTeamView extends Vue {
             :poke4="team.poke4"
             :poke5="team.poke5"
             :poke6="team.poke6"
-            sprite1=""
-
+            :sprite1="team.sprite1"
+            :sprite2="team.sprite2"
+            :sprite3="team.sprite3"
+            :sprite4="team.sprite4"
+            :sprite5="team.sprite5"
+            :sprite6="team.sprite6"
 
             variant="light"
           />

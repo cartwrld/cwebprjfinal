@@ -16,6 +16,8 @@ export default class TeamCard extends Mixins(GlobalMixin) {
   @Prop() private poke4!: number;
   @Prop() private poke5!: number;
   @Prop() private poke6!: number;
+  @Prop() private spriteURLs!: string[];
+
   @Prop() private sprite1!: string;
   @Prop() private sprite2!: string;
   @Prop() private sprite3!: string;
