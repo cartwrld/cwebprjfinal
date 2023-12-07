@@ -1,174 +1,237 @@
-<!-- eslint-disable max-len -->
-<!--
-This component will act an html form to edit new or existing pokemon objects
-The buttons at the bottom are connected to methods that will use axios to make AJAX calls to the pokemon API
-
-VUE JS Directives
-v-bind directive - https://vuejs.org/v2/api/#v-bind - 1 way communication from variables to control
-v-on directive - https://vuejs.org/v2/api/#v-on - vue event handler hook to call a method
-v-model directive - https://vuejs.org/v2/guide/forms.html - 2-way communication from form input to data variable ans vice versa
-
-USING short cuts:
-'v-bind:' can be shorted to just use the ':' -- example v-bind:disabled="isNew" can be shortened  :disabled="isNew"
-'v-on:' can be shortened to just use @   -- example v-on:click="deletePokemon" can be shortened  @click="deletePokemon"
-
-USING Bootstrap-vue components: https://bootstrap-vue.org/docs/components
-b-form-group -- https://bootstrap-vue.org/docs/components/form-group
-b-input-group -- https://bootstrap-vue.org/docs/components/input-group
-b-input-group-prepend -- https://bootstrap-vue.org/docs/components/input-group#using-prepend-and-append-props
-v-b-tooltip directive -- https://bootstrap-vue.org/docs/components/tooltip#v-b-tooltip-directive-usage
-b-form-input -- https://bootstrap-vue.org/docs/components/form-input
-b-button-group -- https://bootstrap-vue.org/docs/components/button-group
-b-button -- https://bootstrap-vue.org/docs/components/button
-b-icon animation -- https://bootstrap-vue.org/docs/icons#animated-icons
-b-modal -- https://bootstrap-vue.org/docs/components/modal#using-v-model-property
--->
-
 <template>
-  <div>
-    <!-- FAMILY NAME -->
-    <!--    invalid-feedback prop is bound to the data variable object 'violation' and its familyName attribute
-        hasErr prop is bound to the computed object 'hasErr' and it's ln attribute-->
-    <b-form-group :invalid-feedback="violation.familyName" :has-err="hasErr.fN" class="mb-1">
+  <div class="">
+  <div class="">
+    <!-- POKE ID -->
+    <b-form-group :invalid-feedback="violation.pokeID" :has-err="hasErr.pokeID" class="mb-1">
       <b-input-group>
-        <!--    tooltip hovers to the right of the prepend div-->
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.fN">
-          <!--    add icon to left of input box and the title attribute is bound to the data variable object 'dt' and its ln attribute-->
-          <b-icon-people-fill :title="dt.fN" />
+        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.pkid" class="d-flex">
+          <b-icon-hash :title="dt.pkid" class=""/>
         </b-input-group-prepend>
-        <!--    form input, placeholder attribute bound to data variable object 'dt' and its ln attribute
-                disabled prop is bound to computed property isDisabled
-                value of form input is 2-way bound to the data variable object 'tempPokemon' and its familyName attribute
-                trim directive removes white space at start or end of user entry
-                when a key is pressed down the violation message for the field is cleared thus hiding the violation from the user
-                -->
-        <b-form-input
-          :placeholder="dt.fN"
-          :has-err="hasErr.fN"
+        <b-form-input class="rounded"
+          :placeholder="dt.pkid"
+          v-model="tempPokemon.pokeID"
+          :has-err="hasErr.pokeID"
           :disabled="isDisabled"
-          v-model="tempPokemon.familyName"
           trim
-          @keydown="violation.familyName = null" />
+          @keydown="violation.pokeID = null"
+        />
       </b-input-group>
     </b-form-group>
 
-    <!-- GIVEN NAME -->
-    <b-form-group :invalid-feedback="violation.givenName" :has-err="hasErr.gN" class="mb-1">
+    <div class="border border-1 my-3 w-100"></div>
+
+
+    <!-- NAME -->
+    <b-form-group :invalid-feedback="violation.pokeName" :has-err="hasErr.pokeName" class="mb-1">
       <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.gN">
-          <b-icon-person-fill :title="dt.gN" />
+        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.name" class="d-flex">
+          <b-icon-person-fill :title="dt.name"/>
         </b-input-group-prepend>
-        <b-form-input
-          :placeholder="dt.gN"
-          :has-err="hasErr.gN"
+        <b-form-input class="rounded"
+          :placeholder="dt.name"
+          :has-err="hasErr.pokeName"
           :disabled="isDisabled"
-          v-model="tempPokemon.givenName"
+          v-model="tempPokemon.pokeName"
           trim
-          @keydown="violation.givenName = null" />
+          @keydown="violation.pokeName = null"/>
       </b-input-group>
     </b-form-group>
 
-    <!-- EMAIL -->
-    <b-form-group :invalid-feedback="violation.email" :has-err="hasErr.em" class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.em">
-          <b-icon-envelope-fill :title="dt.em" />
+    <div class="border border-1 my-3 w-100"></div>
+
+    <div class="d-flex justify-content-start">
+
+
+      <!-- TYPE 1 -->
+      <b-form-group :invalid-feedback="violation.pokeType1" :has-err="hasErr.pokeType1"
+                    class="mb-1 col-7">
+        <b-input-group>
+          <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.t1" class="d-flex">
+            <b-icon-textarea-t :title="dt.t1"/>
+          </b-input-group-prepend>
+          <b-form-select class="rounded border px-4 pe-5"
+                         :options="pokeTypes"
+                         v-model="tempPokemon.pokeType1"
+                         :has-err="hasErr.t1"
+                         :disabled="isDisabled"
+                         @change="updateTypes"
+          />
+        </b-input-group>
+      </b-form-group>
+
+      <!-- TYPE 2 -->
+      <b-form-group :invalid-feedback="violation.pokeType2" :has-err="hasErr.pokeType2"
+                    class="mb-1 col-6">
+        <b-input-group>
+          <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.t2" class="d-flex">
+            <b-icon-textarea-t :title="dt.t2"/>
+          </b-input-group-prepend>
+          <b-form-select class="rounded border px-4 pe-5"
+                         :options="pokeTypes"
+                         v-model="tempPokemon.pokeType2"
+                         :has-err="hasErr.t2"
+                         :disabled="isDisabled"
+                         @change="updateTypes"
+          />
+        </b-input-group>
+      </b-form-group>
+    </div>
+
+    <div class="border border-1 my-3 w-100"></div>
+
+    <div class="d-flex justify-content-between">
+      <div class="d-flex flex-wrap col-5">
+
+        <!-- HP -->
+        <b-form-group :invalid-feedback="violation.hp" :has-err="hasErr.hp" class="mb-1">
+          <b-input-group>
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.hp" class="d-flex">
+              <b-icon-heart-fill :title="dt.hp"/>
+            </b-input-group-prepend>
+            <b-form-input class="rounded"
+              :placeholder="dt.hp"
+              :has-err="hasErr.hp"
+              :disabled="isDisabled"
+              v-model="tempPokemon.hp"
+              trim
+              @keydown="violation.hp = null"/>
+          </b-input-group>
+        </b-form-group>
+
+        <!-- ATK -->
+        <b-form-group :invalid-feedback="violation.atk" :has-err="hasErr.atk" class="mb-1">
+          <b-input-group>
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.atk" class="d-flex">
+              <b-icon-heart-fill :title="dt.atk"/>
+            </b-input-group-prepend>
+            <b-form-input class="rounded"
+              :placeholder="dt.atk"
+              :has-err="hasErr.atk"
+              :disabled="isDisabled"
+              v-model="tempPokemon.atk"
+              trim
+              @keydown="violation.atk = null"/>
+            <div v-if="hasErr.atk" class="text-danger">you have an error</div>
+          </b-input-group>
+        </b-form-group>
+
+        <!-- DEF -->
+        <b-form-group :invalid-feedback="violation.def" :has-err="hasErr.def" class="mb-1">
+          <b-input-group>
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.def" class="d-flex">
+              <b-icon-heart-fill :title="dt.def"/>
+            </b-input-group-prepend>
+            <b-form-input class="rounded"
+              :placeholder="dt.def"
+              :has-err="hasErr.def"
+              :disabled="isDisabled"
+              v-model="tempPokemon.def"
+              trim
+              @keydown="violation.def = null"/>
+          </b-input-group>
+        </b-form-group>
+      </div>
+      <div class="d-flex flex-wrap col-5">
+        <!-- SPATK -->
+        <b-form-group :invalid-feedback="violation.spatk" :has-err="hasErr.spatk" class="mb-1">
+          <b-input-group>
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.spatk" class="d-flex">
+              <b-icon-heart-fill :title="dt.spatk"/>
+            </b-input-group-prepend>
+            <b-form-input class="rounded"
+              :placeholder="dt.spatk"
+              :has-err="hasErr.spatk"
+              :disabled="isDisabled"
+              v-model="tempPokemon.spatk"
+              trim
+              @keydown="violation.spatk = null"/>
+          </b-input-group>
+        </b-form-group>
+
+        <!-- SPDEF -->
+        <b-form-group :invalid-feedback="violation.spdef" :has-err="hasErr.spdef" class="mb-1">
+          <b-input-group>
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.spdef" class="d-flex">
+              <b-icon-heart-fill :title="dt.spdef"/>
+            </b-input-group-prepend>
+            <b-form-input class="rounded"
+              :placeholder="dt.spdef"
+              :has-err="hasErr.spdef"
+              :disabled="isDisabled"
+              v-model="tempPokemon.spdef"
+              trim
+              @keydown="violation.spdef = null"/>
+          </b-input-group>
+        </b-form-group>
+
+        <!-- SPD -->
+        <b-form-group :invalid-feedback="violation.spd" :has-err="hasErr.spd" class="mb-1">
+          <b-input-group>
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.spd" class="d-flex">
+              <b-icon-heart-fill :title="dt.spd"/>
+            </b-input-group-prepend>
+            <b-form-input class="rounded"
+              :placeholder="dt.spd"
+              :has-err="hasErr.spd"
+              :disabled="isDisabled"
+              v-model="tempPokemon.spd"
+              trim
+              @keydown="violation.spd = null"/>
+          </b-input-group>
+        </b-form-group>
+      </div>
+    </div>
+
+    <div class="border border-1 my-3 w-100"></div>
+
+    <!-- SPRITE should be a select box and you pick from a picture for your pokemon -->
+    <b-form-group :invalid-feedback="violation.sprite" :has-err="hasErr.sprite" class="mb-1 col-12">
+      <b-input-group class="col-12 d-flex justify-content-start">
+        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.sprite" class="d-flex  ">
+          <b-icon-image-fill :title="dt.sprite"/>
         </b-input-group-prepend>
-        <b-form-input
-          :placeholder="dt.em"
-          :has-err="hasErr.em"
+        <b-form-select class="rounded border px-4 pe-5 col"
+          :options="sprites"
+          v-model="tempPokemon.sprite"
+          :has-err="hasErr.sprite"
           :disabled="isDisabled"
-          v-model="tempPokemon.email"
-          trim
-          @keydown="violation.email = null" />
+          @change="updateTypes"
+        />
       </b-input-group>
     </b-form-group>
 
-    <!-- ADDRESS -->
-    <b-form-group :invalid-feedback="violation.address" :has-err="hasErr.sA" class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.sA">
-          <b-icon-house-fill :title="dt.sA" />
-        </b-input-group-prepend>
-        <b-form-input
-          :placeholder="dt.sA"
-          :has-err="hasErr.sA"
-          :disabled="isDisabled"
-          v-model="tempPokemon.address"
-          trim
-          @keydown="violation.address = null" />
-      </b-input-group>
-    </b-form-group>
-
-    <!-- PHONE-->
-    <b-form-group :invalid-feedback="violation.phone" :has-err="hasErr.pn" class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.pn">
-          <b-icon-telephone-fill :title="dt.pn" />
-        </b-input-group-prepend>
-        <b-form-input
-          :placeholder="dt.pn"
-          :has-err="hasErr.pn"
-          :disabled="isDisabled"
-          v-model="tempPokemon.phone"
-          trim
-          @keydown="violation.phone = null" />
-      </b-input-group>
-    </b-form-group>
+    <div class="border border-1 my-3 w-100"></div>
 
     <!-- BUTTONS -->
     <b-button-group class="w-100 mb-3">
-      <!--    save button,  onclick call the savePokemon function
-        disabled prop is bound to the computed property 'isDisabled' -->
       <b-button variant="primary" :disabled="isDisabled" @click="savePokemon">
-        <!--    use a cloud icon, add a ref (reference) to this icon as 'iconSave' so we can animate it when savePokemon is called
-            https://vuejs.org/v2/api/#ref -->
-        <b-icon-cloud-arrow-up-fill ref="iconSave" /> Save</b-button>
-      <b-button variant="danger" :disabled="isDisabled || isNew" @click="deleteConfirm">
-        <!--    use a trash icon, add a ref (reference) to this icon as 'iconDelete' so we can animate it when deletePokemon is called
-            https://vuejs.org/v2/api/#ref -->
-        <b-icon-trash-fill ref="iconDelete" /> Delete</b-button>
-      <b-button variant="primary" :disabled="isDisabled" @click="cancel">
-        <b-icon-x-square-fill /> Cancel</b-button>
+        <b-icon-cloud-arrow-up-fill ref="iconSave"/>
+        Save Poke
+      </b-button>
+      <b-button variant="danger" :disabled="isDisabled" @click="cancel">
+        <b-icon-x-square-fill/>
+        Cancel
+      </b-button>
     </b-button-group>
 
-    <!-- DELETE CONFIRM -- show hide the modal using the showConfirmDelete data variable as a model -->
-    <b-modal
-      title="Delete Pokemon"
-      ok-variant="danger"
-      cancel-variant="primary"
-      @ok="deletePokemon"
-      v-model="showConfirmDelete">
-      <!--    using slots -- https://vuejs.org/v2/guide/components-slots.html
-        slot defined in b-modal -- https://bootstrap-vue.org/docs/components/modal#comp-ref-b-modal-slots
-        modify the buttons that appear in the footer of the modal using pre-defined slots-->
-      <template #modal-cancel>
-        <!-- add a X icon to the cancel button-->
-        <b-icon-x-square-fill /> Cancel
-      </template>
-
-      <template #modal-ok>
-        <!-- change the OK button to say Delete instead and add a trash can icon-->
-        <b-icon-trash-fill /> Delete
-      </template>
-      Are you sure you want to delete {{tempPokemon.familyName}}, {{tempPokemon.givenName}}?
-    </b-modal>
+    <!-- DELETE CONFIRM -->
+    <!-- Modify the delete confirmation modal content accordingly -->
 
     <!-- ERROR MESSAGE -->
-    <!--    only show this alert when there is an violationMessage attribute in the data variable object 'violation'    -->
     <b-alert variant="danger" :show="violation.violationMessage">
-      {{violation.violationMessage}}
+      {{ violation.violationMessage }}
     </b-alert>
-    <!--    ONLY SHOW debug info (very ugly) if the debug prop is set to true-->
+
+    <!-- DEBUG INFO -->
     <b-alert variant="secondary" dismissible :show="debug">
       <pre>
-PROPS:
-{{$props}}
-
-DATA:
-{{$data}}
-        </pre>
+        PROPS:
+        {{ $props }}
+        DATA:
+        {{ $data }}
+      </pre>
     </b-alert>
+  </div>
   </div>
 </template>
 
@@ -183,13 +246,17 @@ import GlobalMixin from '@/mixins/global-mixin';
 
 @Component
 export default class PokemonForm extends Mixins(GlobalMixin) {
-  @Prop({ type: Object, validator: (s) => s instanceof Object }) readonly pokemon: any;
+  @Prop({
+    type: Object,
+    validator: (s) => s instanceof Object
+  }) readonly pokemon: any;
 
   $refs!: {
     iconDelete: BIcon
-    iconSave : BIcon
+    iconSave: BIcon
   };
 
+  token = 'iHaveWriteAccess';
   // region DATA VARIABLES
   // will store a copy of the values from the pokemon declared in the props section
   tempPokemon: Pokemon = new Pokemon();
@@ -198,29 +265,78 @@ export default class PokemonForm extends Mixins(GlobalMixin) {
 
   dt = {
     // Display Text - object that stores text to display to the user instead of the attribute names
-
-
-pkid:       'Poke ID',
-name:       'Name',
-t1:         'Type 1',
-t2:         'Type 2',
-gen:        'Generation',
-hp:         'HP',
-atk:        'ATK',
-def:        'DEF',
-spatk:      'SP ATK',
-spdef:      'SP DEF',
-spd:        'SPD',
-sprite:     'Sprite'
-
+    pkid: 'Poke ID',
+    name: 'Name',
+    t1: 'Type 1',
+    t2: 'Type 2',
+    gen: 'Generation',
+    hp: 'HP',
+    atk: 'ATK',
+    def: 'DEF',
+    spatk: 'SP ATK',
+    spdef: 'SP DEF',
+    spd: 'SPD',
+    sprite: 'Sprite'
   };
+
+  // Pokemon types for combo boxes
+  pokeTypes = ['', 'normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground',
+    'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
+
+  sprites = [
+    {
+      text: 'Ditto',
+      value: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png'
+    },
+    // Add other sprite options as needed
+  ];
 
   showConfirmDelete = false;
   // endregion
 
   // region METHODS
+
+  // Method to update types and ensure they are different
+  updateTypes() {
+    if (this.tempPokemon.pokeType1 === this.tempPokemon.pokeType2) {
+      this.tempPokemon.pokeType2 = '';
+    }
+
+    const selectedSprite = this.sprites.find(sprite => sprite.value === this.tempPokemon.sprite);
+    if (selectedSprite) {
+      this.tempPokemon.sprite = selectedSprite.value; // Set the selected sprite URL
+    }
+  }
+
   savePokemon() {
-    const icon:BIcon = this.$refs.iconSave; // get the icon to animate from the vue refs https://vuejs.org/v2/api/#ref
+    // Initialize properties with default values
+    this.tempPokemon.pokeID = this.tempPokemon.pokeID !== undefined ? this.tempPokemon.pokeID : 0;
+    this.tempPokemon.hp = this.tempPokemon.hp !== undefined ? this.tempPokemon.hp : 0;
+    this.tempPokemon.atk = this.tempPokemon.atk !== undefined ? this.tempPokemon.atk : 0;
+    this.tempPokemon.def = this.tempPokemon.def !== undefined ? this.tempPokemon.def : 0;
+    this.tempPokemon.spatk = this.tempPokemon.spatk !== undefined ? this.tempPokemon.spatk : 0;
+    this.tempPokemon.spdef = this.tempPokemon.spdef !== undefined ? this.tempPokemon.spdef : 0;
+    this.tempPokemon.spd = this.tempPokemon.spd !== undefined ? this.tempPokemon.spd : 0;
+
+// Convert string values to numbers
+    this.tempPokemon.pokeID = parseInt(this.tempPokemon.pokeID as unknown as string, 10);
+    this.tempPokemon.hp = parseInt(this.tempPokemon.hp as unknown as string, 10);
+    this.tempPokemon.atk = parseInt(this.tempPokemon.atk as unknown as string, 10);
+    this.tempPokemon.def = parseInt(this.tempPokemon.def as unknown as string, 10);
+    this.tempPokemon.spatk = parseInt(this.tempPokemon.spatk as unknown as string, 10);
+    this.tempPokemon.spdef = parseInt(this.tempPokemon.spdef as unknown as string, 10);
+    this.tempPokemon.spd = parseInt(this.tempPokemon.spd as unknown as string, 10);
+
+// Now you can safely use these properties
+// ...
+
+// Ensure other properties are not undefined and assign default values if needed
+    this.tempPokemon.pokeName = this.tempPokemon.pokeName || '';
+    this.tempPokemon.pokeType1 = this.tempPokemon.pokeType1 || '';
+    this.tempPokemon.pokeType2 = this.tempPokemon.pokeType2 || '';
+    this.tempPokemon.sprite = this.tempPokemon.sprite || '';
+
+    const icon: BIcon = this.$refs.iconSave; // get the icon to animate from the vue refs https://vuejs.org/v2/api/#ref
     this.setBusy(true);// tell parent that this component is waiting for the api to respond
     this.animate(icon, true);// animate the icon in the clicked button to give the user an indication that some thing is happening
     this.violation = {};// empty out violation messages - to hide violation message from user and wait for new violations from the api
@@ -230,6 +346,8 @@ sprite:     'Sprite'
     const url = this.POKEMON_API + (this.isNew ? '' : `/${this.tempPokemon.pokeID}`);
     const method = this.isNew ? 'post' : 'put';
 
+    // console.log(this.tempPokemon);
+
     this.callAPI(url, method, this.tempPokemon) // returns a promise object
       .then((data) => {
         // determine if the pokemon was added or updated
@@ -237,12 +355,16 @@ sprite:     'Sprite'
       })
       .catch((err) => {
         // get the violation messages from the api - if the web server responded
+        //console.log(this.violation);
         this.violation = err.data || {};
+        //console.log(this.violation);
       })
       .finally(() => {
         this.setBusy(false);// tell parent that this component is no longer waiting for the api
         this.animate(icon, false);// stop the icon animation
       });
+
+    //window.location.reload();
   }
 
   cancel() {
@@ -251,33 +373,7 @@ sprite:     'Sprite'
     this.$emit('cancelled', this.pokemon); // tell parent that cancel was called
   }
 
-  deletePokemon() {
-    const icon:BIcon = this.$refs.iconDelete; // get the icon to animate from the vue refs https://vuejs.org/v2/api/#ref
-    this.setBusy(true);// tell parent that this component is waiting for the api
-    this.animate(icon, true);// animate the icon the clicked button
-    this.violation = {};// empty out violation messages
-    this.callAPI(`${this.POKEMON_API}/${this.tempPokemon.pokeID}`, 'delete')
-      .then((res) => {
-        this.tempPokemon = new Pokemon();
-        this.$emit('deleted', this.pokemon);// tell parent pokemon was deleted
-      })
-      .catch(() => {
-        this.$emit('reset', this.pokemon);
-      })
-      .finally(() => {
-        this.setBusy(false);// tell parent that this component is no longer waiting for the api
-        this.animate(icon, false);// stop the icon animation
-      });
-  }
-
-  deleteConfirm() {
-    this.cancel(); // reset values - in case user edited before attempting to delete
-    this.showConfirmDelete = true; // show the modal confirm message
-    // IMPORTANT- the b-modal built-in "ok" "and "cancel" buttons automatically close/hide the modal
-    // closing the modal automatically updates the showConfirmDelete
-  }
-
-  animate(icon:BIcon, start:boolean) {
+  animate(icon: BIcon, start: boolean) {
     if (start) {
       // apply animation style to the icon
       icon.classList.add('b-icon-animation-cylon-vertical');
@@ -293,18 +389,18 @@ sprite:     'Sprite'
   get hasErr(): any {
     return { // bootstrap hasErrs used to display violation messages
       // true - green border, false - red border, null- regular border
-      pkID: this.violation.familyName ? false : null,
-      pkN: this.violation.givenName ? false : null,
-      t1: this.violation.email ? false : null,
-      t2: this.violation.address ? false : null,
-      gen: this.violation.address ? false : null,
-      hp: this.violation.phone ? false : null,
-      atk: this.violation.phone ? false : null,
-      def: this.violation.phone ? false : null,
-      spatk: this.violation.phone ? false : null,
-      spdef: this.violation.phone ? false : null,
-      spd: this.violation.phone ? false : null,
-      sprite: this.violation.phone ? false : null,
+      pokeID: this.violation.pokeID ? false : null,
+      pokeName: this.violation.pokeName ? false : null,
+      pokeType1: this.violation.pokeType1 ? false : null,
+      pokeType2: this.violation.pokeType2 ? false : null,
+      gen: this.violation.gen ? false : null,
+      hp: this.violation.hp ? false : null,
+      atk: this.violation.atk ? false : null,
+      def: this.violation.def ? false : null,
+      spatk: this.violation.spatk ? false : null,
+      spdef: this.violation.spdef ? false : null,
+      spd: this.violation.spd ? false : null,
+      sprite: this.violation.sprite ? false : null,
     };
   }
 

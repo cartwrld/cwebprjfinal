@@ -1,30 +1,29 @@
 <template>
-  <div class="">
+  <div class="border">
     <h1 class="pb-5">Pokemon</h1>
 
-    <div class="d-flex justify-content-center align-items-center p-5 mb-4 rounded-4 bg-dark-subtle shadow-sm">
-      <div class="d-flex justify-content-between align-items-center  w-100">
-        <div class="d-flex justify-content-center align-items-center ">
-          <h4 class="">Search for a Pokemon:</h4>
-        </div>
-        <div class="d-flex justify-content-center align-items-center rounded w-50 shadow">
-
-          <PokemonSearch
-            class="col-12"
-            min-search-length="3"
-            @busy="setBusy"
-            :pokemon="fetchedPokes"
-            @pokemonSelected="handlePokeCardSelected"
-            @search-query-changed="handleSearchQueryChange"
-          />
-        </div>
-        <div class="d-flex justify-content-center align-items-center">
-          <b-button variant="success" class="fw-semibold shadow" @click="openAddPokemonModal">
-            <b-icon-cloud-arrow-up-fill class="me-2"/>
-            <span class="ms-1">Add Pokemon</span>
-          </b-button>
-        </div>
+    <div class="d-flex justify-content-center align-items-center  p-5 rounded-4">
+    <div class="d-flex justify-content-between align-items-center  w-100">
+      <div class="d-flex justify-content-center align-items-center ">
+        <h4>Search for a Pokemon:</h4>
       </div>
+      <div class="d-flex justify-content-center align-items-center rounded w-50 shadow-sm">
+
+        <PokemonSearch
+          class="col-12"
+          min-search-length="3"
+          @busy="setBusy"
+          :pokemon="fetchedPokes"
+          @pokemonSelected="handlePokeCardSelected"
+          @search-query-changed="handleSearchQueryChange"
+        />
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <b-button variant="success" class="fw-semibold shadow-sm" @click="openAddPokemonModal">
+          <b-icon-cloud-arrow-up-fill class="me-2"/><span class="ms-1">Add Pokemon</span>
+        </b-button>
+      </div>
+    </div>
     </div>
 
     <b-modal v-model="viewPokemon" title="Add Pokemon" @hidden="handleModalHidden" hide-footer>
@@ -38,33 +37,15 @@
     </b-modal>
 
     <div class="d-flex justify-content-center w-100">
-      <div class="border border-1 my-4 mb-5 w-75 px-5"></div>
+      <div class="border border-1 my-3 mb-5 w-75 px-5"></div>
     </div>
 
 
     <!-- Iterate over each pokemon and create a PokeCard for each one -->
-    <div class="d-flex justify-content-center align-items-center mb-5">
-
-<!--      PREVIOUS PAGE BUTTON    -->
-      <div class="shadow-sm bg-dark-subtle rounded-3 p-2">
-
-      <b-button
-        v-if="currentPage > 1"
-        @click="prevPage"
-        class="bg-white border shadow-sm">
-        <b-icon-chevron-double-left variant="dark"></b-icon-chevron-double-left>
-      </b-button>
-      <b-button
-        v-if="currentPage === 1"
-        disabled
-        class="bg-white border shadow-sm">
-        <b-icon-chevron-double-left variant="dark"></b-icon-chevron-double-left>
-      </b-button>
-      </div>
-
+    <div class="d-flex justify-content-center align-items-center">
       <div class="d-flex flex-wrap col-11 justify-content-center">
-        <div v-for="pokemon in paginatedPokemonList()" :key="pokemon.pokeID"
-             class="d-flex justify-content-center">
+
+        <div v-for="pokemon in filteredPokemonList" :key="pokemon.pokeID" class="d-flex justify-content-center">
           <PokeCard
             :poke-i-d="pokemon.pokeID"
             :poke-name="pokemon.pokeName"
@@ -83,85 +64,38 @@
             @deleted="handleDelete"
           />
         </div>
-
       </div>
-
-      <!--      NEXT PAGE BUTTON    -->
-      <div class="shadow-sm bg-dark-subtle rounded-3 p-2">
-      <b-button
-        v-if="currentPage < Math.ceil(filteredPokemonList.length / this.itemsPerPage)"
-        @click="nextPage"
-        class="bg-light border shadow-sm">
-        <b-icon-chevron-double-right variant="dark" class=" "></b-icon-chevron-double-right>
-      </b-button>
-      <b-button
-        v-if="currentPage === Math.ceil(this.filteredPokemonList.length / this.itemsPerPage)"
-        disabled
-        class="bg-light border shadow-sm">
-        <b-icon-chevron-double-right variant="dark" class=""></b-icon-chevron-double-right>
-      </b-button>
     </div>
-    </div>
-
-
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Mixins } from 'vue-property-decorator';
+import { Vue, Component, Mixins  } from 'vue-property-decorator';
 import { BTable, BvTableCtxObject } from 'bootstrap-vue/src/components/table';
 import PokeCard from '@/components/PokeCard.vue';
 import fetchData from '../services/apiService';
-import { capFirstLetter } from '@/services/utils';
+import {capFirstLetter} from "@/services/utils";
 import GlobalMixin from '@/mixins/global-mixin';
 import AutoSearch from '@/components/AutoSearch.vue';
 import PokemonForm from '@/components/PokemonForm.vue';
 import Pokemon from '@/models/Pokemon';
-import PokemonSearch from '@/components/PokemonSearch.vue';
+import PokemonSearch from "@/components/PokemonSearch.vue";
 
 @Component({
-  components: {
-    PokemonForm,
-    PokemonSearch,
-    PokeCard
-  },
-
+  components: {PokemonForm, PokemonSearch, PokeCard },
 })
-export default class PokemonView extends Mixins(GlobalMixin) {
+export default class PokemonView  extends Mixins(GlobalMixin){
   fetchedPokes: any = null;
 
   filteredPokemonList: Pokemon[] = [];
 
   token = 'iHaveReadAccess';
-
   viewPokemon = false;
-  addPokemon = false;
+  // token = '';
 
-  currentPage = 1;
-  itemsPerPage = 18;
-
-  paginatedPokemonList() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.filteredPokemonList.slice(start, end);
+  provider(ctx:BvTableCtxObject):Promise<any> {
+    // return fetch('' + ctx.apiUrl).then(res => res.json())
+    return this.callAPI(`${ctx.apiUrl}`);
   }
-
-  nextPage() {
-    const maxPage = Math.ceil(this.filteredPokemonList.length / this.itemsPerPage);
-    if (this.currentPage < maxPage) {
-      this.currentPage++;
-    }
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-
-  // provider(ctx: BvTableCtxObject): Promise<any> {
-  //   // return fetch('' + ctx.apiUrl).then(res => res.json())
-  //   return this.callAPI(`${ctx.apiUrl}`);
-  // }
 
   // Method to fetch data
   async fetchData() {
@@ -178,6 +112,7 @@ export default class PokemonView extends Mixins(GlobalMixin) {
   async mounted() {
     await this.fetchData();
   }
+
   showPokeModal(): void {
     this.viewPokemon = true;
   }
@@ -219,9 +154,9 @@ export default class PokemonView extends Mixins(GlobalMixin) {
       // If the search query is empty, reset the filtered list
       this.filteredPokemonList = this.fetchedPokes;
     } else {
-      this.filteredPokemonList = this.fetchedPokes.filter((pokemon: { pokeName: any; }) =>
-        (pokemon.pokeName ?? '').toLowerCase().includes(query.toLowerCase())
-      );}
+    this.filteredPokemonList = this.fetchedPokes.filter((pokemon: { pokeName: any; }) =>
+      (pokemon.pokeName ?? '').toLowerCase().includes(query.toLowerCase())
+    );}
   }
 
   selectRow(item:any) {
