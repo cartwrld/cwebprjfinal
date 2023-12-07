@@ -1,7 +1,7 @@
 <template>
-  <div class="border">
+  <div class="">
 
-    <h1>PokeTeams</h1>
+    <h1 class="pb-5">PokeTeams</h1>
     <div class="d-flex justify-content-center align-items-center p-5 mb-4 rounded-4 bg-dark-subtle shadow-sm">
       <div class="d-flex justify-content-between align-items-center w-100">
         <div class="d-flex justify-content-center align-items-center">

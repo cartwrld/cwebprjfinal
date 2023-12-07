@@ -1,29 +1,34 @@
 <template>
-  <div>
+  <div class="d-flex flex-column justify-content-center align-items-center">
     <!-- Header -->
     <div class="mb-4">
       <h1>Welcome to PowerPoke!</h1>
     </div>
 
     <!-- Buttons -->
-    <div class="mb-4 d-flex justify-content-center ">
-      <div class="d-flex justify-content-center align-items-center p-2 h2">
-        <b-button variant="primary">
-          <b-icon-circle-half rotate="90deg" variant="danger bg-light rounded-5 me-2"></b-icon-circle-half>
-          View Pokemon
+    <div class="mb-4 d-flex justify-content-around col-8 ">
+      <div class="d-flex justify-content-center align-items-center p-2 h2 col-4 bg-primary-subtle rounded-4 shadow-sm" >
+        <b-button variant="light" @click="goTo('/pokemon')" class="shadow rounded-3 border border-body-secondary p-4 col-12">
+<!--          <b-icon-circle-half rotate="90deg" variant="danger bg-light rounded-5 me-2"></b-icon-circle-half>-->
+          <img src="../assets/pokeball_star3.png" alt="pkbl" width="100px">
+          <h4 class="p-0 m-0 mt-3">View Pokemon</h4>
         </b-button>
       </div>
-      <div class="d-flex justify-content-center align-items-center p-2 h2">
-        <b-button variant="secondary">
-          View PokeTeams
+      <div class="d-flex justify-content-center align-items-center p-2 h2 col-4 bg-danger-subtle rounded-4 shadow-sm mx-5">
+        <b-button variant="light" @click="goTo('/poketeam')" class="shadow rounded-3 border border-body-secondary p-4 col-12">
+          <img src="../assets/pokeball_triple.png" alt="pkbl" width="100px">
+          <h4 class="p-0 m-0 mt-3">View PokeTeams</h4>
         </b-button>
       </div>
-      <div class="d-flex justify-content-center align-items-center p-2 h2">
-        <b-button variant="success">
-          View Users
+      <div class="d-flex justify-content-center align-items-center p-2 h2 col-4 bg-info-subtle rounded-4 shadow-sm">
+        <b-button variant="light" @click="goTo('/users')" class="shadow rounded-3 border border-body-secondary p-4 col-12">
+          <img src="../assets/pokeuser.png" alt="pkbl" width="100px">
+          <h4 class="p-0 m-0 mt-3">View Users</h4>
         </b-button>
       </div>
     </div>
+
+    <div class="border border-1 my-3 w-100"></div>
 
     <!-- Cards for Popular Pokemon -->
     <div class="d-flex flex-column">
@@ -92,6 +97,10 @@ export default class PokemonLayout extends GlobalMixin {
   // Lifecycle hooks
   mounted() {
     this.fetchAllPokemon();
+  }
+
+  goTo(path) {
+    this.$router.push(path);
   }
 }
 </script>
