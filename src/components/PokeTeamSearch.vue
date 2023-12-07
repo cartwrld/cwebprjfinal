@@ -1,24 +1,25 @@
 <template>
-  <div>
+  <div class="shadow-sm">
     <b-input-group>
-      <b-input-group-prepend v-b-tooltip.hover.right="'Search'" is-text>
-        <b-icon-search variant="info" />
-      </b-input-group-prepend>
-      <b-input type="search" debounce="500" placeholder="Search" class="bg-light text-info"
-               v-model="query" @focus="hasFocus=true;" @blur="hasFocus=false" />
+
+      <b-input type="search" debounce="500" placeholder="Search" class="text-info "
+               v-model="query" @focus="hasFocus=true;" @blur="hasFocus=false"/>
+      <b-input-group-append v-b-tooltip.hover.right="'Search'" is-text class="rounded">
+        <b-icon-search variant="info" @click="filterPokeTeams" scale="1.1" class="my-1"/>
+      </b-input-group-append>
     </b-input-group>
 
     <b-list-group class="shadow autocomplete-list" v-show="showList" @mousedown.prevent>
       <b-list-group-item v-if="isBusy" variant="info">
-        <b-spinner small />
+        <b-spinner small/>
       </b-list-group-item>
-      <b-list-group-item v-else-if="results.length == 0" variant="warning">
-        No Teams Found matching the criteria
+      <b-list-group-item v-else-if="results.length == 0" variant="warning" class="w-25">
+        No PokeTeam Found matching the criteria
       </b-list-group-item>
-      <b-list-group-item v-else v-for="pokeTeam in results" :key="pokeTeam.teamID"
-                         @click="selected(pokeTeam)" button>
-        <div class="row">
-          <div class="col-4 col-lg-6">{{pokeTeam.teamName}}</div>
+      <b-list-group-item v-for="team in results" :key="team.teamID"
+                         @click="handlePokeTeamSelected(team)" button>
+        <div class="">
+          <div class="col-4 col-lg-6">{{ team.teamName }}</div>
           <!--          <div class="col-4 col-lg-6">{{pokeTeam.address}}</div>-->
           <!--          <div class="col-4 col-lg-12">{{pokeTeam.phone}}</div>-->
         </div>
@@ -29,13 +30,14 @@
     <b-alert variant="secondary" dismissible :show="debug">
       <pre>
 PROPS:
-{{$props}}
+{{ $props }}
 
 DATA:
-{{$data}}
+{{ $data }}
         </pre>
     </b-alert>
   </div>
+
 </template>
 
 <script lang="ts">
@@ -44,6 +46,8 @@ import {
   Component, Prop, Mixins, Emit, Watch,
 } from 'vue-property-decorator';
 import GlobalMixin from '@/mixins/global-mixin';
+import Pokemon from "@/models/Pokemon";
+import PokeTeam from "@/models/PokeTeam";
 
 @Component
 export default class PokeTeamSearch extends Mixins(GlobalMixin) {
@@ -52,25 +56,42 @@ export default class PokeTeamSearch extends Mixins(GlobalMixin) {
    * https://vuejs.org/v2/guide/components.html#Passing-Data-to-Child-Components-with-Props
    * Decorator: https://github.com/kaorun343/vue-property-decorator#Prop
    */
-  @Prop({ default: 2 }) readonly minSearchLength!:number
-
+  @Prop({default: 2}) readonly minSearchLength!: number
+  @Prop(Array) readonly pktms!: PokeTeam[]; // New prop for the array to be searched
   // data variables are constantly monitored for changes and when their values change Vue 'refreshes' the display
-  query= '' // search string to send to api
+  query = '' // search string to send to api
 
-  results= [] // array of student object returned by the api
+  selectedPokeTeam = new PokeTeam();
 
-  hasFocus= false // used to determine whether to show list of students or hide them
+  results: PokeTeam[] = []  // array of student object returned by the api
+
+  hasFocus = false // used to determine whether to show list of students or hide them
 
   /** EMITS are one-way communication from this child component to the parent ( child -> parent )
    * https://vuejs.org/v2/guide/components.html#Emitting-a-Value-With-an-Event
    * Trigger an event on the current instance. Any additional arguments will be passed into the listener's callback function.
    * Decorator: https://github.com/kaorun343/vue-property-decorator#Emit
    */
-  @Emit()
-  selected(obj:any) {
-    this.hasFocus = false;
-    return obj;
+  filterPokeTeams() {
+    // Filter the array passed as a prop based on the search query
+    this.results = this.pktms.filter(item =>
+      (item.teamName ?? '').toLowerCase().includes(this.query.toLowerCase())
+    );
+
+    // Emit an event to notify the parent component about the search query change
+    this.$emit('search-query-changed', this.query);
   }
+
+
+  handlePokeTeamSelected(poketeam: PokeTeam): PokeTeam {
+    this.hasFocus = false;
+    this.selectedPokeTeam = poketeam;
+    this.query = poketeam.teamName!;
+    return poketeam;
+  }
+
+
+  // ================== UI FUNCTIONS ====================
 
   /** COMPUTED PROPERTIES are javascript functions that Vuejs uses as variables
    * https://vuejs.org/v2/guide/computed.html#Computed-Properties
@@ -80,7 +101,7 @@ export default class PokeTeamSearch extends Mixins(GlobalMixin) {
    *      correct example:   this.isNew
    *      wrong example:  this.isNew()
    */
-  get showList():boolean { // computed property to determine when to show or hide the list group
+  get showList(): boolean { // computed property to determine when to show or hide the list group
     return this.query.length >= this.minSearchLength && this.hasFocus;
   }
 
@@ -93,23 +114,19 @@ export default class PokeTeamSearch extends Mixins(GlobalMixin) {
    * Decorator: https://github.com/kaorun343/vue-property-decorator#Watch
    */
   @Watch('query')
-  // eslint-disable-next-line consistent-return
   onQueryChanged(newVal: string, oldVal: string) {
-    // if the student list is hidden or if the user is removing chars then don't call the api
-    if (!this.showList || newVal.length < oldVal.length) { return false; }
+    if (!this.showList || newVal.length < oldVal.length) {
+      if (newVal === '') {
+        // Reset selectedPokemon when the query becomes empty
+        this.selectedPokeTeam = new PokeTeam();
+      }
+      return false;
+    }
 
-    // tell parent this component is busy waiting for the api to respond
-    this.setBusy(true);
-    this.callAPI(this.POKETEAM_API, 'get', { _sort: 'teamName', _order: 'asc', q: this.query })
-      .then((data) => {
-        this.results = data;
-      })
-      .catch(() => {
-        this.results = []; // if error then empty out array of students
-      })
-      .finally(() => {
-        this.setBusy(false); // tell parent component that this component is no longer waiting for the api
-      });
+    // Filter the array passed as a prop based on the search query
+    this.results = this.pktms.filter(item =>
+      (item.teamName ?? '').toLowerCase().includes(this.query.toLowerCase())
+    );
   }
 }
 </script>
@@ -124,3 +141,4 @@ export default class PokeTeamSearch extends Mixins(GlobalMixin) {
   width: 90%
 }
 </style>
+

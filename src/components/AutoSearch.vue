@@ -141,17 +141,17 @@ export default class AutoSearch extends Mixins(GlobalMixin) {
     if (!this.showList || newVal.length < oldVal.length) { return false; }
 
     // tell parent this component is busy waiting for the api to respond
-    this.setBusy(true);
-    this.callAPI(this.STUDENT_API, 'get', { _sort: 'familyName', _order: 'asc', q: this.query })
-      .then((data) => {
-        this.results = data;
-      })
-      .catch(() => {
-        this.results = []; // if error then empty out array of students
-      })
-      .finally(() => {
-        this.setBusy(false); // tell parent component that this component is no longer waiting for the api
-      });
+    // this.setBusy(true);
+    this.callAPI(this.POKEMON_API, 'get', { _sort: 'familyName', _order: 'asc', q: this.query })
+    //   .then((data) => {
+    //     this.results = data;
+    //   })
+    //   .catch(() => {
+    //     this.results = []; // if error then empty out array of students
+    //   })
+    //   .finally(() => {
+    //     this.setBusy(false); // tell parent component that this component is no longer waiting for the api
+    //   });
   }
 }
 </script>

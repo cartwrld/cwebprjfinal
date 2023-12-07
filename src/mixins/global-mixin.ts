@@ -12,8 +12,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 const BASE_API = 'http://localhost:3006';
-const STUDENT_API = `${BASE_API}/students`;
-const PRODUCT_API = `${BASE_API}/products`;
 const POKEMON_API = `${BASE_API}/pokemon`;
 const POKETEAM_API = `${BASE_API}/poketeam`;
 
@@ -31,13 +29,11 @@ export default class GlobalMixin extends Vue {
   // immutable constant data variables
   BASE_API = BASE_API;
 
-  STUDENT_API = STUDENT_API;
 
   POKEMON_API = POKEMON_API;
 
   POKETEAM_API = POKETEAM_API;
 
-  PRODUCT_API = PRODUCT_API;
 
   // regular data variable
   isBusy = false;
