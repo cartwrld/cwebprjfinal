@@ -1,237 +1,261 @@
 <template>
   <div class="">
-  <div class="">
-    <!-- POKE ID -->
-    <b-form-group :invalid-feedback="violation.pokeID" :has-err="hasErr.pokeID" class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.pkid" class="d-flex">
-          <b-icon-hash :title="dt.pkid" class=""/>
-        </b-input-group-prepend>
-        <b-form-input class="rounded"
-          :placeholder="dt.pkid"
-          v-model="tempPokemon.pokeID"
-          :has-err="hasErr.pokeID"
-          :disabled="isDisabled"
-          trim
-          @keydown="violation.pokeID = null"
-        />
-      </b-input-group>
-    </b-form-group>
-
-    <div class="border border-1 my-3 w-100"></div>
-
-
-    <!-- NAME -->
-    <b-form-group :invalid-feedback="violation.pokeName" :has-err="hasErr.pokeName" class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.name" class="d-flex">
-          <b-icon-person-fill :title="dt.name"/>
-        </b-input-group-prepend>
-        <b-form-input class="rounded"
-          :placeholder="dt.name"
-          :has-err="hasErr.pokeName"
-          :disabled="isDisabled"
-          v-model="tempPokemon.pokeName"
-          trim
-          @keydown="violation.pokeName = null"/>
-      </b-input-group>
-    </b-form-group>
-
-    <div class="border border-1 my-3 w-100"></div>
-
-    <div class="d-flex justify-content-start">
-
-
-      <!-- TYPE 1 -->
-      <b-form-group :invalid-feedback="violation.pokeType1" :has-err="hasErr.pokeType1"
-                    class="mb-1 col-7">
+    <div class="">
+      <!-- POKE ID -->
+      <b-form-group :invalid-feedback="violation.pokeID" :has-err="hasErr.pokeID" class="mb-1">
         <b-input-group>
-          <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.t1" class="d-flex">
-            <b-icon-textarea-t :title="dt.t1"/>
-          </b-input-group-prepend>
-          <b-form-select class="rounded border px-4 pe-5"
-                         :options="pokeTypes"
-                         v-model="tempPokemon.pokeType1"
-                         :has-err="hasErr.t1"
+          <div class="d-flex shadow-sm rounded">
+
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.pkid" class="d-flex">
+              <b-icon-hash :title="dt.pkid" class=""/>
+            </b-input-group-prepend>
+          </div>
+          <b-form-input class="rounded shadow-sm"
+                        :placeholder="dt.pkid"
+                        v-model="tempPokemon.pokeID"
+                        :has-err="hasErr.pokeID"
+                        :disabled="isDisabled"
+                        trim
+                        @keydown="violation.pokeID = null"
+          />
+        </b-input-group>
+      </b-form-group>
+
+      <div class="border border-1 my-3 w-100"></div>
+
+
+      <!-- NAME -->
+      <b-form-group :invalid-feedback="violation.pokeName" :has-err="hasErr.pokeName" class="mb-1">
+        <b-input-group>
+          <div class="d-flex shadow-sm rounded ">
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.name" class="d-flex">
+              <b-icon-person-fill :title="dt.name"/>
+            </b-input-group-prepend>
+          </div>
+          <b-form-input class="rounded shadow-sm"
+                        :placeholder="dt.name"
+                        :has-err="hasErr.pokeName"
+                        :disabled="isDisabled"
+                        v-model="tempPokemon.pokeName"
+                        trim
+                        @keydown="violation.pokeName = null"/>
+        </b-input-group>
+      </b-form-group>
+
+      <div class="border border-1 my-3 w-100"></div>
+
+      <div class="d-flex justify-content-start">
+
+
+        <!-- TYPE 1 -->
+        <b-form-group :invalid-feedback="violation.pokeType1" :has-err="hasErr.pokeType1"
+                      class="mb-1 col-7">
+          <b-input-group>
+            <div class="d-flex shadow-sm rounded">
+              <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.t1" class="d-flex">
+                <b-icon-textarea-t :title="dt.t1"/>
+              </b-input-group-prepend>
+            </div>
+            <b-form-select class="rounded border px-4 pe-5 shadow-sm"
+                           :options="pokeTypes"
+                           v-model="tempPokemon.pokeType1"
+                           :has-err="hasErr.t1"
+                           :disabled="isDisabled"
+                           @change="updateTypes"
+            />
+          </b-input-group>
+        </b-form-group>
+
+        <!-- TYPE 2 -->
+        <b-form-group :invalid-feedback="violation.pokeType2" :has-err="hasErr.pokeType2"
+                      class="mb-1 col-6">
+          <b-input-group>
+            <div class="d-flex shadow-sm rounded">
+              <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.t2" class="d-flex">
+                <b-icon-textarea-t :title="dt.t2"/>
+              </b-input-group-prepend>
+            </div>
+            <b-form-select class="rounded border px-4 pe-5 shadow-sm"
+                           :options="pokeTypes"
+                           v-model="tempPokemon.pokeType2"
+                           :has-err="hasErr.t2"
+                           :disabled="isDisabled"
+                           @change="updateTypes"
+            />
+          </b-input-group>
+        </b-form-group>
+      </div>
+
+      <div class="border border-1 my-3 w-100"></div>
+
+      <div class="d-flex justify-content-between">
+        <div class="d-flex flex-wrap col-5">
+
+          <!-- HP -->
+          <b-form-group :invalid-feedback="violation.hp" :has-err="hasErr.hp" class="mb-1">
+            <b-input-group>
+              <div class="d-flex shadow-sm rounded">
+                <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.hp" class="d-flex">
+                  <b-icon-heart-fill :title="dt.hp"/>
+                </b-input-group-prepend>
+              </div>
+              <b-form-input class="rounded shadow-sm"
+                            :placeholder="dt.hp"
+                            :has-err="hasErr.hp"
+                            :disabled="isDisabled"
+                            v-model="tempPokemon.hp"
+                            trim
+                            @keydown="violation.hp = null"/>
+            </b-input-group>
+          </b-form-group>
+
+          <!-- ATK -->
+          <b-form-group :invalid-feedback="violation.atk" :has-err="hasErr.atk" class="mb-1">
+            <b-input-group>
+              <div class="d-flex shadow-sm rounded">
+                <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.atk" class="d-flex">
+                  <b-icon-heart-fill :title="dt.atk"/>
+                </b-input-group-prepend>
+              </div>
+              <b-form-input class="rounded shadow-sm"
+                            :placeholder="dt.atk"
+                            :has-err="hasErr.atk"
+                            :disabled="isDisabled"
+                            v-model="tempPokemon.atk"
+                            trim
+                            @keydown="violation.atk = null"/>
+              <div v-if="hasErr.atk" class="text-danger">you have an error</div>
+            </b-input-group>
+          </b-form-group>
+
+          <!-- DEF -->
+          <b-form-group :invalid-feedback="violation.def" :has-err="hasErr.def" class="mb-1">
+            <b-input-group>
+              <div class="d-flex shadow-sm rounded">
+                <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.def" class="d-flex">
+                  <b-icon-heart-fill :title="dt.def"/>
+                </b-input-group-prepend>
+              </div>
+              <b-form-input class="rounded shadow-sm"
+                            :placeholder="dt.def"
+                            :has-err="hasErr.def"
+                            :disabled="isDisabled"
+                            v-model="tempPokemon.def"
+                            trim
+                            @keydown="violation.def = null"/>
+            </b-input-group>
+          </b-form-group>
+        </div>
+        <div class="d-flex flex-wrap col-5">
+          <!-- SPATK -->
+          <b-form-group :invalid-feedback="violation.spatk" :has-err="hasErr.spatk" class="mb-1">
+            <b-input-group>
+              <div class="d-flex shadow-sm rounded">
+                <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.spatk" class="d-flex">
+                  <b-icon-heart-fill :title="dt.spatk"/>
+                </b-input-group-prepend>
+              </div>
+              <b-form-input class="rounded shadow-sm"
+                            :placeholder="dt.spatk"
+                            :has-err="hasErr.spatk"
+                            :disabled="isDisabled"
+                            v-model="tempPokemon.spatk"
+                            trim
+                            @keydown="violation.spatk = null"/>
+            </b-input-group>
+          </b-form-group>
+
+          <!-- SPDEF -->
+          <b-form-group :invalid-feedback="violation.spdef" :has-err="hasErr.spdef" class="mb-1">
+            <b-input-group>
+              <div class="d-flex shadow-sm rounded">
+                <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.spdef" class="d-flex">
+                  <b-icon-heart-fill :title="dt.spdef"/>
+                </b-input-group-prepend>
+              </div>
+              <b-form-input class="rounded shadow-sm"
+                            :placeholder="dt.spdef"
+                            :has-err="hasErr.spdef"
+                            :disabled="isDisabled"
+                            v-model="tempPokemon.spdef"
+                            trim
+                            @keydown="violation.spdef = null"/>
+            </b-input-group>
+          </b-form-group>
+
+          <!-- SPD -->
+          <b-form-group :invalid-feedback="violation.spd" :has-err="hasErr.spd" class="mb-1">
+            <b-input-group>
+              <div class="d-flex shadow-sm rounded">
+                <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.spd" class="d-flex">
+                  <b-icon-heart-fill :title="dt.spd"/>
+                </b-input-group-prepend>
+              </div>
+              <b-form-input class="rounded shadow-sm"
+                            :placeholder="dt.spd"
+                            :has-err="hasErr.spd"
+                            :disabled="isDisabled"
+                            v-model="tempPokemon.spd"
+                            trim
+                            @keydown="violation.spd = null"/>
+            </b-input-group>
+          </b-form-group>
+        </div>
+      </div>
+
+      <div class="border border-1 my-3 w-100"></div>
+
+      <!-- SPRITE should be a select box and you pick from a picture for your pokemon -->
+      <b-form-group :invalid-feedback="violation.sprite" :has-err="hasErr.sprite"
+                    class="mb-1 col-12">
+        <b-input-group class="col-12 d-flex justify-content-start">
+          <div class="d-flex shadow-sm rounded">
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.sprite" class="d-flex  ">
+              <b-icon-image-fill :title="dt.sprite"/>
+            </b-input-group-prepend>
+          </div>
+          <b-form-select class="rounded border px-4 pe-5 col shadow-sm"
+                         :options="sprites"
+                         v-model="tempPokemon.sprite"
+                         :has-err="hasErr.sprite"
                          :disabled="isDisabled"
                          @change="updateTypes"
           />
         </b-input-group>
       </b-form-group>
 
-      <!-- TYPE 2 -->
-      <b-form-group :invalid-feedback="violation.pokeType2" :has-err="hasErr.pokeType2"
-                    class="mb-1 col-6">
-        <b-input-group>
-          <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.t2" class="d-flex">
-            <b-icon-textarea-t :title="dt.t2"/>
-          </b-input-group-prepend>
-          <b-form-select class="rounded border px-4 pe-5"
-                         :options="pokeTypes"
-                         v-model="tempPokemon.pokeType2"
-                         :has-err="hasErr.t2"
-                         :disabled="isDisabled"
-                         @change="updateTypes"
-          />
-        </b-input-group>
-      </b-form-group>
-    </div>
+      <div class="border border-1 my-3 w-100"></div>
 
-    <div class="border border-1 my-3 w-100"></div>
+      <!-- BUTTONS -->
+      <b-button-group class="w-100 mb-3">
+        <b-button variant="primary" :disabled="isDisabled" @click="savePokemon">
+          <b-icon-cloud-arrow-up-fill ref="iconSave"/>
+          Save Poke
+        </b-button>
+        <b-button variant="danger" :disabled="isDisabled" @click="cancel">
+          <b-icon-x-square-fill/>
+          Cancel
+        </b-button>
+      </b-button-group>
 
-    <div class="d-flex justify-content-between">
-      <div class="d-flex flex-wrap col-5">
+      <!-- DELETE CONFIRM -->
+      <!-- Modify the delete confirmation modal content accordingly -->
 
-        <!-- HP -->
-        <b-form-group :invalid-feedback="violation.hp" :has-err="hasErr.hp" class="mb-1">
-          <b-input-group>
-            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.hp" class="d-flex">
-              <b-icon-heart-fill :title="dt.hp"/>
-            </b-input-group-prepend>
-            <b-form-input class="rounded"
-              :placeholder="dt.hp"
-              :has-err="hasErr.hp"
-              :disabled="isDisabled"
-              v-model="tempPokemon.hp"
-              trim
-              @keydown="violation.hp = null"/>
-          </b-input-group>
-        </b-form-group>
+      <!-- ERROR MESSAGE -->
+      <b-alert variant="danger" :show="violation.violationMessage">
+        {{ violation.violationMessage }}
+      </b-alert>
 
-        <!-- ATK -->
-        <b-form-group :invalid-feedback="violation.atk" :has-err="hasErr.atk" class="mb-1">
-          <b-input-group>
-            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.atk" class="d-flex">
-              <b-icon-heart-fill :title="dt.atk"/>
-            </b-input-group-prepend>
-            <b-form-input class="rounded"
-              :placeholder="dt.atk"
-              :has-err="hasErr.atk"
-              :disabled="isDisabled"
-              v-model="tempPokemon.atk"
-              trim
-              @keydown="violation.atk = null"/>
-            <div v-if="hasErr.atk" class="text-danger">you have an error</div>
-          </b-input-group>
-        </b-form-group>
-
-        <!-- DEF -->
-        <b-form-group :invalid-feedback="violation.def" :has-err="hasErr.def" class="mb-1">
-          <b-input-group>
-            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.def" class="d-flex">
-              <b-icon-heart-fill :title="dt.def"/>
-            </b-input-group-prepend>
-            <b-form-input class="rounded"
-              :placeholder="dt.def"
-              :has-err="hasErr.def"
-              :disabled="isDisabled"
-              v-model="tempPokemon.def"
-              trim
-              @keydown="violation.def = null"/>
-          </b-input-group>
-        </b-form-group>
-      </div>
-      <div class="d-flex flex-wrap col-5">
-        <!-- SPATK -->
-        <b-form-group :invalid-feedback="violation.spatk" :has-err="hasErr.spatk" class="mb-1">
-          <b-input-group>
-            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.spatk" class="d-flex">
-              <b-icon-heart-fill :title="dt.spatk"/>
-            </b-input-group-prepend>
-            <b-form-input class="rounded"
-              :placeholder="dt.spatk"
-              :has-err="hasErr.spatk"
-              :disabled="isDisabled"
-              v-model="tempPokemon.spatk"
-              trim
-              @keydown="violation.spatk = null"/>
-          </b-input-group>
-        </b-form-group>
-
-        <!-- SPDEF -->
-        <b-form-group :invalid-feedback="violation.spdef" :has-err="hasErr.spdef" class="mb-1">
-          <b-input-group>
-            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.spdef" class="d-flex">
-              <b-icon-heart-fill :title="dt.spdef"/>
-            </b-input-group-prepend>
-            <b-form-input class="rounded"
-              :placeholder="dt.spdef"
-              :has-err="hasErr.spdef"
-              :disabled="isDisabled"
-              v-model="tempPokemon.spdef"
-              trim
-              @keydown="violation.spdef = null"/>
-          </b-input-group>
-        </b-form-group>
-
-        <!-- SPD -->
-        <b-form-group :invalid-feedback="violation.spd" :has-err="hasErr.spd" class="mb-1">
-          <b-input-group>
-            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.spd" class="d-flex">
-              <b-icon-heart-fill :title="dt.spd"/>
-            </b-input-group-prepend>
-            <b-form-input class="rounded"
-              :placeholder="dt.spd"
-              :has-err="hasErr.spd"
-              :disabled="isDisabled"
-              v-model="tempPokemon.spd"
-              trim
-              @keydown="violation.spd = null"/>
-          </b-input-group>
-        </b-form-group>
-      </div>
-    </div>
-
-    <div class="border border-1 my-3 w-100"></div>
-
-    <!-- SPRITE should be a select box and you pick from a picture for your pokemon -->
-    <b-form-group :invalid-feedback="violation.sprite" :has-err="hasErr.sprite" class="mb-1 col-12">
-      <b-input-group class="col-12 d-flex justify-content-start">
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.sprite" class="d-flex  ">
-          <b-icon-image-fill :title="dt.sprite"/>
-        </b-input-group-prepend>
-        <b-form-select class="rounded border px-4 pe-5 col"
-          :options="sprites"
-          v-model="tempPokemon.sprite"
-          :has-err="hasErr.sprite"
-          :disabled="isDisabled"
-          @change="updateTypes"
-        />
-      </b-input-group>
-    </b-form-group>
-
-    <div class="border border-1 my-3 w-100"></div>
-
-    <!-- BUTTONS -->
-    <b-button-group class="w-100 mb-3">
-      <b-button variant="primary" :disabled="isDisabled" @click="savePokemon">
-        <b-icon-cloud-arrow-up-fill ref="iconSave"/>
-        Save Poke
-      </b-button>
-      <b-button variant="danger" :disabled="isDisabled" @click="cancel">
-        <b-icon-x-square-fill/>
-        Cancel
-      </b-button>
-    </b-button-group>
-
-    <!-- DELETE CONFIRM -->
-    <!-- Modify the delete confirmation modal content accordingly -->
-
-    <!-- ERROR MESSAGE -->
-    <b-alert variant="danger" :show="violation.violationMessage">
-      {{ violation.violationMessage }}
-    </b-alert>
-
-    <!-- DEBUG INFO -->
-    <b-alert variant="secondary" dismissible :show="debug">
+      <!-- DEBUG INFO -->
+      <b-alert variant="secondary" dismissible :show="debug">
       <pre>
         PROPS:
         {{ $props }}
         DATA:
         {{ $data }}
       </pre>
-    </b-alert>
-  </div>
+      </b-alert>
+    </div>
   </div>
 </template>
 
