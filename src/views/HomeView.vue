@@ -1,28 +1,29 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome Buddies"/>
-    <IconButton
-      icon="discord"
-      @party="showPokeModal()"
-      animation-style="spin"
-      :animate="true">
-      Another Fun Button
-    </IconButton>
-    <b-modal
-      title="View Pokemon"
-      ok-variant="success"
-      cancel-variant="danger"
-      v-model="viewPokemon">
-      <template #modal-cancel>
-        <b-icon-x-square-fill /> Cancel
-      </template>
-      <template #modal-ok>
-        <b-icon-cloud-arrow-up-fill/> Add Pokemon
-      </template>
-    </b-modal>
+<!--  <div class="home">-->
+<!--    <img alt="Vue logo" src="../assets/logo.png">-->
+<!--    <HelloWorld msg="Welcome Buddies"/>-->
+<!--    <IconButton-->
+<!--      icon="discord"-->
+<!--      @party="showPokeModal()"-->
+<!--      animation-style="spin"-->
+<!--      :animate="true">-->
+<!--      Another Fun Button-->
+<!--    </IconButton>-->
+<!--    <b-modal-->
+<!--      title="View Pokemon"-->
+<!--      ok-variant="success"-->
+<!--      cancel-variant="danger"-->
+<!--      v-model="viewPokemon">-->
+<!--      <template #modal-cancel>-->
+<!--        <b-icon-x-square-fill /> Cancel-->
+<!--      </template>-->
+<!--      <template #modal-ok>-->
+<!--        <b-icon-cloud-arrow-up-fill/> Add Pokemon-->
+<!--      </template>-->
+<!--    </b-modal>-->
 
-  </div>
+<!--  </div>-->
+  <HomePage />
 </template>
 
 <script lang="ts">
@@ -32,12 +33,14 @@ import HelloWorld from '@/components/HelloWorld.vue';
 import IconButton from '@/components/IconButton.vue';
 import PokeCard from '@/components/PokeCard.vue';
 import ViewPokemon from '@/components/ViewPokemon.vue';
+import HomePage from "@/components/HomePage.vue";
 
 
 @Component({
   components: {
     IconButton,
     HelloWorld,
+    HomePage
   },
 })
 export default class HomeView extends Vue {

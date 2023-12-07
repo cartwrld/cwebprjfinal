@@ -2,7 +2,7 @@
   <div id="app">
     <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <div>
+    <div class="mb-5">
       <div class="bg-danger">
         <nav class="navbar navbar-expand-lg bg-danger navbar-dark sticky-top shadow">
           <div class="container-fluid">
@@ -25,7 +25,7 @@
                 <div class="bg-danger bg-gradient d-flex flex-column flex-lg-row rounded-2">
 
                   <p class="nav-item m-0">
-                    <router-link class="nav-link active" to="/home/">Home
+                    <router-link class="nav-link active" to="/">Home
                       <span class="visually-hidden">(current)</span>
                     </router-link>
                   </p>
