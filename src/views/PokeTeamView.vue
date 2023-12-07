@@ -2,30 +2,30 @@
   <div class="border">
 
     <h1>PokeTeams</h1>
-    <div class="d-flex justify-content-center align-items-center p-5 mb-4 rounded-4 bg-dark-subtle shadow-sm">
-      <div class="d-flex justify-content-between align-items-center w-100">
-        <div class="d-flex justify-content-center align-items-center shadow">
-          <h4 class="">Search for a Pokemon:</h4>
-        </div>
-        <div class="d-flex justify-content-center align-items-center rounded w-50 shadow">
+<!--    <div class="d-flex justify-content-center align-items-center p-5 mb-4 rounded-4 bg-dark-subtle shadow-sm">-->
+<!--      <div class="d-flex justify-content-between align-items-center w-100">-->
+<!--        <div class="d-flex justify-content-center align-items-center shadow">-->
+<!--          <h4 class="">Search for a Pokemon:</h4>-->
+<!--        </div>-->
+<!--        <div class="d-flex justify-content-center align-items-center rounded w-50 shadow">-->
 
-          <PokeTeamSearch
-            class="col-12"
-            min-search-length="3"
-            @busy="setBusy"
-            :poketeams="fetchedTeams"
-            @pokemonSelected="handleTeamCardSelected"
-            @search-query-changed="handleSearchQueryChange"
-          />
-        </div>
-        <div class="d-flex justify-content-center align-items-center">
-          <b-button variant="success" class="fw-semibold shadow" @click="showAddTeamModal">
-            <b-icon-cloud-arrow-up-fill class="me-2"/>
-            <span class="ms-1">Add PokeTeam</span>
-          </b-button>
-        </div>
-      </div>
-    </div>
+<!--          <PokeTeamSearch-->
+<!--            class="col-12"-->
+<!--            min-search-length="3"-->
+<!--            @busy="setBusy"-->
+<!--            :poketeams="fetchedTeams"-->
+<!--            @pokemonSelected="handleTeamCardSelected"-->
+<!--            @search-query-changed="handleSearchQueryChange"-->
+<!--          />-->
+<!--        </div>-->
+<!--        <div class="d-flex justify-content-center align-items-center">-->
+<!--          <b-button variant="success" class="fw-semibold shadow" @click="showAddTeamModal">-->
+<!--            <b-icon-cloud-arrow-up-fill class="me-2"/>-->
+<!--            <span class="ms-1">Add PokeTeam</span>-->
+<!--          </b-button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!-- Iterate over each pokemon and create a PokeCard for each one -->
     <div class="d-flex justify-content-center align-items-center">
@@ -44,12 +44,13 @@
             :poke4="team.poke4"
             :poke5="team.poke5"
             :poke6="team.poke6"
-            :sprite1="team.sprite1"
-            :sprite2="team.sprite2"
-            :sprite3="team.sprite3"
-            :sprite4="team.sprite4"
-            :sprite5="team.sprite5"
-            :sprite6="team.sprite6"
+            :sprite1="pokeballPath"
+            :sprite2="pokeballPath"
+            :sprite3="pokeballPath"
+            :sprite4="pokeballPath"
+            :sprite5="pokeballPath"
+            :sprite6="pokeballPath"
+
 
             variant="light"
           />
@@ -69,7 +70,7 @@ import Pokemon from '@/models/Pokemon';
 import PokeTeam from '@/models/PokeTeam';
 import GlobalMixin from '@/mixins/global-mixin';
 import PokeTeamSearch from '@/components/PokeTeamSearch.vue';
-
+// v-if="team.sprite1&&team.sprite2&&team.sprite3&&team.sprite4&&team.sprite5&&team.sprite6"
 interface Team {
   teamID: number;
   teamName: string;
@@ -102,7 +103,15 @@ export default class PokemonTeamView extends GlobalMixin {
   // data variable
   selectedPokeTeam: PokeTeam = new PokeTeam();
 
-  pokeballPath = 'https://imgur.com/CtkIAQO';
+  pokeballPath = 'https://imgur.com/CtkIAQO.png';
+  spr1 = '';
+  spr2 = '';
+  spr3 = '';
+  spr4 = '';
+  spr5 = '';
+  spr6 = '';
+
+
 
   RookieToken = 'iHaveReadAccess'
   TrainerToken = 'iHaveWriteAccess'
@@ -130,14 +139,14 @@ export default class PokemonTeamView extends GlobalMixin {
     try {
       let endpoint = 'poketeam';
       this.fetchedTeams = await fetchData(endpoint, this.GymLeaderToken);
-      console.log(this.fetchedTeams)
+      // console.log(this.fetchedTeams)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
     try {
       let endpoint = 'pokemon';
       this.fetchedPokemon = await fetchData(endpoint, this.GymLeaderToken);
-      console.log(this.fetchedPokemon)
+      // console.log(this.fetchedPokemon)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -147,8 +156,8 @@ export default class PokemonTeamView extends GlobalMixin {
       console.error('Error fetching data:', error);
     }
 
-    console.log('==============')
-    console.log(this.fetchedTeams)
+    // console.log('==============')
+    // console.log(this.fetchedTeams)
   }
 
   async setTeamSprites() {
@@ -165,8 +174,16 @@ export default class PokemonTeamView extends GlobalMixin {
         team.sprite4 = sprites[3]
         team.sprite5 = sprites[4]
         team.sprite6 = sprites[5]
+
+        this.spr1 = sprites[0]
+        this.spr2 = sprites[1]
+        this.spr3 = sprites[2]
+        this.spr4 = sprites[3]
+        this.spr5 = sprites[4]
+        this.spr6 = sprites[5]
+
         // console.log(sprites[0])
-        console.log(`teamSprite set ${i + 1} complete`)
+        // console.log(`teamSprite set ${i + 1} complete`)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -176,7 +193,7 @@ export default class PokemonTeamView extends GlobalMixin {
   getTeamSprites(p1: number, p2: number, p3: number, p4: number, p5: number, p6: number) {
     const ids = [p1, p2, p3, p4, p5, p6]
     const sprites = [];
-    console.log('get team')
+    // console.log('get team')
     for (let i = 0; i < ids.length; i++) {
       const id = ids[i];
       const pokemon = this.fetchedPokemon.find((poke: any) => poke.pokeID === id);

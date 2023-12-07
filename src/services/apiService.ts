@@ -18,7 +18,14 @@ export default async function fetchData(destPage: string, token: string): Promis
     throw new Error('Network response was not ok');
   }
 
-  return await response.json();
+  let data = response.json()
+
+  if (destPage === 'poketeam') {
+    console.log()
+    console.log(data)
+  }
+
+  return data
 }
 
 // export default async function fetchSpriteData(pokeNumber: string, token: string): Promise<any> {
