@@ -1,9 +1,9 @@
 import {
-  IsOptional, Length, IsNotEmpty, IsIn, IsPositive, Max, Min, IsUrl,
+  IsOptional, Length, IsNotEmpty, IsIn, Max, Min, IsUrl, IsNumber,
 } from 'class-validator';
 
-const POKE_TYPES = ['', 'normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground',
-  'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
+const POKE_TYPES = ['', 'normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting',
+  'poison', 'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
 
 export default class Pokemon {
   constructor ()
@@ -58,50 +58,52 @@ export default class Pokemon {
   }
 
   @IsOptional()
-    pokeID: number | undefined;
 
-  @Length(1, 50, { message: 'Given Name must be from $constraint1 to $constraint2 characters ' })
-    pokeName: string | undefined;
+  pokeID?: number;
 
-  @IsIn(POKE_TYPES, { message: 'You gotta choose a valid PokeType!' })
-  @IsNotEmpty({ message: 'Cmon... you need a valid PokeType!' })
-    pokeType1: string | undefined;
+  @Length(1, 50, { message: 'PokeName must be from $constraint1 to $constraint2 characters!' })
+  @IsNotEmpty({message: 'You must enter a PokeName'})
+  pokeName?: string;
 
-  @IsIn(POKE_TYPES, { message: 'You gotta choose a valid PokeType!' })
-  @IsNotEmpty({ message: 'Cmon... you need a valid PokeType!' })
-    pokeType2: string | undefined;
+  @IsIn(POKE_TYPES, { message: 'You must choose a valid PokeType!' })
+  pokeType1?: string;
 
+  @IsIn(POKE_TYPES, { message: 'You must choose a valid PokeType!' })
+  @IsOptional()
+  pokeType2?: string;
+
+  @IsNumber({}, { message: 'Gen must be a number!' })
   @Max(10, { message: 'Gen 10 is the latest generation!' })
   @Min(1, { message: 'Gen 1 was the first generation!' })
-    gen: number;
+  gen?: number;
 
-  @IsPositive({ message: 'You can\'t be fainted all the time!' })
-  @Min(1, { message: 'Gotta have at least 1 HP!' })
-  @Max(999, { message: 'Get real buddy!' })
-    hp: number | undefined;
 
-  @IsPositive({ message: 'You can\'t be THAT bad at fighting!' })
-  @Max(999, { message: 'Get real buddy!' })
-    atk: number | undefined;
+  @IsNotEmpty({message: 'You must enter an HP stat!'})
+  hp?: number | string;
 
-  @IsPositive({ message: 'You can\'t be THAT bad at protecting!' })
-  @Max(999, { message: 'Get real buddy!' })
-    def: number | undefined;
 
-  @IsPositive({ message: 'Not THAT kind of special!' })
-  @Max(999, { message: 'Get real buddy!' })
-    spatk: number | undefined;
+  @IsNotEmpty({message: 'You must enter an ATK stat!'})
+  atk?: number | string;
 
-  @IsPositive({ message: 'Not THAT kind of special!' })
-  @Max(999, { message: 'Get real buddy!' })
-    spdef: number | undefined;
 
-  @IsPositive({ message: 'You can\'t be THAT slow!' })
-  @Max(999, { message: 'Get real buddy!' })
-    spd: number | undefined;
+  @IsNotEmpty({message: 'You must enter an DEF stat!'})
+  def?: number | string;
 
-  @IsUrl()
-    sprite: string | undefined;
+
+  @IsNotEmpty({message: 'You must enter an SP.ATK stat!'})
+  spatk?: number | string;
+
+
+  @IsNotEmpty({message: 'You must enter an SP.ATK stat!'})
+  spdef?: number | string;
+
+
+  @IsNotEmpty({message: 'You must enter an SPD stat!'})
+  spd?: number;
+
+  @IsUrl({}, { message: 'The sprite must be a valid URL' })
+  sprite?: string;
+
 
   /**
    * Function for setting the Generation of the Pokemon based on the ID

@@ -1,301 +1,396 @@
+<template>
+  <div class="">
+    <div class="">
+      <!-- POKE ID -->
+      <b-form-group :invalid-feedback="violation.teamID" :has-err="hasErr.teamID" class="mb-1">
+        <b-input-group>
+          <div class="d-flex shadow-sm rounded">
+
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.tid" class="d-flex">
+              <b-icon-hash :title="dt.tid" class=""/>
+            </b-input-group-prepend>
+          </div>
+          <b-form-input class="rounded shadow-sm"
+                        :placeholder="dt.tid"
+                        v-model="tempTeam.teamID"
+                        :has-err="hasErr.teamID"
+                        :disabled="isDisabled"
+                        trim
+                        @keydown="violation.teamID = null"
+          />
+        </b-input-group>
+      </b-form-group>
+
+      <div class="border border-1 my-3 w-100"></div>
+
+
+      <!-- NAME -->
+      <b-form-group :invalid-feedback="violation.teamName" :has-err="hasErr.teamName" class="mb-1">
+        <b-input-group>
+          <div class="d-flex shadow-sm rounded ">
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.name" class="d-flex">
+              <b-icon-people-fill :title="dt.name"/>
+            </b-input-group-prepend>
+          </div>
+          <b-form-input class="rounded shadow-sm"
+                        :placeholder="dt.name"
+                        :has-err="hasErr.teamName"
+                        :disabled="isDisabled"
+                        v-model="tempTeam.teamName"
+                        trim
+                        @keydown="violation.teamName = null"/>
+        </b-input-group>
+      </b-form-group>
+
+      <div class="border border-1 my-3 w-100"></div>
+
+      <div class="d-flex justify-content-between">
+        <div class="d-flex flex-wrap col-5">
+
+
+        <!-- POKE 1 -->
+        <b-form-group :invalid-feedback="violation.poke1" :has-err="hasErr.poke1"
+                      class="mb-1">
+          <b-input-group>
+            <div class="d-flex shadow-sm rounded">
+              <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.p1" class="d-flex">
+                <b-icon-person-fill :title="dt.p1"/>
+              </b-input-group-prepend>
+            </div>
+            <b-form-input class="rounded shadow-sm"
+                          :placeholder="dt.p1"
+                          :has-err="hasErr.poke1"
+                          :disabled="isDisabled"
+                          v-model="tempTeam.poke1"
+                          trim
+                          @keydown="violation.poke1 = null"/>
+          </b-input-group>
+        </b-form-group>
+
+        <!-- POKE 2 -->
+        <b-form-group :invalid-feedback="violation.poke2" :has-err="hasErr.poke2"
+                      class="mb-1">
+          <b-input-group>
+            <div class="d-flex shadow-sm rounded">
+              <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.p2" class="d-flex">
+                <b-icon-person-fill :title="dt.p2"/>
+              </b-input-group-prepend>
+            </div>
+            <b-form-input class="rounded shadow-sm"
+                          :placeholder="dt.p2"
+                          :has-err="hasErr.poke2"
+                          :disabled="isDisabled"
+                          v-model="tempTeam.poke2"
+                          trim
+                          @keydown="violation.poke2 = null"/>
+          </b-input-group>
+        </b-form-group>
+
+        <!-- POKE 3 -->
+        <b-form-group :invalid-feedback="violation.poke3" :has-err="hasErr.poke3"
+                      class="mb-1">
+          <b-input-group>
+            <div class="d-flex shadow-sm rounded">
+              <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.p3" class="d-flex">
+                <b-icon-person-fill :title="dt.p3"/>
+              </b-input-group-prepend>
+            </div>
+            <b-form-input class="rounded shadow-sm"
+                          :placeholder="dt.p3"
+                          :has-err="hasErr.poke3"
+                          :disabled="isDisabled"
+                          v-model="tempTeam.poke3"
+                          trim
+                          @keydown="violation.poke3 = null"/>
+          </b-input-group>
+        </b-form-group>
+        </div>
+          <div class="d-flex flex-wrap col-5">
+
+        <!-- POKE 4 -->
+        <b-form-group :invalid-feedback="violation.poke4" :has-err="hasErr.poke4"
+                      class="mb-1">
+          <b-input-group>
+            <div class="d-flex shadow-sm rounded">
+              <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.p4" class="d-flex">
+                <b-icon-person-fill :title="dt.p4"/>
+              </b-input-group-prepend>
+            </div>
+            <b-form-input class="rounded shadow-sm"
+                          :placeholder="dt.p4"
+                          :has-err="hasErr.poke4"
+                          :disabled="isDisabled"
+                          v-model="tempTeam.poke4"
+                          trim
+                          @keydown="violation.poke4 = null"/>
+          </b-input-group>
+        </b-form-group>
+
+        <!-- POKE 5 -->
+        <b-form-group :invalid-feedback="violation.poke5" :has-err="hasErr.poke5"
+                      class="mb-1">
+          <b-input-group>
+            <div class="d-flex shadow-sm rounded">
+              <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.p5" class="d-flex">
+                <b-icon-person-fill :title="dt.p5"/>
+              </b-input-group-prepend>
+            </div>
+            <b-form-input class="rounded shadow-sm"
+                          :placeholder="dt.p5"
+                          :has-err="hasErr.poke5"
+                          :disabled="isDisabled"
+                          v-model="tempTeam.poke5"
+                          trim
+                          @keydown="violation.poke5 = null"/>
+          </b-input-group>
+        </b-form-group>
+
+        <!-- POKE 6 -->
+        <b-form-group :invalid-feedback="violation.poke6" :has-err="hasErr.poke6"
+                      class="mb-1">
+          <b-input-group>
+            <div class="d-flex shadow-sm rounded">
+              <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.p6" class="d-flex">
+                <b-icon-person-fill :title="dt.p6"/>
+              </b-input-group-prepend>
+            </div>
+            <b-form-input class="rounded shadow-sm"
+                          :placeholder="dt.p6"
+                          :has-err="hasErr.poke6"
+                          :disabled="isDisabled"
+                          v-model="tempTeam.poke6"
+                          trim
+                          @keydown="violation.poke6 = null"/>
+          </b-input-group>
+        </b-form-group>
+        </div>
+      </div>
+
+
+      <div class="border border-1 my-3 w-100"></div>
+
+      <!-- BUTTONS -->
+      <b-button-group class="w-100 mb-3">
+        <b-button variant="primary" :disabled="isDisabled" @click="saveTeam">
+          <b-icon-cloud-arrow-up-fill ref="iconSave"/>
+          Save PokeTeam
+        </b-button>
+        <b-button variant="danger" :disabled="isDisabled" @click="cancel">
+          <b-icon-x-square-fill/>
+          Cancel
+        </b-button>
+      </b-button-group>
+
+      <!-- DELETE CONFIRM -->
+      <!-- Modify the delete confirmation modal content accordingly -->
+
+      <!-- ERROR MESSAGE -->
+      <b-alert variant="danger" :show="violation.violationMessage">
+        {{ violation.violationMessage }}
+      </b-alert>
+
+      <!-- DEBUG INFO -->
+      <b-alert variant="secondary" dismissible :show="debug">
+      <pre>
+        PROPS:
+        {{ $props }}
+        DATA:
+        {{ $data }}
+      </pre>
+      </b-alert>
+    </div>
+  </div>
+</template>
+
 <script lang="ts">
-import {Vue, Component, Prop, Watch} from "vue-property-decorator";
-import PokeTeam from "@/models/PokeTeam";
-import IconButton from "@/components/IconButton.vue";
-import {validate} from "class-validator";
 
-@Component({
-  components: {IconButton},
-})
+/* eslint-disable max-len */
+import {
+  Component, Mixins, Prop, Watch,
+} from 'vue-property-decorator';
+import { BIcon } from 'bootstrap-vue';
+import Pokemon from '@/models/Pokemon';
+import GlobalMixin from '@/mixins/global-mixin';
+import PokeTeam from '@/models/PokeTeam';
 
-// COLONS ARE FOR BINDING PROPS
-export default class PokeTeamForm extends Vue {
-  // NOTE: Props are how a parent component communicates to the child
-  // DON'T MODIFY THE FUCKING PROP - Ernesto
-  @Prop({type: PokeTeam, validator: (s) => s instanceof PokeTeam})
-  readonly poketeam!: PokeTeam;
-  @Prop() private readonly disabled!: boolean;
+@Component
+export default class PokeTeamForm extends Mixins(GlobalMixin) {
+  @Prop({
+    type: Object,
+    validator: (s) => s instanceof Object
+  }) readonly poketeam: any;
+  @Prop() private pokeList!: Pokemon[];
 
-  tempPokeTeam = new PokeTeam();
-  showConfirmDelete = false;
-  isBusy = false;
-  animateSave = false;
-  animateDelete = false;
+  $refs!: {
+    iconDelete: BIcon
+    iconSave: BIcon
+  };
 
-  get isDisabled() {
-    // TODO check the value of the disable prop of this component
-    return this.isBusy || this.disabled;
+  token = 'iHaveWriteAccess';
+  // region DATA VARIABLES
+  // will store a copy of the values from the pokemon declared in the props section
+  tempTeam: PokeTeam = new PokeTeam();
+
+  violation: any = {}; // will store violation messages that we get from the api
+
+  dt = {
+    // Display Text - object that stores text to display to the user instead of the attribute names
+    tid: 'Team ID',
+    name: 'Team Name',
+    p1: 'Pokemon 1',
+    p2: 'Pokemon 2',
+    p3: 'Pokemon 3',
+    p4: 'Pokemon 4',
+    p5: 'Pokemon 5',
+    p6: 'Pokemon 6',
+  };
+  // endregion
+
+  // region METHODS
+
+  // Method to update types and ensure they are different
+
+  getPokemonIdByName(pokemonName: string): number {
+    console.log("poke in getPokemonIDbyName:");
+    console.log(this.tempTeam.poke1);
+    const foundPokemon = this.pokeList.find(pokemon => pokemon.pokeName?.toLowerCase() === pokemonName.toLowerCase());
+
+    // Use optional chaining to safely access the property
+    return foundPokemon?.pokeID ?? 0;
   }
 
-  get isNew() {
-    return !this.poketeam || !this.poketeam.teamID;
-  }
+  saveTeam() {
+    // Initialize properties with default values
+    this.tempTeam.teamID = this.tempTeam.teamID !== undefined ? this.tempTeam.teamID : 0;
 
-  @Watch("poketeam", {deep: true})
-  onPokeTeamChanged(newPokeTeam: PokeTeam, oldPokeTeam: PokeTeam) {
-    if (!newPokeTeam || !newPokeTeam.teamID) {
-      this.tempPokeTeam = new PokeTeam();
-    } else if (!oldPokeTeam || newPokeTeam.teamID !== oldPokeTeam.teamID) {
-      // DON'T DO THIS, THIS IS MODIFYING THE PROP!!!!!
-      // this.tempPokeTeam = this.poketeam;
-      //instead, do this, or...
-      // this.tempPokeTeam = Object.assign({}, this.poketeam);
-      // this.tempPokeTeam = { ...this.poketeam }; // must make a new object - DON'T MODIFY THE PROP
-      this.tempPokeTeam = Object.assign(new PokeTeam(), this.poketeam);
-    }
-  }
+    console.log("poke1 in saveTeam:");
+    console.log(this.tempTeam.poke1);
+    console.log(this.tempTeam.poke2);
+    console.log(this.tempTeam.poke3);
+    console.log(this.tempTeam.poke4);
+    console.log(this.tempTeam.poke5);
+    console.log(this.tempTeam.poke6);
 
-  setBusy(toggle: boolean) {
-    this.isBusy = toggle;
-    this.$emit("busy", toggle);
-  }
+    // const tempId = this.getPokemonIdByName(this.tempTeam.poke1 + "");
 
-  async savePokeTeam() {
-    // DONE! disable all of the form inputs
-    this.setBusy(true);
-    // DONE! animate the icon of the save button
-    this.animateSave = true;
+    // this.tempTeam.poke1 = this.getPokemonIdByName(this.tempTeam.poke1 + "");
+    // this.tempTeam.poke1 = this.tempTeam.poke1 !== undefined ? this.tempTeam.poke1 : 0;
+    // this.tempTeam.poke2 = this.tempTeam.poke2 !== undefined ? this.tempTeam.poke2 : 0;
+    // this.tempTeam.poke3 = this.tempTeam.poke3 !== undefined ? this.tempTeam.poke3 : 0;
+    // this.tempTeam.poke4 = this.tempTeam.poke4 !== undefined ? this.tempTeam.poke4 : 0;
+    // this.tempTeam.poke5 = this.tempTeam.poke5 !== undefined ? this.tempTeam.poke5 : 0;
+    // this.tempTeam.poke6 = this.tempTeam.poke6 !== undefined ? this.tempTeam.poke6 : 0;
+//
+// // Convert string values to numbers
+    this.tempTeam.poke1 = this.getPokemonIdByName(this.tempTeam.poke1 + "");
+    this.tempTeam.poke2 = this.getPokemonIdByName(this.tempTeam.poke2 + "");
+    this.tempTeam.poke3 = this.getPokemonIdByName(this.tempTeam.poke3 + "");
+    this.tempTeam.poke4 = this.getPokemonIdByName(this.tempTeam.poke4 + "");
+    this.tempTeam.poke5 = this.getPokemonIdByName(this.tempTeam.poke5 + "");
+    this.tempTeam.poke6 = this.getPokemonIdByName(this.tempTeam.poke6 + "");
+//     this.tempPokemon.hp = parseInt(this.tempPokemon.hp as unknown as string, 10);
+//     this.tempPokemon.atk = parseInt(this.tempPokemon.atk as unknown as string, 10);
+//     this.tempPokemon.def = parseInt(this.tempPokemon.def as unknown as string, 10);
+//     this.tempPokemon.spatk = parseInt(this.tempPokemon.spatk as unknown as string, 10);
+//     this.tempPokemon.spdef = parseInt(this.tempPokemon.spdef as unknown as string, 10);
+//     this.tempPokemon.spd = parseInt(this.tempPokemon.spd as unknown as string, 10);
+//
+// // Now you can safely use these properties
+// // ...
+//
+// // Ensure other properties are not undefined and assign default values if needed
+    this.tempTeam.teamName = this.tempTeam.teamName || '';
+//     this.tempPokemon.pokeType1 = this.tempPokemon.pokeType1 || '';
+//     this.tempPokemon.pokeType2 = this.tempPokemon.pokeType2 || '';
+//     this.tempPokemon.sprite = this.tempPokemon.sprite || '';
 
-    // TODO validate tempPokeTeam data before sending fetch request
-    const errors = await validate(this.tempPokeTeam);
+    const icon: BIcon = this.$refs.iconSave; // get the icon to animate from the vue refs https://vuejs.org/v2/api/#ref
+    this.setBusy(true);// tell parent that this component is waiting for the api to respond
+    this.animate(icon, true);// animate the icon in the clicked button to give the user an indication that some thing is happening
+    this.violation = {};// empty out violation messages - to hide violation message from user and wait for new violations from the api
 
-    console.log(errors);
+    // use the method declared in the pokemon mixin to call the pokemon api
+    // if the pokemon is new POST , if the pokemon already exists then PUT
+    const url = this.POKETEAM_API + (this.isNew ? '' : `/${this.tempTeam.teamID}`);
+    const method = this.isNew ? 'post' : 'put';
 
-    if (errors.length === 0) {
-      const result = await fetch(
-        `http://localhost:3006/poketeams/${this.tempPokeTeam.teamID || ""}`,
-        {
-          method: this.tempPokeTeam.teamID ? "PUT" : "POST",
-          body: JSON.stringify(this.tempPokeTeam),
-          headers: {"Content-Type": "application/json; charset=utf-8"},
-        }
-      );
+    // console.log(this.tempPokemon);
 
-      const data = await result.json();
-
-      const savedPokeTeam = Object.assign(new PokeTeam(), data);
-
-      // DONE! - Fix fetch and Emit the new/updated PokeTeam
-      this.$emit(this.tempPokeTeam.teamID ? "updated" : "added", savedPokeTeam);
-
-      // NOTE: Emits are how a child component communicates to a parent component
-    }
-
-    //DONE Re-enable the form inputs
-    this.setBusy(false);
-
-    // DONE TODO stop the button animation
-    this.animateSave = false;
-  }
-
-  async deletePokeTeam() {
-    // TODO figure out how to delete from JSON-SERVER
-    // make fetch request with proper fetch options
-
-    // DONE disable all of the form inputs
-    this.isBusy = true;
-
-    // DONE animate the icon of the save button
-    this.animateDelete = true;
-
-    const result = await fetch(
-      `http://localhost:3006/poketeams/${this.poketeam.teamID}`, //same as tempPokeTeam
-      {
-        method: "DELETE",
-      }
-    );
-    // emit to the parent that a deletion occurred
-    if (result.ok) {
-      this.$emit("deleted", this.poketeam);
-    }
-
-    //TODO deal with delete getting 404
-
-    //DONE Re-enable the form inputs
-    this.isBusy = false;
-    this.$emit("busy", this.isBusy);
-
-    // DONE stop the button animation
-    this.animateDelete = false;
+    this.callAPI(url, method, this.tempTeam, localStorage.token) // returns a promise object
+      .then((data) => {
+        // determine if the pokemon was added or updated
+        this.$emit(this.tempTeam.teamID === data.id ? 'updated' : 'added', data);
+      })
+      .catch((err) => {
+        // get the violation messages from the api - if the web server responded
+        //console.log(this.violation);
+        this.violation = err.data || {};
+        //console.log(this.violation);
+      })
+      .finally(() => {
+        this.setBusy(false);// tell parent that this component is no longer waiting for the api
+        this.animate(icon, false);// stop the icon animation
+        window.location.reload();
+      });
   }
 
   cancel() {
-    this.tempPokeTeam = {...this.poketeam};
-    // OR
-    // Object.assign(this.tempPokeTeam, this.poketeam);
+    this.violation = {}; // clear out violation messages and as a result the hasErrs will be null
+    this.tempTeam = { ...this.tempTeam };// copy the pokemon values to a new temp pokemon
+    this.$emit('cancelled', this.tempTeam); // tell parent that cancel was called
+  }
+
+  animate(icon: BIcon, start: boolean) {
+    if (start) {
+      // apply animation style to the icon
+      icon.classList.add('b-icon-animation-cylon-vertical');
+    } else {
+      // remove animation style from the icon
+      icon.classList.remove('b-icon-animation-cylon-vertical');
+    }
+  }
+
+  // endregion
+
+  // region COMPUTED PROPERTIES
+  get hasErr(): any {
+    return { // bootstrap hasErrs used to display violation messages
+      // true - green border, false - red border, null- regular border
+      teamID: this.violation.teamID ? false : null,
+      teamName: this.violation.teamName ? false : null,
+      poke1: this.violation.poke1 ? false : null,
+      poke2: this.violation.poke2 ? false : null,
+      poke3: this.violation.poke3 ? false : null,
+      poke4: this.violation.poke4 ? false : null,
+      poke5: this.violation.poke5 ? false : null,
+      poke6: this.violation.poke6 ? false : null,
+    };
+  }
+
+  get isNew(): boolean {
+    // if pokemonID is null, 0 , '' then it's a new pokemon not an existing pokemon
+    return !this.poketeam || !this.poketeam.teamID;
+  }
+
+  // endregion
+
+  // region WATCHES execute code when a data variable or prop is modified by processes in the application
+  @Watch('poketeam', { deep: true })// watch all attributes of the pokemon object - if any attribute changes then execute the handler
+  onPokeTeamChanged(newTeam: PokeTeam, oldTeam: PokeTeam) { // execute this function when the pokemon object in the props section changes
+    if (!newTeam || !newTeam.teamID) {
+      // if new pokemon is null or doesn't have an id
+      this.tempTeam = new PokeTeam();// clear out temporary pokemon
+    } else if (!oldTeam || newTeam.teamID !== oldTeam.teamID) {
+      // if old pokemon is null or new pokemon is not the same as old pokemon
+      // COPY VALUES from the pokemon prop into new a temp pokemon object
+      this.tempTeam = Object.assign(new PokeTeam(), this.poketeam);
+    }
+    this.violation = {};// empty out violation messages - to hide them from the user
   }
 }
 </script>
 
-<template>
-  <div>
-    <!-- GivenName -->
-    <b-form-group
-      class="mb-1"
-      invalid-feedback="You suck idiot!"
-      :state="false"
-    >
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="'Team Name'">
-          <b-icon-person-fill title="Team Name"/>
-        </b-input-group-prepend>
-        <b-form-input
-          :state="false"
-          :disabled="isDisabled"
-          placeholder="Team Name"
-          v-model="tempPokeTeam.teamName"
-        />
-      </b-input-group>
-    </b-form-group>
+<style scoped>
 
-    <div class="border border-1 my-3 w-100"></div>
-    <div>
-      <input placeholder="">
-    </div>
+</style>
 
-    <!-- FamilyName -->
-    <b-form-group class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="'Slot 1'">
-          <b-icon-people-fill title="Slot 1"/>
-        </b-input-group-prepend>
-        <b-form-input
-          number
-          :disabled="isDisabled"
-          placeholder="Slot 1"
-          v-model="tempPokeTeam.poke1"
-        />
-      </b-input-group>
-    </b-form-group>
-
-    <b-form-group class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="'Slot 2'">
-          <b-icon-people-fill title="Slot 2"/>
-        </b-input-group-prepend>
-        <b-form-input
-          number
-          :disabled="isDisabled"
-          placeholder="Slot 2"
-          v-model="tempPokeTeam.poke2"
-        />
-      </b-input-group>
-    </b-form-group>
-    <b-form-group class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="'Slot 3'">
-          <b-icon-people-fill title="Slot 3"/>
-        </b-input-group-prepend>
-        <b-form-input
-          :disabled="isDisabled"
-          placeholder="Slot 3"
-          v-model="tempPokeTeam.poke3"
-        />
-      </b-input-group>
-    </b-form-group>
-    <b-form-group class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="'Slot 4'">
-          <b-icon-people-fill title="Slot 4"/>
-        </b-input-group-prepend>
-        <b-form-input
-          :disabled="isDisabled"
-          placeholder="Slot 4"
-          v-model="tempPokeTeam.poke4"
-        />
-      </b-input-group>
-    </b-form-group>
-    <b-form-group class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="'Slot 5'">
-          <b-icon-people-fill title="Slot 5"/>
-        </b-input-group-prepend>
-        <b-form-input
-          :disabled="isDisabled"
-          placeholder="Slot 5"
-          v-model="tempPokeTeam.poke5"
-        />
-      </b-input-group>
-    </b-form-group>
-    <b-form-group class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="'Slot 6'">
-          <b-icon-people-fill title="Slot 6"/>
-        </b-input-group-prepend>
-        <b-form-input
-          :disabled="isDisabled"
-          placeholder="Slot 6"
-          v-model="tempPokeTeam.poke6"
-        />
-      </b-input-group>
-    </b-form-group>
-    <b-form-group class="mb-1">
-      <b-input-group>
-        <b-input-group-prepend is-text v-b-tooltip.hover.right="'Slot 6'">
-          <b-icon-people-fill title="Slot 6"/>
-        </b-input-group-prepend>
-        <b-form-input
-          :disabled="isDisabled"
-          placeholder="Slot 6"
-          v-model="tempPokeTeam.poke6"
-        />
-      </b-input-group>
-    </b-form-group>
-
-
-    <!-- Buttons -->
-    <b-button-group class="w-100 mb-3">
-      <IconButton
-        variant="primary"
-        icon="cloud-arrow-up-fill"
-        @party="savePokeTeam"
-        animation-style="cylon-vertical"
-        :animate="animateSave"
-      >
-        Save
-      </IconButton>
-      <!--      TODO --- disable delete button when the poketeam is empty or no id -->
-
-      <IconButton
-        :disabled="isDisabled || isNew"
-        icon="hurricane"
-        variant="danger"
-        @party="showConfirmDelete = true"
-        animation-style="spin-reverse"
-        :animate="animateDelete"
-      >Delete
-      </IconButton
-      >
-      <IconButton
-        :disabled="isDisabled"
-        variant="primary"
-        icon="x-octagon"
-        @party="cancel"
-      >Cancel
-      </IconButton
-      >
-    </b-button-group>
-    <b-modal
-      title="Delete PokeTeam"
-      v-model="showConfirmDelete"
-      ok-variant="danger"
-      cancel-variant="primary"
-      @ok="deletePokeTeam"
-    >
-      <template #modal-ok>
-        <b-icon-hurricane/>
-        Delete
-      </template>
-      <template #modal-cancel>
-        <b-icon-x-octagon/>
-        Cancel
-      </template>
-      Are you sure you want to delete {{ poketeam.teamName }},
-      {{ poketeam.teamName }}?
-    </b-modal>
-  </div>
-</template>
-
-<style scoped></style>
-<!--     DO NOT MODIFY THE PROPS!!!!!!!!!!!!!     -->
-<!--          v-model="poketeam.familyName"-->

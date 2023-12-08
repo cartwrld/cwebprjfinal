@@ -16,6 +16,7 @@ const STUDENT_API = `${BASE_API}/students`;
 const PRODUCT_API = `${BASE_API}/products`;
 const POKEMON_API = `${BASE_API}/pokemon`;
 const POKETEAM_API = `${BASE_API}/poketeam`;
+const USER_API = `${BASE_API}/users`;
 
 const FETCH_HEADERS:any = {
   'X-Requested-With': 'XmlHttpRequest',
@@ -31,13 +32,11 @@ export default class GlobalMixin extends Vue {
   // immutable constant data variables
   BASE_API = BASE_API;
 
-  STUDENT_API = STUDENT_API;
-
   POKEMON_API = POKEMON_API;
 
   POKETEAM_API = POKETEAM_API;
 
-  PRODUCT_API = PRODUCT_API;
+  USER_API = USER_API;
 
   // regular data variable
   isBusy = false;
@@ -63,7 +62,7 @@ export default class GlobalMixin extends Vue {
 
   // function that will determine which request method and how to send the data to the api
 
-  callAPI(url: string, method = 'get', dataToSend = {}) {
+  callAPI(url: string, method = 'get', dataToSend = {}, token: string | undefined) {
     const fetchOptions: any = {
       method: 'GET',
       credentials: 'include',
@@ -72,7 +71,7 @@ export default class GlobalMixin extends Vue {
     };
 
     // Set the Authorization header with the bearer token
-    const token = 'iHaveWriteAccess'; // Replace this with your actual bearer token
+    //const token = 'iHaveAdminAccess'; // Replace this with your actual bearer token
     if (token) {
       fetchOptions.headers.Authorization = `Bearer ${token}`;
     }

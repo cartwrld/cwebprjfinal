@@ -6,7 +6,7 @@
       class="d-flex justify-content-center align-items-center p-5 mb-4 rounded-4 bg-dark-subtle shadow-sm">
       <div class="d-flex justify-content-between align-items-center w-100">
         <div class="d-flex justify-content-center align-items-center">
-          <h4 class="">Search for a Pokemon:</h4>
+          <h4 class="">Search for a Poke Team:</h4>
         </div>
         <div class="d-flex justify-content-center align-items-center rounded w-50 shadow">
 
@@ -28,12 +28,28 @@
       </div>
     </div>
 
-    <b-modal v-model="addPokeTeam" title="Add Pokemon" @hidden="handleModalHidden" hide-footer>
+    <b-modal v-model="addPokeTeam" title="Add Pokemon Team" @hidden="handleModalHidden" hide-footer>
       <PokeTeamForm
         :poketeam="selectedPokeTeam"
+        :poke-list="fetchedPokemon"
         @added="handleAdd"
         @updated="handleUpdate"
         @reset="handleReset"
+        @cancelled="handleCancel"
+      />
+    </b-modal>
+
+    <b-modal v-model="viewUpdateTeam" title="Edit Team" @hidden="handleModalHidden" hide-footer>
+      <EditTeamForm
+        :teamID="this.selectedPokeTeam.teamID"
+        :team-name="this.selectedPokeTeam.teamName"
+        :poke1="this.selectedPokeTeam.poke1"
+        :poke2="this.selectedPokeTeam.poke2"
+        :poke3="this.selectedPokeTeam.poke3"
+        :poke4="this.selectedPokeTeam.poke4"
+        :poke5="this.selectedPokeTeam.poke5"
+        :poke6="this.selectedPokeTeam.poke6"
+        :poke-list="fetchedPokemon"
         @cancelled="handleCancel"
       />
     </b-modal>
@@ -64,7 +80,7 @@
           class="p-2 d-flex col-12
         justify-content-center">
           <TeamCard
-            :team-i-d="team.teamID"
+            :teamID="team.teamID"
             :team-name="team.teamName"
             :poke1="team.poke1"
             :poke2="team.poke2"
@@ -79,6 +95,8 @@
             :sprite5="team.sprite5"
             :sprite6="team.sprite6"
             variant="light"
+            @edit-pokeTeam="openEditPokeTeamModal"
+            @deleted="handleDelete"
           />
         </div>
       </div>
@@ -114,6 +132,8 @@ import GlobalMixin from '@/mixins/global-mixin';
 import PokeTeamSearch from '@/components/PokeTeamSearch.vue';
 import PokeTeamForm from "@/components/PokeTeamForm.vue";
 import PokemonForm from "@/components/PokemonForm.vue";
+import EditTeamForm from "@/components/EditTeamForm.vue";
+import PokeCard from "@/components/PokeCard.vue";
 
 // v-if="team.sprite1&&team.sprite2&&team.sprite3&&team.sprite4&&team.sprite5&&team.sprite6"
 interface Team {
@@ -135,6 +155,8 @@ interface Team {
 
 @Component({
   components: {
+    PokeCard,
+    EditTeamForm,
     PokemonForm,
     PokeTeamSearch,
     TeamCard,
@@ -146,7 +168,7 @@ export default class PokemonTeamView extends GlobalMixin {
   fetchedTeams: Team[] = [] || null;
   fetchedPokemon: any = [];
 
-  filteredPokeTeamList: Team[] = this.fetchedTeams;
+  filteredPokeTeamList: Team[] = [];
 
   // data variable
   selectedPokeTeam: PokeTeam = new PokeTeam();
@@ -158,17 +180,18 @@ export default class PokemonTeamView extends GlobalMixin {
   GymLeaderToken = 'iHaveAdminAccess'
 
   viewPokeTeam = false;
+  viewUpdateTeam = false;
   addPokeTeam = false;
 
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 6;
   get maxPage() {
    return Math.ceil(this.filteredPokeTeamList.length / this.itemsPerPage);
   }
   paginatedPokeTeamList() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    return this.fetchedTeams.slice(start, end);
+    return this.filteredPokeTeamList.slice(start, end);
   }
 
   nextPage() {
@@ -254,6 +277,7 @@ export default class PokemonTeamView extends GlobalMixin {
   // Fetch data when component is mounted
   async mounted() {
     await this.fetchData();
+    this.handleSearchQueryChange('');
   }
 
   showViewTeamModal(): void {
@@ -263,6 +287,11 @@ export default class PokemonTeamView extends GlobalMixin {
   openAddPokeTeamModal(selectedPokeTeam: PokeTeam): void {
     this.selectedPokeTeam = selectedPokeTeam;
     this.addPokeTeam = true;
+  }
+
+  openEditPokeTeamModal(selectedPokeTeam: PokeTeam): void {
+    this.selectedPokeTeam = selectedPokeTeam;
+    this.viewUpdateTeam = true;
   }
 
   // openEditPokemonModal(selectedPokemon: Pokemon): void {
@@ -348,6 +377,8 @@ export default class PokemonTeamView extends GlobalMixin {
 
   handleCancel() { // PokemonForm emits that the cancel button was clicked
     // do nothing at this point
+    this.viewUpdateTeam = false;
+    this.addPokeTeam = false;
   }
 }
 </script>

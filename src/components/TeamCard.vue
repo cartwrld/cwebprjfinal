@@ -49,7 +49,8 @@
       ok-variant="success"
       cancel-variant="danger"
       v-model="viewPokeTeam"
-    size="md">
+      size="md"
+      hide-footer>
 
       <div class="d-flex flex-column align-items-center"> <!-- BASE -->
 
@@ -103,14 +104,22 @@
 
       </div> <!-- close BASE -->
 
-      <template #modal-cancel>
-        <b-icon-x-square-fill/>
-        <span class="ps-3">Delete PokeTeam</span>
-      </template>
-      <template #modal-ok>
-        <b-icon-cloud-arrow-up-fill/>
-        <span class="ps-3">Edit PokeTeam</span>
-      </template>
+<!--      <template #modal-cancel>-->
+<!--        <b-icon-x-square-fill/>-->
+<!--        <span class="ps-3">Delete PokeTeam</span>-->
+<!--      </template>-->
+<!--      <template #modal-ok>-->
+<!--        <b-icon-cloud-arrow-up-fill/>-->
+<!--        <span class="ps-3">Edit PokeTeam</span>-->
+<!--      </template>-->
+
+      <b-button variant="success" class="fw-semibold shadow-sm" @click="editPokeTeam">
+        <b-icon-cloud-arrow-up-fill class="me-2"/><span class="ms-1">Edit PokeTeam</span>
+      </b-button>
+
+      <b-button variant="danger" class="fw-semibold shadow-sm" @click="deletePokeTeam">
+        <b-icon-x-square-fill class="me-2"/><span class="ms-1">Delete PokeTeam</span>
+      </b-button>
 
     </b-modal>
   </div>
@@ -155,7 +164,62 @@ export default class TeamCard extends Mixins(GlobalMixin) {
   //   return 'https://i.imgur.com/CtkIAQO.png';
   // }
 
+  editPokeTeam() {
+    // Update the selectedPokemon before emitting the event
+    this.tempPokeTeam = {
+      teamID: this.teamID,
+      teamName: this.teamName,
+      poke1: this.poke1,
+      poke2: this.poke2,
+      poke3: this.poke3,
+      poke4: this.poke4,
+      poke5: this.poke5,
+      poke6: this.poke6,
+    };
+
+    // Emit the 'edit-pokemon' event with the updated selectedPokemon
+    this.$emit('edit-pokeTeam', this.tempPokeTeam);
+    // Assuming tempPokemon contains the data you want to edit
+  }
+
+  deletePokeTeam() {
+    const confirmation = confirm('Are you sure you want to delete ' + this.tempPokeTeam.teamName + '?');
+
+    if (!confirmation) {
+      return;
+    }
+
+    this.setBusy(true);
+    this.violation = {};
+
+    const url = `${this.POKETEAM_API}/${this.tempPokeTeam.teamID}`;
+    const method = 'delete';
+
+    this.callAPI(url, method, this.tempPokeTeam, localStorage.token)
+      .then(() => {
+        this.$emit('deleted', this.tempPokeTeam.teamID);
+      })
+      .catch((err) => {
+        this.violation = err.data || {};
+      })
+      .finally(() => {
+        this.setBusy(false);
+        window.location.reload();
+      });
+
+  }
+
   showTeamModal(): void {
+    this.tempPokeTeam = {
+      teamID: this.teamID,
+      teamName: this.teamName,
+      poke1: this.poke1,
+      poke2: this.poke2,
+      poke3: this.poke3,
+      poke4: this.poke4,
+      poke5: this.poke5,
+      poke6: this.poke6,
+    };
     this.viewPokeTeam = true;
   }
 

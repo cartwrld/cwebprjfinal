@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="">
     <h1 class="pb-5">Pokemon</h1>
 
     <div
@@ -28,12 +28,30 @@
       </div>
     </div>
 
-    <b-modal v-model="viewPokemon" title="Add Pokemon" @hidden="handleModalHidden" hide-footer>
+    <b-modal v-model="addPokemon" title="Add Pokemon" @hidden="handleModalHidden" hide-footer>
       <PokemonForm
         :pokemon="selectedPokemon"
         @added="handleAdd"
         @updated="handleUpdate"
         @reset="handleReset"
+        @cancelled="handleCancel"
+      />
+    </b-modal>
+
+    <b-modal v-model="viewUpdatePokemon" title="Edit Pokemon" @hidden="handleModalHidden" hide-footer>
+      <EditPokemonForm
+        :pokeID="this.selectedPokemon.pokeID"
+        :poke-name="this.selectedPokemon.pokeName"
+        :poke-type1="this.selectedPokemon.pokeType1"
+        :poke-type2="this.selectedPokemon.pokeType2"
+        :gen="this.selectedPokemon.gen"
+        :hp="this.selectedPokemon.hp"
+        :atk="this.selectedPokemon.atk"
+        :def="this.selectedPokemon.def"
+        :spatk="this.selectedPokemon.spatk"
+        :spdef="this.selectedPokemon.spdef"
+        :spd="this.selectedPokemon.spd"
+        :sprite="this.selectedPokemon.sprite"
         @cancelled="handleCancel"
       />
     </b-modal>
@@ -67,7 +85,7 @@
         <div v-for="pokemon in paginatedPokemonList()" :key="pokemon.pokeID"
              class="d-flex justify-content-center">
           <PokeCard
-            :poke-i-d="pokemon.pokeID"
+            :pokeID="pokemon.pokeID"
             :poke-name="pokemon.pokeName"
             :poke-type1="pokemon.pokeType1"
             :poke-type2="pokemon.pokeType2"
@@ -80,7 +98,7 @@
             :spd="pokemon.spd"
             :sprite="pokemon.sprite"
             variant="light"
-            @edit-pokemon="openAddPokemonModal"
+            @edit-pokemon="openEditPokemonModal"
             @deleted="handleDelete"
           />
         </div>
@@ -88,7 +106,7 @@
       </div>
 
       <!--      NEXT PAGE BUTTON    -->
-      <div class="shadow-sm bg-dark-subtle rounded-3 p-2 ">
+      <div class="shadow-sm bg-dark-subtle rounded-3 p-2">
         <b-button
           v-if="currentPage < Math.ceil(filteredPokemonList.length / this.itemsPerPage)"
           @click="nextPage"
@@ -118,9 +136,12 @@ import AutoSearch from '@/components/AutoSearch.vue';
 import PokemonForm from '@/components/PokemonForm.vue';
 import Pokemon from '@/models/Pokemon';
 import PokemonSearch from '@/components/PokemonSearch.vue';
+import UpdatePokemonForm from "@/components/UpdatePokemonForm.vue";
+import EditPokemonForm from "@/components/EditPokemonForm.vue";
 
 @Component({
   components: {
+    EditPokemonForm,
     PokemonForm,
     PokemonSearch,
     PokeCard
@@ -137,7 +158,8 @@ export default class PokemonView extends Mixins(GlobalMixin) {
   GymLeaderToken = 'iHaveAdminAccess'
 
   viewPokemon = false;
-
+  viewUpdatePokemon = false;
+  addPokemon = false;
 
   currentPage = 1;
   itemsPerPage = 18;
@@ -188,13 +210,13 @@ export default class PokemonView extends Mixins(GlobalMixin) {
 
   openAddPokemonModal(selectedPokemon: Pokemon): void {
     this.selectedPokemon = selectedPokemon;
-    this.viewPokemon = true;
+    this.addPokemon = true;
   }
 
-  // openEditPokemonModal(selectedPokemon: Pokemon): void {
-  //   this.selectedPokemon = selectedPokemon;
-  //   this.viewPokemon = true;
-  // }
+  openEditPokemonModal(selectedPokemon: Pokemon): void {
+    this.selectedPokemon = selectedPokemon;
+    this.viewUpdatePokemon = true;
+  }
 
   // Method to handle modal hidden event
   handleModalHidden(): void {
@@ -277,7 +299,9 @@ export default class PokemonView extends Mixins(GlobalMixin) {
   }
 
   handleCancel() { // PokemonForm emits that the cancel button was clicked
-    // do nothing at this point
+    // this.$refs.myModalRef.hide();
+    this.viewUpdatePokemon = false;
+    this.addPokemon = false;
   }
 }
 </script>

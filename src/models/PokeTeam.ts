@@ -32,7 +32,7 @@ export default class PokeTeam {
   @Length(1, 50, { message: 'Team Name must be from $constraint1 to $constraint2 characters' })
     teamName = '';
 
-  @IsPositive({ message: 'Team ID is must be a positive number!' })
+  @IsPositive({ message: 'Pokemon ID must be a positive number!' })
     poke1 = 0;
 
   @IsPositive({ message: 'Pokemon ID must be a positive number!' })

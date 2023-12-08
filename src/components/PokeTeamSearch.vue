@@ -57,7 +57,7 @@ export default class PokeTeamSearch extends Mixins(GlobalMixin) {
    * Decorator: https://github.com/kaorun343/vue-property-decorator#Prop
    */
   @Prop({default: 2}) readonly minSearchLength!: number
-  @Prop(Array) readonly pktms!: PokeTeam[]; // New prop for the array to be searched
+  @Prop(Array) readonly pokeTeams!: PokeTeam[]; // New prop for the array to be searched
   // data variables are constantly monitored for changes and when their values change Vue 'refreshes' the display
   query = '' // search string to send to api
 
@@ -74,10 +74,11 @@ export default class PokeTeamSearch extends Mixins(GlobalMixin) {
    */
   filterPokeTeams() {
     // Filter the array passed as a prop based on the search query
-    this.results = this.pktms.filter(item =>
+    this.results = this.pokeTeams.filter(item =>
       (item.teamName ?? '').toLowerCase().includes(this.query.toLowerCase())
     );
 
+    console.log(this.results);
     // Emit an event to notify the parent component about the search query change
     this.$emit('search-query-changed', this.query);
   }
@@ -124,7 +125,7 @@ export default class PokeTeamSearch extends Mixins(GlobalMixin) {
     }
 
     // Filter the array passed as a prop based on the search query
-    this.results = this.pktms.filter(item =>
+    this.results = this.pokeTeams.filter(item =>
       (item.teamName ?? '').toLowerCase().includes(this.query.toLowerCase())
     );
   }

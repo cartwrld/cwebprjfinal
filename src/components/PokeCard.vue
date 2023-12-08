@@ -6,7 +6,7 @@
 
       class="p-2 rounded-2"
       :variant="variant"
-      @click="showViewPokeModal">
+      @click="showPokeModal">
 
       <div :style="{background: typePalette.brd_grd}"
            class="rounded-4 p-1">
@@ -36,21 +36,14 @@
         </div>
       </div>
     </b-button>
-
-<!--    <ViewPokeModal-->
-<!--          title="View Pokemon"-->
-<!--          ok-variant="success"-->
-<!--          cancel-variant="danger"-->
-<!--          v-model="viewPokemon"-->
-<!--    ></ViewPokeModal>-->
-
-<!--        </div>-->
+    <!--    </div>-->
 
     <b-modal
       title="View Pokemon"
       ok-variant="success"
       cancel-variant="danger"
-      v-model="viewPokemon">
+      v-model="viewPokemon"
+      hide-footer>
 
       <div class="d-flex flex-column align-items-center"> <!-- BASE -->
 
@@ -69,8 +62,9 @@
           <!--            </div>-->
           <!--          </div>-->
           <div class="d-flex justify-content-start"> <!-- name container -->
-            <div class="fs-1"> <!-- name -->{{ capFirstLetter(pokeName) }}</div>
+            <div class="fs-2 text-center"> <!-- name -->{{ capFirstLetter(pokeName) }}</div>
           </div>
+
 
           <div class="d-flex justify-content-center align-items-center">
             <!-- gen outer container -->
@@ -92,6 +86,7 @@
             class="d-flex justify-content-around align-items-center p-2 mb-2 rounded-3 shadow-sm border">
             <!-- img container -->
             <img v-bind:src="sprite" alt="pokemon" width="350px" class="rounded shadow-sm bg-light">
+
           </div>
           <div class="d-flex justify-content-around align-items-center py-2">
             <!-- types container -->
@@ -111,36 +106,42 @@
           </div>
         </div>
 
-        <div class="border border-1 my-3 w-100"></div> <!-- divider -->
+        <div class="border border-1 my-3 w-100"></div>
 
-        <!-- stats outer container -->
-        <div class="d-flex justify-content-around w-75">
-          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 py-1 shadow-sm">
+        <div class="d-flex justify-content-around w-75"> <!-- stats outer container -->
+
+          <div
+            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 py-1 shadow-sm">
             <!-- hp container -->
             <span class="fw-bold">HP</span>
             <span class="fw-semibold fs-5"><!-- hp num -->{{ hp }}</span>
           </div>
-          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 mx-2 shadow-sm">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 mx-2 shadow-sm">
             <!-- atk container -->
             <span class="fw-bold">ATK</span>
             <span class="fw-semibold fs-5"><!-- atk num -->{{ atk }}</span>
           </div>
-          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 me-1 shadow-sm">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 me-1 shadow-sm">
             <!-- def container -->
             <span class="fw-bold">DEF</span>
             <span class="fw-semibold fs-5"><!-- def num -->{{ def }}</span>
           </div>
-          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 ms-1 shadow-sm">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 ms-1 shadow-sm">
             <!-- spatk container -->
             <span class="fw-bold">SPATK</span>
             <span class="fw-semibold fs-5"><!-- spatk num -->{{ spatk }}</span>
           </div>
-          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 mx-2 shadow-sm">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-2 mx-2 shadow-sm">
             <!-- spdef container -->
             <span class="fw-bold">SPDEF</span>
             <span class="fw-semibold fs-5"><!-- spdef num -->{{ spdef }}</span>
           </div>
-          <div class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 shadow-sm">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center border bg-light rounded-3 px-3 shadow-sm">
             <!-- spd container -->
             <span class="fw-bold">SPD</span>
             <span class="fw-semibold fs-5"><!-- spd num -->{{ spd }}</span>
@@ -150,34 +151,31 @@
 
       </div> <!-- close BASE -->
 
-      <template #modal-cancel>
-        <b-icon-x-square-fill/>
-        <span class="ps-3">Delete Pokemon</span>
-      </template>
-      <template #modal-ok>
-        <b-icon-cloud-arrow-up-fill/>
-        <span class="ps-3">Edit Pokemon</span>
-      </template>
+        <b-button-group class="w-100 mt-4 shadow-sm">
+          <b-button variant="primary" :disabled="isDisabled" @click="editPokemon">
+            <b-icon-cloud-arrow-up-fill ref="iconEdit"  class="me-2"/>
+            Edit Pokemon
+          </b-button>
+          <b-button variant="danger" :disabled="isDisabled" @click="deletePokemon">
+            <b-icon-x-square-fill class="me-2"/>
+            Delete Pokemon
+          </b-button>
+        </b-button-group>
+
     </b-modal>
-
-
   </div>
 </template>
 <script lang="ts">
 import {
   Component, Prop, Mixins,
 } from 'vue-property-decorator';
+
 import {BIcon} from 'bootstrap-vue';
 import GlobalMixin from '@/mixins/global-mixin';
 import Pokemon from '@/models/Pokemon';
-import ViewPokeModal from '@/components/ViewPokeModal.vue';
-import {capFirstLetter } from '@/services/utils';
+// import r from '../models/Pokemon';
 
-
-@Component({
-  methods: { capFirstLetter },
-  components: { ViewPokeModal }
-})
+@Component({})
 export default class PokeCard extends Mixins(GlobalMixin) {
   @Prop() private pokeID!: number;
   @Prop() private pokeName!: string;
@@ -196,11 +194,75 @@ export default class PokeCard extends Mixins(GlobalMixin) {
 
   // ================== FUNCTIONS ====================
 
-  showViewPokeModal(): void {
-    this.viewPokemon = true;
+  editPokemon() {
+    // Update the selectedPokemon before emitting the event
+    this.tempPokemon = {
+      pokeID: this.pokeID,
+      pokeName: this.pokeName,
+      pokeType1: this.pokeType1,
+      pokeType2: this.pokeType2,
+      gen: this.gen,
+      hp: this.hp,
+      atk: this.atk,
+      def: this.def,
+      spatk: this.spatk,
+      spdef: this.spdef,
+      spd: this.spd,
+      sprite: this.sprite,
+    };
+
+    // Emit the 'edit-pokemon' event with the updated selectedPokemon
+    this.$emit('edit-pokemon', this.tempPokemon);
+    // Assuming tempPokemon contains the data you want to edit
   }
-  showAddPokeModal(): void {
-    this.addPokemon = true;
+
+  deletePokemon() {
+    const confirmation = confirm('Are you sure you want to delete ' + this.tempPokemon.pokeName + '?');
+
+    if (!confirmation) {
+      return;
+    }
+
+    this.setBusy(true);
+    this.violation = {};
+
+    const url = `${this.POKEMON_API}/${this.tempPokemon.pokeID}`;
+    const method = 'delete';
+
+    this.callAPI(url, method, this.tempPokemon, localStorage.token)
+      .then(() => {
+        this.$emit('deleted', this.tempPokemon.pokeID);
+      })
+      .catch((err) => {
+        this.violation = err.data || {};
+      })
+      .finally(() => {
+        this.setBusy(false);
+        window.location.reload();
+      });
+
+  }
+
+  capFirstLetter(val: string) {
+    return val.charAt(0).toUpperCase() + val.slice(1);
+  }
+
+  showPokeModal(): void {
+    this.tempPokemon = {
+      pokeID: this.pokeID,
+      pokeName: this.pokeName,
+      pokeType1: this.pokeType1,
+      pokeType2: this.pokeType2,
+      gen: this.gen,
+      hp: this.hp,
+      atk: this.atk,
+      def: this.def,
+      spatk: this.spatk,
+      spdef: this.spdef,
+      spd: this.spd,
+      sprite: this.sprite,
+    };
+    this.viewPokemon = true;
   }
 
   TypePalette() {
@@ -283,12 +345,11 @@ export default class PokeCard extends Mixins(GlobalMixin) {
   selectedPokemon = new Pokemon();
   tempPokemon: Pokemon = new Pokemon();
 
-  typePalette = this.TypePalette();
+  typePalette = this.TypePalette()
 
   violation: any = {};
 
   viewPokemon = false;
-  addPokemon = false;
 
   // ================== UI FUNCTIONS ====================
 

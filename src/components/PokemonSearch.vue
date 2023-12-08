@@ -5,12 +5,12 @@
       <b-input type="search" debounce="500" placeholder="Search" class="text-info "
                v-model="query" @focus="hasFocus=true;" @blur="hasFocus=false"/>
       <b-input-group-append v-b-tooltip.hover.right="'Search'" is-text class="rounded">
-        <b-icon-search variant="dark-subtle" @click="filterPokemon" scale="1.1" class="my-1"/>
+        <b-icon-search variant="info" @click="filterPokemon" scale="1.1" class="my-1"/>
       </b-input-group-append>
     </b-input-group>
 
-    <b-list-group variant="dark-subtle" class="shadow autocomplete-list" v-show="showList" @mousedown.prevent>
-      <b-list-group-item v-if="isBusy">
+    <b-list-group class="shadow autocomplete-list" v-show="showList" @mousedown.prevent>
+      <b-list-group-item v-if="isBusy" variant="info">
         <b-spinner small/>
       </b-list-group-item>
       <b-list-group-item v-else-if="results.length == 0" variant="warning">

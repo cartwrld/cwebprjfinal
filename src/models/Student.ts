@@ -15,7 +15,7 @@ export default class Student {
 
   @Length(1, 50, {
     message:
-      "Given Name must be between $constraint1 and $constraint2 characters",
+      "PokeName must be between $constraint1 and $constraint2 characters!",
   })
   givenName!: string;
 
