@@ -1,6 +1,6 @@
 const API_URL = 'http://localhost:3004';
 
-export default async function fetchData(destPage: string, token: string): Promise<any> {
+export default async function fetchData(destPage: string, token: string | null): Promise<any> {
   const headers = new Headers({
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',

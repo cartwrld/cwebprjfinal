@@ -1,8 +1,8 @@
 <template>
   <div class="">
     <div class="">
-      <!-- POKE ID -->
-      <b-form-group :invalid-feedback="violation.teamID" :has-err="hasErr.teamID" class="mb-1">
+      <!-- TEAM ID -->
+      <b-form-group :invalid-feedback="violation.teamID" :state="hasErr.teamID" class="mb-1">
         <b-input-group>
           <div class="d-flex shadow-sm rounded">
 
@@ -13,7 +13,7 @@
           <b-form-input class="rounded shadow-sm"
                         :placeholder="dt.tid"
                         v-model="tempTeam.teamID"
-                        :has-err="hasErr.teamID"
+                        :state="hasErr.teamID"
                         :disabled="isDisabled"
                         trim
                         @keydown="violation.teamID = null"
@@ -25,7 +25,7 @@
 
 
       <!-- NAME -->
-      <b-form-group :invalid-feedback="violation.teamName" :has-err="hasErr.teamName" class="mb-1">
+      <b-form-group :invalid-feedback="violation.teamName" :state="hasErr.teamName" class="mb-1">
         <b-input-group>
           <div class="d-flex shadow-sm rounded ">
             <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.name" class="d-flex">
@@ -34,7 +34,7 @@
           </div>
           <b-form-input class="rounded shadow-sm"
                         :placeholder="dt.name"
-                        :has-err="hasErr.teamName"
+                        :state="hasErr.teamName"
                         :disabled="isDisabled"
                         v-model="tempTeam.teamName"
                         trim
@@ -49,7 +49,7 @@
 
 
         <!-- POKE 1 -->
-        <b-form-group :invalid-feedback="violation.poke1" :has-err="hasErr.poke1"
+        <b-form-group :invalid-feedback="violation.poke1" :state="hasErr.poke1"
                       class="mb-1">
           <b-input-group>
             <div class="d-flex shadow-sm rounded">
@@ -59,7 +59,7 @@
             </div>
             <b-form-input class="rounded shadow-sm"
                           :placeholder="dt.p1"
-                          :has-err="hasErr.poke1"
+                          :state="hasErr.poke1"
                           :disabled="isDisabled"
                           v-model="tempTeam.poke1"
                           trim
@@ -68,7 +68,7 @@
         </b-form-group>
 
         <!-- POKE 2 -->
-        <b-form-group :invalid-feedback="violation.poke2" :has-err="hasErr.poke2"
+        <b-form-group :invalid-feedback="violation.poke2" :state="hasErr.poke2"
                       class="mb-1">
           <b-input-group>
             <div class="d-flex shadow-sm rounded">
@@ -78,7 +78,7 @@
             </div>
             <b-form-input class="rounded shadow-sm"
                           :placeholder="dt.p2"
-                          :has-err="hasErr.poke2"
+                          :state="hasErr.poke2"
                           :disabled="isDisabled"
                           v-model="tempTeam.poke2"
                           trim
@@ -87,7 +87,7 @@
         </b-form-group>
 
         <!-- POKE 3 -->
-        <b-form-group :invalid-feedback="violation.poke3" :has-err="hasErr.poke3"
+        <b-form-group :invalid-feedback="violation.poke3" :state="hasErr.poke3"
                       class="mb-1">
           <b-input-group>
             <div class="d-flex shadow-sm rounded">
@@ -97,7 +97,7 @@
             </div>
             <b-form-input class="rounded shadow-sm"
                           :placeholder="dt.p3"
-                          :has-err="hasErr.poke3"
+                          :state="hasErr.poke3"
                           :disabled="isDisabled"
                           v-model="tempTeam.poke3"
                           trim
@@ -108,7 +108,7 @@
           <div class="d-flex flex-wrap col-5">
 
         <!-- POKE 4 -->
-        <b-form-group :invalid-feedback="violation.poke4" :has-err="hasErr.poke4"
+        <b-form-group :invalid-feedback="violation.poke4" :state="hasErr.poke4"
                       class="mb-1">
           <b-input-group>
             <div class="d-flex shadow-sm rounded">
@@ -118,7 +118,7 @@
             </div>
             <b-form-input class="rounded shadow-sm"
                           :placeholder="dt.p4"
-                          :has-err="hasErr.poke4"
+                          :state="hasErr.poke4"
                           :disabled="isDisabled"
                           v-model="tempTeam.poke4"
                           trim
@@ -127,7 +127,7 @@
         </b-form-group>
 
         <!-- POKE 5 -->
-        <b-form-group :invalid-feedback="violation.poke5" :has-err="hasErr.poke5"
+        <b-form-group :invalid-feedback="violation.poke5" :state="hasErr.poke5"
                       class="mb-1">
           <b-input-group>
             <div class="d-flex shadow-sm rounded">
@@ -137,7 +137,7 @@
             </div>
             <b-form-input class="rounded shadow-sm"
                           :placeholder="dt.p5"
-                          :has-err="hasErr.poke5"
+                          :state="hasErr.poke5"
                           :disabled="isDisabled"
                           v-model="tempTeam.poke5"
                           trim
@@ -146,7 +146,7 @@
         </b-form-group>
 
         <!-- POKE 6 -->
-        <b-form-group :invalid-feedback="violation.poke6" :has-err="hasErr.poke6"
+        <b-form-group :invalid-feedback="violation.poke6" :state="hasErr.poke6"
                       class="mb-1">
           <b-input-group>
             <div class="d-flex shadow-sm rounded">
@@ -156,7 +156,7 @@
             </div>
             <b-form-input class="rounded shadow-sm"
                           :placeholder="dt.p6"
-                          :has-err="hasErr.poke6"
+                          :state="hasErr.poke6"
                           :disabled="isDisabled"
                           v-model="tempTeam.poke6"
                           trim
@@ -226,7 +226,20 @@ export default class PokeTeamForm extends Mixins(GlobalMixin) {
     iconSave: BIcon
   };
 
-  token = 'iHaveWriteAccess';
+  // token = 'iHaveWriteAccess';
+
+  token = localStorage.getItem('authToken');
+
+  checkForToken() {
+    if (this.token !== 'iHaveAdminAccess') {
+      console.log("token is broken")
+      console.log(this.token)
+    }
+  }
+
+
+
+
   // region DATA VARIABLES
   // will store a copy of the values from the pokemon declared in the props section
   tempTeam: PokeTeam = new PokeTeam();
@@ -260,6 +273,9 @@ export default class PokeTeamForm extends Mixins(GlobalMixin) {
   }
 
   saveTeam() {
+
+    this.checkForToken()
+
     // Initialize properties with default values
     this.tempTeam.teamID = this.tempTeam.teamID !== undefined ? this.tempTeam.teamID : 0;
 
@@ -272,7 +288,7 @@ export default class PokeTeamForm extends Mixins(GlobalMixin) {
     console.log(this.tempTeam.poke6);
 
     // const tempId = this.getPokemonIdByName(this.tempTeam.poke1 + "");
-
+    //
     // this.tempTeam.poke1 = this.getPokemonIdByName(this.tempTeam.poke1 + "");
     // this.tempTeam.poke1 = this.tempTeam.poke1 !== undefined ? this.tempTeam.poke1 : 0;
     // this.tempTeam.poke2 = this.tempTeam.poke2 !== undefined ? this.tempTeam.poke2 : 0;
@@ -280,29 +296,19 @@ export default class PokeTeamForm extends Mixins(GlobalMixin) {
     // this.tempTeam.poke4 = this.tempTeam.poke4 !== undefined ? this.tempTeam.poke4 : 0;
     // this.tempTeam.poke5 = this.tempTeam.poke5 !== undefined ? this.tempTeam.poke5 : 0;
     // this.tempTeam.poke6 = this.tempTeam.poke6 !== undefined ? this.tempTeam.poke6 : 0;
-//
-// // Convert string values to numbers
+
+ // Convert string values to numbers
     this.tempTeam.poke1 = this.getPokemonIdByName(this.tempTeam.poke1 + "");
     this.tempTeam.poke2 = this.getPokemonIdByName(this.tempTeam.poke2 + "");
     this.tempTeam.poke3 = this.getPokemonIdByName(this.tempTeam.poke3 + "");
     this.tempTeam.poke4 = this.getPokemonIdByName(this.tempTeam.poke4 + "");
     this.tempTeam.poke5 = this.getPokemonIdByName(this.tempTeam.poke5 + "");
     this.tempTeam.poke6 = this.getPokemonIdByName(this.tempTeam.poke6 + "");
-//     this.tempPokemon.hp = parseInt(this.tempPokemon.hp as unknown as string, 10);
-//     this.tempPokemon.atk = parseInt(this.tempPokemon.atk as unknown as string, 10);
-//     this.tempPokemon.def = parseInt(this.tempPokemon.def as unknown as string, 10);
-//     this.tempPokemon.spatk = parseInt(this.tempPokemon.spatk as unknown as string, 10);
-//     this.tempPokemon.spdef = parseInt(this.tempPokemon.spdef as unknown as string, 10);
-//     this.tempPokemon.spd = parseInt(this.tempPokemon.spd as unknown as string, 10);
-//
-// // Now you can safely use these properties
-// // ...
-//
-// // Ensure other properties are not undefined and assign default values if needed
+
+
+ // Ensure other properties are not undefined and assign default values if needed
     this.tempTeam.teamName = this.tempTeam.teamName || '';
-//     this.tempPokemon.pokeType1 = this.tempPokemon.pokeType1 || '';
-//     this.tempPokemon.pokeType2 = this.tempPokemon.pokeType2 || '';
-//     this.tempPokemon.sprite = this.tempPokemon.sprite || '';
+
 
     const icon: BIcon = this.$refs.iconSave; // get the icon to animate from the vue refs https://vuejs.org/v2/api/#ref
     this.setBusy(true);// tell parent that this component is waiting for the api to respond
@@ -316,20 +322,19 @@ export default class PokeTeamForm extends Mixins(GlobalMixin) {
 
     // console.log(this.tempPokemon);
 
-    this.callAPI(url, method, this.tempTeam, localStorage.token) // returns a promise object
+    this.callAPI(url, method, this.tempTeam, localStorage.getItem('authToken')) // returns a promise object
       .then((data) => {
         // determine if the pokemon was added or updated
         this.$emit(this.tempTeam.teamID === data.id ? 'updated' : 'added', data);
       })
       .catch((err) => {
         // get the violation messages from the api - if the web server responded
-        //console.log(this.violation);
         this.violation = err.data || {};
-        //console.log(this.violation);
       })
       .finally(() => {
         this.setBusy(false);// tell parent that this component is no longer waiting for the api
         this.animate(icon, false);// stop the icon animation
+
         window.location.reload();
       });
   }

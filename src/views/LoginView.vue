@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <h2 class="login-heading">Login</h2>
+      <h2 class="login-heading pt-5 pb-3">Login</h2>
       <b-form @submit.prevent="login" class="login-form">
         <b-form-group label="Username" label-for="username-input">
           <b-form-input
@@ -13,7 +13,7 @@
           />
         </b-form-group>
 
-        <b-form-group label="Password" label-for="password-input">
+        <b-form-group label="Password" label-for="password-input" class="mt-3 mb-2">
           <b-form-input
             v-model="password"
             type="password"
@@ -24,7 +24,7 @@
           />
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="rounded-3 p-3 col-12">
+        <b-button type="submit" variant="primary" class="rounded-3 p-3 mt-4 col-12 shadow-sm">
           Login
         </b-button>
       </b-form>

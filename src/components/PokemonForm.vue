@@ -7,7 +7,7 @@
         <b-input-group>
           <div class="d-flex shadow-sm rounded ">
             <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.pkid" class="d-flex">
-              <b-icon-number-sign :title="dt.pkid"/>
+              <b-icon-hash :title="dt.pkid"/>
             </b-input-group-prepend>
           </div>
           <b-form-input class="rounded shadow-sm"
@@ -280,7 +280,8 @@ export default class PokemonForm extends Mixins(GlobalMixin) {
     iconSave: BIcon
   };
 
-  token = 'iHaveWriteAccess';
+  lst = localStorage.getItem('authToken');
+
   // region DATA VARIABLES
   // will store a copy of the values from the pokemon declared in the props section
   tempPokemon: Pokemon = new Pokemon();
@@ -375,19 +376,17 @@ export default class PokemonForm extends Mixins(GlobalMixin) {
       console.log(temp);
       this.violation = temp;
     } else {
-      const headers = new Headers({
-        Authorization: `Bearer iHaveAdminAccess`,
-        'Content-Type': 'application/json',
-      });
+
       // use the method declared in the pokemon mixin to call the pokemon api
       // if the pokemon is new POST , if the pokemon already exists then PUT
-      const url = this.POKEMON_API + `/${this.tempPokemon.pokeID}`;
+      const url = this.POKEMON_API + `/`;
       const method = 'post';
 
-      this.callAPI(url, method, this.tempPokemon, localStorage.token) // returns a promise object
+      this.callAPI(url, method, this.tempPokemon, this.lst) // returns a promise object
         .then((data) => {
           const savedPokemon = Object.assign(new Pokemon(), data);
-          this.$emit(this.tempPokemon.pokeID ? "updated" : "added", savedPokemon);
+          console.log(savedPokemon)
+          this.$emit( "added", savedPokemon);
         })
         .catch((err) => {
           this.violation = err.data || {};
@@ -396,23 +395,12 @@ export default class PokemonForm extends Mixins(GlobalMixin) {
         .finally(() => {
           this.setBusy(false);
           console.log(this.violation)
-          // if (this.violation === {pokeName: null, hp: null,atk: null, def: null, spd: null, spatk: null, spdef:null }) {
-          if (this.violation === []) {
+          if (this.violation.atk === null) {
             window.location.reload();
           }
         })
 
     }
-
-
-    // const icon: BIcon = this.$refs.iconSave; // get the icon to animate from the vue refs https://vuejs.org/v2/api/#ref
-    // this.setBusy(true);// tell parent that this component is waiting for the api to respond
-    // this.animate(icon, true);// animate the icon in the clicked button to give the user an indication that some thing is happening
-    // this.violation = {};// empty out violation messages - to hide violation message from user and wait for new violations from the api
-
-
-    // console.log(this.tempPokemon);
-
 
   }
 
@@ -432,7 +420,6 @@ export default class PokemonForm extends Mixins(GlobalMixin) {
     }
   }
 
-  // endregion
 
   // region COMPUTED PROPERTIES
   get hasErr(): any {
@@ -451,11 +438,6 @@ export default class PokemonForm extends Mixins(GlobalMixin) {
       spd: this.violation.spd ? false : null,
       sprite: this.violation.sprite ? false : null,
     };
-  }
-
-  get isNew(): boolean {
-    // if pokemonID is null, 0 , '' then it's a new pokemon not an existing pokemon
-    return !this.pokemon || !this.pokemon.pokeID;
   }
 
   // endregion

@@ -110,8 +110,8 @@ export default class UserView  extends Mixins(GlobalMixin){
 </script>
 
 <template>
-  <div class="border ">
-    <h1>User</h1>
+  <div class=" ">
+    <h1 class="pb-5">User</h1>
     <!-- Iterate over each user and create a PokeCard for each one -->
     <div class="d-flex justify-content-center align-items-center">
       <div class="d-flex flex-wrap col-11 justify-content-center">
@@ -125,8 +125,6 @@ export default class UserView  extends Mixins(GlobalMixin){
             :access-level="user.accessLevel"
             :token="user.token"
             variant="light"
-
-
           />
         </div>
       </div>

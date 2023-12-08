@@ -63,46 +63,46 @@ export default class Pokemon {
 
   @Length(1, 50, { message: 'PokeName must be from $constraint1 to $constraint2 characters!' })
   @IsNotEmpty({message: 'You must enter a PokeName'})
-  pokeName?: string;
+  pokeName?: string | undefined;
 
   @IsIn(POKE_TYPES, { message: 'You must choose a valid PokeType!' })
-  pokeType1?: string;
+  pokeType1?: string | undefined;
 
   @IsIn(POKE_TYPES, { message: 'You must choose a valid PokeType!' })
   @IsOptional()
-  pokeType2?: string;
+  pokeType2?: string | undefined;
 
   @IsNumber({}, { message: 'Gen must be a number!' })
   @Max(10, { message: 'Gen 10 is the latest generation!' })
   @Min(1, { message: 'Gen 1 was the first generation!' })
-  gen?: number;
+  gen?: number | undefined;
 
 
   @IsNotEmpty({message: 'You must enter an HP stat!'})
-  hp?: number | string;
+  hp?: number | undefined;
 
 
   @IsNotEmpty({message: 'You must enter an ATK stat!'})
-  atk?: number | string;
+  atk?: number | undefined;
 
 
   @IsNotEmpty({message: 'You must enter an DEF stat!'})
-  def?: number | string;
+  def?: number | undefined;
 
 
   @IsNotEmpty({message: 'You must enter an SP.ATK stat!'})
-  spatk?: number | string;
+  spatk?: number | undefined;
 
 
   @IsNotEmpty({message: 'You must enter an SP.ATK stat!'})
-  spdef?: number | string;
+  spdef?: number | undefined;
 
 
   @IsNotEmpty({message: 'You must enter an SPD stat!'})
-  spd?: number;
+  spd?: number | undefined;
 
   @IsUrl({}, { message: 'The sprite must be a valid URL' })
-  sprite?: string;
+  sprite?: string | undefined;
 
 
   /**

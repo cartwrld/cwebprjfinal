@@ -40,9 +40,8 @@
 
     <b-modal
       title="View User"
-      ok-variant="success"
-      cancel-variant="danger"
-      v-model="viewUser">
+      v-model="viewUser"
+      id="view-user-modal">
 
       <div class="d-flex flex-column align-items-center"> <!-- BASE -->
 
@@ -111,11 +110,25 @@
 
       <!--      <div class="d-flex justify-content-center align-items-center">-->
 
-      <template #modal-ok>
-        <div class="">
-          <b-icon-x-diamond-fill/>
-          <span class="ps-3">DONE</span>
-        </div>
+<!--      <b-button-group class="w-100 mt-4 shadow-sm">-->
+<!--        <b-button variant="primary" :disabled="isDisabled" @click="done">-->
+<!--          <b-icon-cloud-arrow-up-fill ref="iconEdit"  class="me-2"/>-->
+<!--          Edit Pokemon-->
+<!--        </b-button>-->
+<!--      </b-button-group>-->
+<!--      <b-button-group class="w-100 mt-4 shadow-sm">-->
+<!--        <b-button variant="success" :disabled="isDisabled" @click="done">-->
+<!--          <b-icon-check2-square ref="iconEdit"  class="me-2"/>-->
+<!--          Done-->
+<!--        </b-button>-->
+<!--      </b-button-group>-->
+      <!-- Custom Footer -->
+      <template #modal-footer>
+        <!-- Custom button to close the modal -->
+        <b-button class="w-100 mt-0 shadow-sm" variant="success" @click="done">
+          <b-icon-check2-all class="me-2"/> <!-- Using a check icon for "Done" -->
+          Done
+        </b-button>
       </template>
 
       <!--      </div>-->
@@ -144,9 +157,7 @@ export default class PokeCard extends Mixins(GlobalMixin) {
 
 
   // ================== FUNCTIONS ====================
-  capFirstLetter(val: string) {
-    return val.charAt(0).toUpperCase() + val.slice(1);
-  }
+
 
   showUserModal(): void {
     this.viewUser = true;
@@ -159,6 +170,11 @@ export default class PokeCard extends Mixins(GlobalMixin) {
   // tempPokemon: User = new User();
 
   // violation: any = {};
+
+  done(): void {
+    this.$bvModal.hide('view-user-modal');
+  }
+
 
   viewUser = false;
 

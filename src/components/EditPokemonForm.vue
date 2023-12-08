@@ -174,6 +174,24 @@ export default class UpdatePokemonForm extends Mixins(GlobalMixin) {
 <template>
   <div class="">
     <div class="">
+      <!-- PokeID -->
+      <b-form-group :invalid-feedback="violation.pokeID" :state="hasErr.pokeID" class="mb-1">
+        <b-input-group>
+          <div class="d-flex shadow-sm rounded ">
+            <b-input-group-prepend is-text v-b-tooltip.hover.right="dt.pkid" class="d-flex">
+              <b-icon-hash :title="dt.pkid"/>
+            </b-input-group-prepend>
+          </div>
+          <b-form-input class="rounded shadow-sm"
+                        :placeholder="dt.pkid"
+                        :state="hasErr.pokeID"
+                        v-model="tempPokemon.pokeID"
+                        trim
+                        @keydown="violation.pokeID = null"/>
+        </b-input-group>
+      </b-form-group>
+
+      <div class="border border-1 my-3 w-100"></div>
 
       <!-- NAME -->
       <b-form-group

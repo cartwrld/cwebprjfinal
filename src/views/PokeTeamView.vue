@@ -184,7 +184,7 @@ export default class PokemonTeamView extends GlobalMixin {
   addPokeTeam = false;
 
   currentPage = 1;
-  itemsPerPage = 6;
+  itemsPerPage = 5;
   get maxPage() {
    return Math.ceil(this.filteredPokeTeamList.length / this.itemsPerPage);
   }
@@ -358,7 +358,13 @@ export default class PokemonTeamView extends GlobalMixin {
     // PokemonForm emits a pokemon when an existing pokemon is updated in the api
 
     // update the values in the selectedPokemon to the updated values
-    Object.assign(this.selectedPokeTeam, poketeam);
+
+    if(localStorage.token == this.GymLeaderToken) {
+      Object.assign(this.selectedPokeTeam, poketeam);
+    } else {
+      confirm('You do NOT have permisssion to do that');
+    }
+
   }
 
   handleDelete(poketeam: PokeTeam) { // PokemonForm emits a pokemon when an existing pokemon is deleted in the api

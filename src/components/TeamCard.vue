@@ -113,13 +113,16 @@
 <!--        <span class="ps-3">Edit PokeTeam</span>-->
 <!--      </template>-->
 
-      <b-button variant="success" class="fw-semibold shadow-sm" @click="editPokeTeam">
-        <b-icon-cloud-arrow-up-fill class="me-2"/><span class="ms-1">Edit PokeTeam</span>
-      </b-button>
-
-      <b-button variant="danger" class="fw-semibold shadow-sm" @click="deletePokeTeam">
-        <b-icon-x-square-fill class="me-2"/><span class="ms-1">Delete PokeTeam</span>
-      </b-button>
+      <b-button-group class="w-100 mt-4 shadow-sm">
+        <b-button variant="primary" :disabled="isDisabled" @click="editPokeTeam">
+          <b-icon-cloud-arrow-up-fill ref="iconEdit"  class="me-2"/>
+          Edit PokeTeam
+        </b-button>
+        <b-button variant="danger" :disabled="isDisabled" @click="deletePokeTeam">
+          <b-icon-x-square-fill class="me-2"/>
+          Delete PokeTeam
+        </b-button>
+      </b-button-group>
 
     </b-modal>
   </div>

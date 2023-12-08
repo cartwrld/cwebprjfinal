@@ -62,12 +62,12 @@ export default class GlobalMixin extends Vue {
 
   // function that will determine which request method and how to send the data to the api
 
-  callAPI(url: string, method = 'get', dataToSend = {}, token: string | undefined) {
+  async callAPI(url: string, method = 'get', dataToSend = {}, token: string | undefined | null) {
     const fetchOptions: any = {
       method: 'GET',
       credentials: 'include',
       referrerPolicy: 'strict-origin-when-cross-origin',
-      headers: { ...FETCH_HEADERS },
+      headers: {...FETCH_HEADERS},
     };
 
     // Set the Authorization header with the bearer token
@@ -85,17 +85,14 @@ export default class GlobalMixin extends Vue {
       url += `?${new URLSearchParams(dataToSend).toString()}`;
     }
 
-    return fetch(url, fetchOptions)
-      .then(async (res) => {
-        const resInfo: any = { url: res.url, status: res.status, statusText: res.statusText };
-
-        if (res.status === 204) return Promise.resolve(resInfo);
-
-        if (res.ok) return res.json();
-
-        const error = new Error(`${res.status}: ${res.statusText}`);
-        resInfo.data = await res.json();
-        throw Object.assign(error, resInfo);
-      });
+    const res = await fetch(url, fetchOptions);
+    const resInfo: any = {url: res.url, status: res.status, statusText: res.statusText};
+    if (res.status === 204)
+      return Promise.resolve(resInfo);
+    if (res.ok)
+      return res.json();
+    const error = new Error(`${res.status}: ${res.statusText}`);
+    resInfo.data = await res.json();
+    throw Object.assign(error, resInfo);
   }
 }

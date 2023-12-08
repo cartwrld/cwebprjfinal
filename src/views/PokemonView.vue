@@ -153,9 +153,7 @@ export default class PokemonView extends Mixins(GlobalMixin) {
 
   filteredPokemonList: Pokemon[] = [];
 
-  RookieToken = 'iHaveReadAccess'
-  TrainerToken = 'iHaveWriteAccess'
-  GymLeaderToken = 'iHaveAdminAccess'
+
 
   viewPokemon = false;
   viewUpdatePokemon = false;
@@ -192,7 +190,7 @@ export default class PokemonView extends Mixins(GlobalMixin) {
   async fetchData() {
     try {
       const endpoint = 'pokemon';
-      this.fetchedPokes = await fetchData(endpoint, this.GymLeaderToken);
+      this.fetchedPokes = await fetchData(endpoint, localStorage.getItem('authToken'));
       this.filteredPokemonList = this.fetchedPokes;
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -274,8 +272,8 @@ export default class PokemonView extends Mixins(GlobalMixin) {
 
   handleAdd(pokemon: Pokemon) {
     // PokemonForm emits a pokemon when a new pokemon returns from the api
-    //this.pokeList.unshift(pokemon);
-    //this.handleSelect(pokemon);
+    // this.pokeList.unshift(pokemon);
+    // this.handleSelect(pokemon);
   }
 
   handleUpdate(pokemon: Pokemon) {
