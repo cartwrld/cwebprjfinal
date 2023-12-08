@@ -260,6 +260,7 @@
 </template>
 
 <script lang="ts">
+
 /* eslint-disable max-len */
 import {
   Component, Mixins, Prop, Watch,

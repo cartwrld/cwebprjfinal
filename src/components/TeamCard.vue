@@ -21,7 +21,7 @@
             {{ teamName }}</h5>
         </div>
 
-        <div class="d-flex no-wrap justify-content-around align-items-center col-8 my-3">
+        <div class="d-flex flex-wrap justify-content-around align-items-center col-8 my-3">
           <div class="d-flex justify-content-center align-items-center p-1 py-1 rounded bg-light mx-1 shadow">
             <img :src="sprite1" alt="poke1" width="100px" class="rounded-1 shadow"/>
           </div>

@@ -18,11 +18,40 @@ export default async function fetchData(destPage: string, token: string): Promis
     throw new Error('Network response was not ok');
   }
 
-  let data = response.json()
+  let data = await response.json()
 
   if (destPage === 'poketeam') {
-    console.log()
+    console.log('apifetch ')
     console.log(data)
+
+    const teams = await data;
+
+    try {
+      const pokeRes = await fetch(`${fetchURL}`, {
+        method: 'GET',
+        headers,
+      });
+      const pokeData = await pokeRes.json();
+      const parsedPokes = await pokeData
+
+      for (let i=0; i<teams.length; i++) {
+
+        teams[i].sprite1 = parsedPokes.indexOf(teams[i].poke1)
+        teams[i].sprite2 = parsedPokes.indexOf(teams[i].poke2)
+        teams[i].sprite3 = parsedPokes.indexOf(teams[i].poke3)
+        teams[i].sprite4 = parsedPokes.indexOf(teams[i].poke4)
+        teams[i].sprite5 = parsedPokes.indexOf(teams[i].poke5)
+        teams[i].sprite6 = parsedPokes.indexOf(teams[i].poke6)
+
+      }
+    } catch (error) {
+      console.error("Parsing error:", error);
+    }
+
+
+
+
+
   }
 
   return data

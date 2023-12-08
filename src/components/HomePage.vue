@@ -7,21 +7,21 @@
 
     <!-- Buttons -->
     <div class="mb-4 d-flex justify-content-around col-8 ">
-      <div class="d-flex justify-content-center align-items-center p-2 h2 col-4 bg-primary-subtle rounded-4 shadow-sm" >
-        <b-button variant="light" @click="goTo('/pokemon')" class="shadow rounded-3 border border-body-secondary p-4 col-12">
+      <div class="d-flex justify-content-center align-items-center p-2 h2 col-4 bg-light rounded-4 shadow-sm" >
+        <b-button variant="light" @click="goTo('/pokemon')" class="shadow rounded-3 p-4 col-12">
 <!--          <b-icon-circle-half rotate="90deg" variant="danger bg-light rounded-5 me-2"></b-icon-circle-half>-->
           <img src="../assets/pokeball_star3.png" alt="pkbl" width="100px">
           <h4 class="p-0 m-0 mt-3">View Pokemon</h4>
         </b-button>
       </div>
-      <div class="d-flex justify-content-center align-items-center p-2 h2 col-4 bg-danger-subtle rounded-4 shadow-sm mx-5">
-        <b-button variant="light" @click="goTo('/poketeam')" class="shadow rounded-3 border border-body-secondary p-4 col-12">
+      <div class="d-flex justify-content-center align-items-center p-2 h2 col-4 bg-light rounded-4 shadow-sm mx-5">
+        <b-button variant="light" @click="goTo('/poketeam')" class="shadow rounded-3 p-4 col-12">
           <img src="../assets/pokeball_triple.png" alt="pkbl" width="100px">
           <h4 class="p-0 m-0 mt-3">View PokeTeams</h4>
         </b-button>
       </div>
-      <div class="d-flex justify-content-center align-items-center p-2 h2 col-4 bg-info-subtle rounded-4 shadow-sm">
-        <b-button variant="light" @click="goTo('/users')" class="shadow rounded-3 border border-body-secondary p-4 col-12">
+      <div class="d-flex justify-content-center align-items-center p-2 h2 col-4 bg-light rounded-4 shadow-sm">
+        <b-button variant="light" @click="goTo('/users')" class="shadow rounded-3 p-4 col-12">
           <img src="../assets/pokeuser.png" alt="pkbl" width="100px">
           <h4 class="p-0 m-0 mt-3">View Users</h4>
         </b-button>
