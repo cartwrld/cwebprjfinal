@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="container-fluid">
     <h1 class="pb-5">Pokemon</h1>
 
     <div
@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <b-modal v-model="addPokemon" title="Add Pokemon" @hidden="handleModalHidden" hide-footer>
+    <b-modal v-model="viewPokemon" title="Add Pokemon" @hidden="handleModalHidden" hide-footer>
       <PokemonForm
         :pokemon="selectedPokemon"
         @added="handleAdd"
@@ -88,7 +88,7 @@
       </div>
 
       <!--      NEXT PAGE BUTTON    -->
-      <div class="shadow-sm bg-dark-subtle rounded-3 p-2">
+      <div class="shadow-sm bg-dark-subtle rounded-3 p-2 ">
         <b-button
           v-if="currentPage < Math.ceil(filteredPokemonList.length / this.itemsPerPage)"
           @click="nextPage"
@@ -137,7 +137,7 @@ export default class PokemonView extends Mixins(GlobalMixin) {
   GymLeaderToken = 'iHaveAdminAccess'
 
   viewPokemon = false;
-  addPokemon = false;
+
 
   currentPage = 1;
   itemsPerPage = 18;
@@ -188,7 +188,7 @@ export default class PokemonView extends Mixins(GlobalMixin) {
 
   openAddPokemonModal(selectedPokemon: Pokemon): void {
     this.selectedPokemon = selectedPokemon;
-    this.addPokemon = true;
+    this.viewPokemon = true;
   }
 
   // openEditPokemonModal(selectedPokemon: Pokemon): void {

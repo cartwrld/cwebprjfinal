@@ -7,11 +7,12 @@
       class="p-2 rounded-2"
       :variant="variant"
       @click="showUserModal">
-
       <div
-        class="rounded-4 p-1 bg-light">
+        class="rounded-4 p-1 bg-dark-subtle">
+
 
         <div
+
           class="d-flex justify-content-around rounded-4 py-1 px-3 m-0 shadow
                   poke-card px-0">
           <div class="d-flex justify-content-center align-items-center">
@@ -35,6 +36,7 @@
           </div>
         </div>
       </div>
+
     </b-button>
     <!--    </div>-->
 

@@ -11,7 +11,9 @@
 // mixins.js
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-const BASE_API = 'http://localhost:3006';
+const BASE_API = 'http://localhost:3004';
+const STUDENT_API = `${BASE_API}/students`;
+const PRODUCT_API = `${BASE_API}/products`;
 const POKEMON_API = `${BASE_API}/pokemon`;
 const POKETEAM_API = `${BASE_API}/poketeam`;
 
@@ -29,11 +31,13 @@ export default class GlobalMixin extends Vue {
   // immutable constant data variables
   BASE_API = BASE_API;
 
+  STUDENT_API = STUDENT_API;
 
   POKEMON_API = POKEMON_API;
 
   POKETEAM_API = POKETEAM_API;
 
+  PRODUCT_API = PRODUCT_API;
 
   // regular data variable
   isBusy = false;
@@ -58,27 +62,36 @@ export default class GlobalMixin extends Vue {
   }
 
   // function that will determine which request method and how to send the data to the api
-  callAPI(url:string, method = 'get', dataToSend = {}) {
+
+  callAPI(url: string, method = 'get', dataToSend = {}) {
     const fetchOptions: any = {
       method: 'GET',
-      credentials: 'include', // allows api to set cookies in the browser
+      credentials: 'include',
       referrerPolicy: 'strict-origin-when-cross-origin',
       headers: { ...FETCH_HEADERS },
     };
-    // ensure valid/allowed request methods
-    // eslint-disable-next-line no-param-reassign
+
+    // Set the Authorization header with the bearer token
+    const token = 'iHaveWriteAccess'; // Replace this with your actual bearer token
+    if (token) {
+      fetchOptions.headers.Authorization = `Bearer ${token}`;
+    }
+
     method = method.toUpperCase();
     if (['POST', 'PUT', 'DELETE'].includes(method)) fetchOptions.method = method;
-    // convert JS object to JSON string – GET request cannot have a body property so append it to the URL
-    if (fetchOptions.method !== 'GET') fetchOptions.body = JSON.stringify(dataToSend);
-    // eslint-disable-next-line no-param-reassign
-    else if (Object.keys(dataToSend).length) url += `?${(new URLSearchParams(dataToSend)).toString()}`;
 
-    // return a promise we can use .then, .catch and .finally in our component
+    if (fetchOptions.method !== 'GET') {
+      fetchOptions.body = JSON.stringify(dataToSend);
+    } else if (Object.keys(dataToSend).length) {
+      url += `?${new URLSearchParams(dataToSend).toString()}`;
+    }
+
     return fetch(url, fetchOptions)
       .then(async (res) => {
-        const resInfo:any = { url: res.url, status: res.status, statusText: res.statusText };
+        const resInfo: any = { url: res.url, status: res.status, statusText: res.statusText };
+
         if (res.status === 204) return Promise.resolve(resInfo);
+
         if (res.ok) return res.json();
 
         const error = new Error(`${res.status}: ${res.statusText}`);
